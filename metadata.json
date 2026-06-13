@@ -1,0 +1,6 @@
+{
+  "name": "千岑档案",
+  "description": "一个探索结合技术与人文的个人RPG资料库系统，在这里见证思维与成长的多维网络。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
