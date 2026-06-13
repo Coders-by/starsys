@@ -52,6 +52,11 @@ import {
   ChatMessage, 
   GuestComment 
 } from './types';
+import {
+  QIAN_CE_REGRETS,
+  QIAN_CE_BONSAI_DIALOGS,
+  QIAN_CE_DAILY_SCENES
+} from './narrativeData';
 
 export default function App() {
   // --- Standard States ---
@@ -61,6 +66,15 @@ export default function App() {
     tech: 0, startup: 0, philosophy: 0, relationship: 0, nope: 0, none: 0
   });
   const [currentTab, setCurrentTab] = useState(0);
+
+  // --- New Narrative Substates ---
+  const [narrativeSubTab, setNarrativeSubTab] = useState<'timeline' | 'regrets' | 'bonsai' | 'daily'>('timeline');
+  const [jasmineBrewTemp, setJasmineBrewTemp] = useState(70);
+  const [activeSpecimenId, setActiveSpecimenId] = useState<string | null>(null);
+  const [sandboxUltramanCrushed, setSandboxUltramanCrushed] = useState(false);
+  const [bonsaiPrunedCount, setBonsaiPrunedCount] = useState(0);
+  const [activeCocoonId, setActiveCocoonId] = useState<string | null>(null);
+  const [activeDailySceneId, setActiveDailySceneId] = useState<string | null>(null);
 
   const switchTab = (idx: number) => {
     setCurrentTab(idx);
@@ -699,9 +713,41 @@ export default function App() {
                   </div>
 
                   {/* Visual SVG topology map simulation (Beautiful CSS atoms) */}
-                  <div className="bg-stone-900 border border-stone-850 rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[280px]">
+                  <div className="bg-stone-900 border border-stone-850 rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[295px] overflow-hidden">
                     <div className="absolute top-2 left-3 text-[9px] text-stone-500 uppercase font-mono">Aesthetic Connected Topology</div>
                     
+                    {/* Background SVG Radar Web Grid */}
+                    <div className="absolute inset-0 w-full h-full pointer-events-none opacity-45 z-0">
+                      <svg className="w-full h-full" viewBox="0 0 320 280" preserveAspectRatio="none">
+                        {/* Concentric grid circles */}
+                        <circle cx="160" cy="140" r="30" stroke="#2a2524" strokeWidth="1" strokeDasharray="2 2" fill="none" />
+                        <circle cx="160" cy="140" r="65" stroke="#2a2524" strokeWidth="1.2" strokeDasharray="3 3" fill="none" />
+                        <circle cx="160" cy="140" r="100" stroke="#332a22" strokeWidth="1" fill="none" />
+                        <circle cx="160" cy="140" r="130" stroke="#1c1917" strokeWidth="1" fill="none" />
+
+                        {/* Radar Axis lines */}
+                        <line x1="160" y1="10" x2="160" y2="270" stroke="#292524" strokeWidth="1.2" />
+                        <line x1="20" y1="140" x2="300" y2="140" stroke="#292524" strokeWidth="1.2" />
+                        <line x1="60" y1="40" x2="260" y2="240" stroke="#1c1917" strokeWidth="1" strokeDasharray="3 3" />
+                        <line x1="60" y1="240" x2="260" y2="40" stroke="#1c1917" strokeWidth="1" strokeDasharray="3 3" />
+
+                        {/* Connected Radar Area Web Polygon */}
+                        {/* Top-Left (x: 75, y: 60) • Top-Right (x: 250, y: 65) • Bottom-Left (x: 70, y: 220) • Bottom-Right (x: 245, y: 210) */}
+                        <polygon 
+                          points="75,60 250,65 245,210 70,220" 
+                          fill="rgba(245,158,11,0.06)" 
+                          stroke="rgba(245,158,11,0.3)" 
+                          strokeWidth="1.5" 
+                        />
+
+                        {/* Connecting rays from center (160,140) to nodes */}
+                        <line x1="160" y1="140" x2="75" y2="60" stroke="rgba(16,185,129,0.3)" strokeWidth="1.2" strokeDasharray="3 2" />
+                        <line x1="160" y1="140" x2="250" y2="65" stroke="rgba(249,115,22,0.3)" strokeWidth="1.2" strokeDasharray="3 2" />
+                        <line x1="160" y1="140" x2="70" y2="220" stroke="rgba(99,102,241,0.3)" strokeWidth="1.2" strokeDasharray="3 2" />
+                        <line x1="160" y1="140" x2="245" y2="210" stroke="rgba(236,72,153,0.3)" strokeWidth="1.2" strokeDasharray="3 2" />
+                      </svg>
+                    </div>
+
                     {/* Floating Center Node */}
                     <div className="relative group z-20">
                       <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.35)] flex items-center justify-center font-bold text-stone-950 text-sm cursor-pointer select-none ring-2 ring-amber-350">
@@ -709,12 +755,12 @@ export default function App() {
                       </div>
 
                       {/* Orbits & Sub-Nodes */}
-                      <div className="absolute -inset-12 border border-stone-800 rounded-full pointer-events-none animate-[spin_40s_linear_infinite]" />
-                      <div className="absolute -inset-24 border border-stone-850/60 rounded-full pointer-events-none animate-[spin_60s_linear_infinite]" />
+                      <div className="absolute -inset-12 border border-stone-800/60 rounded-full pointer-events-none animate-[spin_40s_linear_infinite]" />
+                      <div className="absolute -inset-24 border border-stone-850/40 rounded-full pointer-events-none animate-[spin_60s_linear_infinite]" />
                     </div>
 
                     {/* Orbit placement items */}
-                    <div className="absolute top-6 left-12 group">
+                    <div className="absolute top-6 left-12 group z-20">
                       <div 
                         onMouseEnter={() => setHoveredNode({
                           name: '功能安全监控 (Detector)',
@@ -723,13 +769,13 @@ export default function App() {
                           x: 20, y: 30
                         })}
                         onMouseLeave={() => setHoveredNode(null)}
-                        className="w-5 h-5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)] cursor-pointer hover:scale-125 transition-all text-[9.5px] font-bold text-emerald-950 flex items-center justify-center"
+                        className="w-5 h-5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)] cursor-pointer hover:scale-130 transition-all text-[9.5px] font-bold text-emerald-950 flex items-center justify-center"
                       >
                         ⚙️
                       </div>
                     </div>
 
-                    <div className="absolute top-10 right-14">
+                    <div className="absolute top-10 right-14 z-20">
                       <div 
                         onMouseEnter={() => setHoveredNode({
                           name: '智汇树淘宝咨询',
@@ -738,13 +784,13 @@ export default function App() {
                           x: 180, y: 20
                         })}
                         onMouseLeave={() => setHoveredNode(null)}
-                        className="w-5 h-5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.3)] cursor-pointer hover:scale-125 transition-all text-[9.5px] font-bold text-orange-950 flex items-center justify-center"
+                        className="w-5 h-5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.3)] cursor-pointer hover:scale-130 transition-all text-[9.5px] font-bold text-orange-950 flex items-center justify-center"
                       >
                         🚀
                       </div>
                     </div>
 
-                    <div className="absolute bottom-12 left-10">
+                    <div className="absolute bottom-12 left-10 z-20">
                       <div 
                         onMouseEnter={() => setHoveredNode({
                           name: '《实践论》方法派',
@@ -753,13 +799,13 @@ export default function App() {
                           x: 10, y: 190
                         })}
                         onMouseLeave={() => setHoveredNode(null)}
-                        className="w-5 h-5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.3)] cursor-pointer hover:scale-125 transition-all text-[9.5px] font-bold text-indigo-950 flex items-center justify-center"
+                        className="w-5 h-5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.3)] cursor-pointer hover:scale-130 transition-all text-[9.5px] font-bold text-indigo-950 flex items-center justify-center"
                       >
                         🌙
                       </div>
                     </div>
 
-                    <div className="absolute bottom-16 right-12">
+                    <div className="absolute bottom-16 right-12 z-20">
                       <div 
                         onMouseEnter={() => setHoveredNode({
                           name: '野生指针小聚',
@@ -768,7 +814,7 @@ export default function App() {
                           x: 190, y: 180
                         })}
                         onMouseLeave={() => setHoveredNode(null)}
-                        className="w-5 h-5 rounded-full bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.3)] cursor-pointer hover:scale-125 transition-all text-[9.5px] font-bold text-pink-950 flex items-center justify-center"
+                        className="w-5 h-5 rounded-full bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.3)] cursor-pointer hover:scale-130 transition-all text-[9.5px] font-bold text-pink-950 flex items-center justify-center"
                       >
                         💗
                       </div>
@@ -776,7 +822,7 @@ export default function App() {
 
                     {/* Node Hover Tip panel */}
                     {hoveredNode && (
-                      <div className="absolute z-30 bottom-1.5 left-2 right-2 bg-stone-950 border border-stone-850 p-2.5 rounded-xl text-left scale-[0.98] transition-all">
+                      <div className="absolute z-30 bottom-1.5 left-2 right-2 bg-stone-950/95 backdrop-blur-xs border border-stone-800 p-2.5 rounded-xl text-left scale-[0.98] transition-all pointer-events-none">
                         <div className="text-[9px] text-amber-500 font-bold uppercase shrink-0">{hoveredNode.domId} • 节点聚焦</div>
                         <div className="text-xs font-bold text-stone-200 mt-0.5">{hoveredNode.name}</div>
                         <div className="text-[10px] text-stone-400 mt-1 leading-normal">{hoveredNode.story}</div>
@@ -1086,73 +1132,578 @@ export default function App() {
                   animate={{ opacity: 1 }}
                   className="space-y-4 text-left"
                 >
-                  <div className="bg-stone-900 border border-stone-850 p-4 rounded-xl border-l-[3px] border-amber-500">
-                    <div className="flex justify-between items-center">
-                      <h4 className="text-xs font-bold text-stone-200">🎯 当前主线任务：第四幕 · 闯关</h4>
-                      <span className="text-xs font-bold text-amber-500 font-mono">22%</span>
-                    </div>
-                    {/* progress line */}
-                    <div className="h-1 bg-stone-950 mt-2 rounded-full overflow-hidden w-full">
-                      <div className="h-full bg-amber-500 rounded-full transition-all duration-1000" style={{ width: '22%' }} />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 gap-2.5 mt-3.5 text-xs text-stone-400 leading-relaxed">
-                      <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" /> <span>把RPG资料库显影成千岑档案</span></div>
-                      <div className="flex items-center gap-2 text-stone-500"><span>⬜</span> <span>找到最值得深耕十年的核心场景方向</span></div>
-                      <div className="flex items-center gap-2 text-stone-500"><span>⬜</span> <span>完成一次包含技术与商业的完整产品闭环</span></div>
-                      <div className="flex items-center gap-2 text-stone-500"><span>⬜</span> <span>梳理和沉淀自动驾驶泊车交付与团队带教SOP</span></div>
-                    </div>
+                  {/* Subtle Sub-tab Navigation */}
+                  <div className="flex bg-stone-900 border border-stone-850 p-1 rounded-xl text-[10.5px] font-bold tracking-tight select-none gap-1">
+                    <button 
+                      onClick={() => setNarrativeSubTab('timeline')}
+                      className={`flex-1 py-2 text-center rounded-lg transition-all ${
+                        narrativeSubTab === 'timeline' ? 'bg-stone-950 text-amber-400 font-semibold shadow-sm' : 'text-stone-400 hover:text-stone-300'
+                      }`}
+                    >
+                      🚀 主线大纲
+                    </button>
+                    <button 
+                      onClick={() => setNarrativeSubTab('regrets')}
+                      className={`flex-1 py-1.5 text-center rounded-lg transition-all ${
+                        narrativeSubTab === 'regrets' ? 'bg-stone-950 text-amber-400 font-semibold shadow-sm' : 'text-stone-400 hover:text-stone-300'
+                      }`}
+                    >
+                      💗 情迷复盘
+                    </button>
+                    <button 
+                      onClick={() => setNarrativeSubTab('bonsai')}
+                      className={`flex-1 py-1.5 text-center rounded-lg transition-all ${
+                        narrativeSubTab === 'bonsai' ? 'bg-stone-950 text-amber-400 font-semibold shadow-sm' : 'text-stone-400 hover:text-stone-300'
+                      }`}
+                    >
+                      ✂️ 心灵修剪
+                    </button>
+                    <button 
+                      onClick={() => setNarrativeSubTab('daily')}
+                      className={`flex-1 py-1.5 text-center rounded-lg transition-all ${
+                        narrativeSubTab === 'daily' ? 'bg-stone-950 text-amber-400 font-semibold shadow-sm' : 'text-stone-400 hover:text-stone-300'
+                      }`}
+                    >
+                      🍵 人间烟火
+                    </button>
                   </div>
 
-                  {/* Vertical Timeline */}
-                  <div className="relative border-l border-stone-850 pl-5 space-y-5 py-2">
-                    <span className="absolute -left-1.5 top-0 w-3 h-3 bg-stone-950 border border-stone-700 rounded-full" />
-                    
-                    {NARRATIVE_ACTS.map((act) => {
-                      const isCurrent = act.status === 'current';
-                      return (
-                        <div key={act.id} className="relative group">
-                          {/* Anchor Node */}
-                          <div 
-                            style={{ backgroundColor: act.color }}
-                            className={`absolute -left-[26px] top-1.5 w-3.5 h-3.5 rounded-full border border-stone-950 ${
-                              isCurrent ? 'ring-4 ring-amber-500/20 scale-125' : ''
-                            }`}
-                          />
-
-                          <details className="bg-stone-900 border border-stone-850 hover:border-stone-800 rounded-2xl group transition-all duration-300">
-                            <summary className="cursor-pointer list-none p-4 flex justify-between items-start">
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                  <span style={{ color: act.color }} className="text-[10px] font-bold font-mono tracking-wide">{act.chapter}</span>
-                                  <span className="text-[10px] text-stone-500 font-mono">{act.time}</span>
-                                </div>
-                                <h4 className={`text-xs font-bold leading-relaxed ${isCurrent ? 'text-amber-400' : 'text-stone-200'}`}>
-                                  {act.title}
-                                </h4>
-                              </div>
-                              <span className="text-stone-600 group-open:rotate-180 transition-transform text-xs inline-block ml-2 select-none">▼</span>
-                            </summary>
-
-                            <div className="px-4 pb-4 border-t border-stone-950 pt-2 text-xs text-stone-400 leading-relaxed text-justify space-y-2">
-                              <GlossaryText text={act.detail} />
-                              
-                              {isCurrent && (
-                                <div className="p-2.5 mt-2 bg-amber-500/5 rounded-lg border border-amber-500/15 text-[11px] text-amber-200 leading-normal">
-                                  💡 观察随想：把每次经历提炼为「版本号」，有利于自身客观摆脱情绪杂音，用迭代系统的科学视角看待自己的坎坷。
-                                </div>
-                              )}
-                            </div>
-                          </details>
+                  {/* SUBTAB 1: TIMELINE */}
+                  {narrativeSubTab === 'timeline' && (
+                    <div className="space-y-4">
+                      <div className="bg-stone-900 border border-stone-850 p-4 rounded-xl border-l-[3px] border-amber-500">
+                        <div className="flex justify-between items-center">
+                          <h4 className="text-xs font-bold text-stone-200">🎯 当前主线任务：第四幕 · 闯关</h4>
+                          <span className="text-xs font-bold text-amber-500 font-mono">22%</span>
                         </div>
-                      );
-                    })}
-                  </div>
+                        {/* progress line */}
+                        <div className="h-1 bg-stone-950 mt-2 rounded-full overflow-hidden w-full">
+                          <div className="h-full bg-amber-500 rounded-full transition-all duration-1000" style={{ width: '22%' }} />
+                        </div>
+                        
+                        <div className="grid grid-cols-1 gap-2.5 mt-3.5 text-xs text-stone-400 leading-relaxed">
+                          <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" /> <span>把RPG资料库显影成千岑档案</span></div>
+                          <div className="flex items-center gap-2 text-stone-500"><span>⬜</span> <span>找到最值得深耕十年的核心场景方向</span></div>
+                          <div className="flex items-center gap-2 text-stone-500"><span>⬜</span> <span>完成一次包含技术与商业的完整产品闭环</span></div>
+                          <div className="flex items-center gap-2 text-stone-500"><span>⬜</span> <span>梳理和沉淀自动驾驶泊车交付与团队带教SOP</span></div>
+                        </div>
+                      </div>
+
+                      {/* Vertical Timeline */}
+                      <div className="relative border-l border-stone-850 pl-5 space-y-5 py-2">
+                        <span className="absolute -left-1.5 top-0 w-3 h-3 bg-stone-950 border border-stone-700 rounded-full" />
+                        
+                        {NARRATIVE_ACTS.map((act) => {
+                          const isCurrent = act.status === 'current';
+                          return (
+                            <div key={act.id} className="relative group">
+                              {/* Anchor Node */}
+                              <div 
+                                style={{ backgroundColor: act.color }}
+                                className={`absolute -left-[26px] top-1.5 w-3.5 h-3.5 rounded-full border border-stone-950 ${
+                                  isCurrent ? 'ring-4 ring-amber-500/20 scale-125' : ''
+                                }`}
+                              />
+
+                              <details className="bg-stone-900 border border-stone-850 hover:border-stone-800 rounded-2xl group transition-all duration-300">
+                                <summary className="cursor-pointer list-none p-4 flex justify-between items-start">
+                                  <div className="space-y-1">
+                                    <div className="flex items-center gap-2">
+                                      <span style={{ color: act.color }} className="text-[10px] font-bold font-mono tracking-wide">{act.chapter}</span>
+                                      <span className="text-[10px] text-stone-500 font-mono">{act.time}</span>
+                                    </div>
+                                    <h4 className={`text-xs font-bold leading-relaxed ${isCurrent ? 'text-amber-400' : 'text-stone-200'}`}>
+                                      {act.title}
+                                    </h4>
+                                  </div>
+                                  <span className="text-stone-600 group-open:rotate-180 transition-transform text-xs inline-block ml-2 select-none">▼</span>
+                                </summary>
+
+                                <div className="px-4 pb-4 border-t border-stone-950 pt-2 text-xs text-stone-400 leading-relaxed text-justify space-y-2">
+                                  <GlossaryText text={act.detail} />
+                                  
+                                  {isCurrent && (
+                                    <div className="p-2.5 mt-2 bg-amber-500/5 rounded-lg border border-amber-500/15 text-[11px] text-amber-200 leading-normal">
+                                      💡 观察随想：把每次经历提炼为「版本号」，有利于自身客观摆脱情绪杂音，用迭代系统的科学视角看待自己的坎坷。
+                                    </div>
+                                  )}
+                                </div>
+                              </details>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SUBTAB 2: REGRETS (情迷复盘) */}
+                  {narrativeSubTab === 'regrets' && (
+                    <div className="space-y-4">
+                      {/* intro card */}
+                      <div className="bg-stone-900 border border-stone-850 p-4 rounded-xl">
+                        <h3 className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+                          <span>💔</span> 外在情感波动与回避型策略复盘
+                        </h3>
+                        <p className="text-[11px] text-stone-400 leading-relaxed text-justify mt-1">
+                          对千岑而言，什么是喜欢？那意味着对方的一切风吹草动都会让自己变为城堡门前执勤的哨兵，极度警觉而敏感。遗憾的是，敏感和喜欢在以前往往导致了最被动的自保和抗拒回避，最后将回忆精加工制成标本。
+                        </p>
+                      </div>
+
+                      {/* Interactive Tea Brewing slider */}
+                      <div className="bg-stone-900 border border-stone-850 p-4 rounded-xl space-y-3">
+                        <div className="flex justify-between items-center shrink-0">
+                          <label className="text-[11px] text-stone-300 font-bold flex items-center gap-1.5">
+                            <span>🍵</span> 冲一壶茉莉花茶
+                          </label>
+                          <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                            jasmineBrewTemp === 85 
+                              ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 animate-pulse' 
+                              : 'bg-stone-950 text-stone-400'
+                          }`}>
+                            水温偏好: {jasmineBrewTemp} °C {jasmineBrewTemp === 85 ? '(完美契合)' : ''}
+                          </span>
+                        </div>
+                        
+                        <p className="text-[10.5px] text-stone-500 leading-relaxed">
+                          温度决定香气开阖。拖动滑块来调节冲泡水温，寻找千岑心里茉莉盛开的最精确阈值：
+                        </p>
+
+                        <input 
+                          type="range" 
+                          min="10" 
+                          max="100" 
+                          value={jasmineBrewTemp}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value);
+                            setJasmineBrewTemp(val);
+                            if (val === 85) {
+                              setStoryViews(prev => {
+                                const next = new Set(prev);
+                                next.add('jasmine-85');
+                                return next;
+                              });
+                            }
+                          }}
+                          className="w-full h-1.5 bg-stone-950 rounded-lg appearance-none cursor-pointer accent-amber-500" 
+                        />
+
+                        {/* Interactive Speech bubble */}
+                        <div className="bg-stone-950 border border-stone-850 p-3 rounded-xl min-h-[55px] flex items-center justify-center text-center transition-all">
+                          {jasmineBrewTemp <= 40 && (
+                            <p className="text-[11px] text-stone-400 italic">
+                              “冷水死水。茶叶一动不动，任你心里波涛汹涌，水温冲不开那道回避型保护的冰层舱壁。”
+                            </p>
+                          )}
+                          {jasmineBrewTemp > 40 && jasmineBrewTemp < 80 && (
+                            <p className="text-[11px] text-amber-500/80 italic">
+                              “水温不够烫。思念蜷缩在杯底像一声叹息，茶叶虽在舒展，却没有勇气溢出来，一如以前的无声默认。”
+                            </p>
+                          )}
+                          {jasmineBrewTemp >= 80 && jasmineBrewTemp <= 88 && (
+                            <div className="space-y-1">
+                              <p className="text-[11.5px] text-amber-300 font-medium italic animate-pulse">
+                                “不冷不热，八十五度恰得一绝。你不去喝它，茉莉香茗就永远是熟透、最顶好闻的。”
+                              </p>
+                              <p className="text-[10px] text-stone-500 font-mono">
+                                🌲 二十岁的夏天，后海有树的院子，夏代有工的玉，二十来岁的你。这本也是可遇不可求的事。
+                              </p>
+                            </div>
+                          )}
+                          {jasmineBrewTemp > 88 && (
+                            <p className="text-[11px] text-rose-400 italic">
+                              “水太烫了！近乎沸腾的自卑与无措直接把茶叶烫伤了。任何接近都会一瞬间激起极度的应急，掉头逃难！”
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Specimen grid list */}
+                      <div className="space-y-3">
+                        <div className="text-[10px] text-stone-500 uppercase tracking-wider font-mono flex justify-between items-center px-1">
+                          <span>📦 心动与回避标本陈列馆</span>
+                          <span className="text-rose-400 text-[9px] animate-pulse">点击抽取出土标本</span>
+                        </div>
+
+                        <div className="grid grid-cols-2 xs:grid-cols-3 gap-2 mt-2">
+                          {QIAN_CE_REGRETS.map((reg) => (
+                            <button
+                              key={reg.id}
+                              onClick={() => {
+                                setActiveSpecimenId(reg.id === activeSpecimenId ? null : reg.id);
+                                setStoryViews(prev => {
+                                  const next = new Set(prev);
+                                  next.add('regret-' + reg.id);
+                                  return next;
+                                });
+                              }}
+                              className={`p-2.5 rounded-xl border text-left transition-all ${
+                                reg.id === activeSpecimenId 
+                                  ? 'bg-rose-950/20 border-rose-500/50 text-stone-200' 
+                                  : 'bg-stone-900 border-stone-850/60 text-stone-400 hover:border-stone-800'
+                              }`}
+                            >
+                              <div className="text-[9px] text-stone-500 font-mono flex justify-between items-center">
+                                <span>{reg.period}</span>
+                                {reg.id === activeSpecimenId ? <span className="text-rose-500 text-[12px]">●</span> : null}
+                              </div>
+                              <div className="text-[10.5px] font-bold truncate mt-1 text-stone-300">
+                                {reg.标本Name}
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+
+                        {activeSpecimenId && (() => {
+                          const reg = QIAN_CE_REGRETS.find(r => r.id === activeSpecimenId);
+                          if (!reg) return null;
+                          return (
+                            <div className="bg-stone-950 border border-rose-500/20 rounded-2xl p-4.5 mt-3 space-y-3 relative overflow-hidden">
+                              <div className="absolute top-1 right-2 text-[8px] text-rose-500/50 uppercase tracking-widest font-mono">SPECIMEN CARD</div>
+                              <div className="flex justify-between items-start">
+                                <h5 className="text-xs font-bold text-rose-400 flex items-center gap-1">
+                                  <span>📦</span> {reg.title}
+                                </h5>
+                                <span className="text-[9px] bg-rose-500/10 text-rose-300 px-2 py-0.5 rounded font-bold font-mono">标本化存档</span>
+                              </div>
+                              
+                              <div className="space-y-3 text-[11px] leading-relaxed">
+                                <div>
+                                  <span className="text-rose-400/80 block text-[9.5px] font-bold mb-1">【重演现场】</span>
+                                  <p className="text-stone-300 text-justify bg-stone-900/60 p-2.5 rounded-lg border border-stone-850">{reg.event}</p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2.5">
+                                  <div className="bg-stone-900/60 p-2.5 rounded-lg border border-stone-850">
+                                    <span className="text-rose-400/80 block text-[9px] font-bold mb-0.5">【惯性应对】</span>
+                                    <span className="text-amber-400/90">{reg.coping}</span>
+                                  </div>
+                                  <div className="bg-stone-900/60 p-2.5 rounded-lg border border-stone-850">
+                                    <span className="text-rose-400/80 block text-[9px] font-bold mb-0.5">【回看教训】</span>
+                                    <span className="text-stone-300">{reg.reflection}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="pt-2 text-center text-[9.5px] text-stone-500 border-t border-stone-900 font-mono italic">
+                                "我不是在抗拒建立连接，我只是在一遍遍收集这些凄美的遗憾标本。"
+                              </div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SUBTAB 3: BONSAI (心灵修剪) */}
+                  {narrativeSubTab === 'bonsai' && (
+                    <div className="space-y-4">
+                      {/* quote note */}
+                      <div className="bg-stone-900/90 border border-stone-850 p-4 rounded-xl text-justify relative">
+                        <span className="absolute -top-2 right-4 text-xs font-serif text-stone-600 font-bold">我命由我不由改</span>
+                        <h3 className="text-xs font-bold text-indigo-400">“开头改了不抓人？但我执意不改它！”</h3>
+                        <p className="text-[11px] text-stone-400 leading-relaxed mt-1">
+                          千岑写道：开头没爆款潜质、说教感太浓，但我不想改！理直气壮不予修饰，这就是最纯粹的反叛。
+                        </p>
+                      </div>
+
+                      {/* Bento grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {/* Interactive Pruner */}
+                        <div className="bg-stone-900 border border-stone-850 rounded-2xl p-4 space-y-3 relative overflow-hidden">
+                          <div className="absolute top-1.5 right-25 text-[8px] text-indigo-500 font-mono">Bonsai Dojo</div>
+                          <h4 className="text-xs font-bold text-indigo-300 flex items-center gap-1">
+                            <span>🪵</span> 宫城先生的心灵盆栽工坊
+                          </h4>
+                          
+                          {/* CSS Bonsai rendering based on clicks */}
+                          <div className="h-32 bg-stone-950 rounded-xl relative border border-stone-850/60 flex items-end justify-center py-2.5 overflow-hidden">
+                            <span className="absolute top-1.5 left-2 text-[8px] text-stone-500 font-mono">内心树型.prun</span>
+                            
+                            <svg className="w-24 h-24 transition-all duration-500" viewBox="0 0 100 100">
+                              {/* Trunk */}
+                              <path d="M50,90 Q47,60 52,30" stroke="#78350f" strokeWidth="4.5" fill="none" />
+                              {/* Branches */}
+                              <path d="M51,60 Q20,53 28,32" stroke="#78350f" strokeWidth="2.5" fill="none" opacity={bonsaiPrunedCount >= 1 ? 0.2 : 1} className="transition-all duration-500" />
+                              <path d="M50,45 Q78,35 70,18" stroke="#78350f" strokeWidth="2" fill="none" opacity={bonsaiPrunedCount >= 2 ? 0.2 : 1} className="transition-all duration-500" />
+                              <path d="M52,30 Q44,12 48,3" stroke="#78350f" strokeWidth="1.5" fill="none" opacity={bonsaiPrunedCount >= 3 ? 0.2 : 1} className="transition-all duration-500" />
+                              
+                              {/* Foliage leaves */}
+                              <circle cx="28" cy="32" r="8" fill="#15803d" opacity={bonsaiPrunedCount >= 1 ? 0.15 : 0.85} className="transition-all duration-300" />
+                              <circle cx="70" cy="18" r="9" fill="#166534" opacity={bonsaiPrunedCount >= 2 ? 0.15 : 0.9} className="transition-all duration-300" />
+                              <circle cx="48" cy="3" r="10" fill="#22c55e" opacity={bonsaiPrunedCount >= 3 ? 0.15 : 0.95} className="transition-all duration-300" />
+                            </svg>
+                            
+                            <div className="absolute right-2 bottom-1.5 text-[8px] text-stone-500 font-mono">
+                              修整冗杂度: <span className="text-amber-500 font-bold">{bonsaiPrunedCount}</span> / 4 
+                            </div>
+                          </div>
+
+                          {/* Dialogue display container */}
+                          {(() => {
+                            const curIdx = Math.min(bonsaiPrunedCount, QIAN_CE_BONSAI_DIALOGS.length - 1);
+                            const node = QIAN_CE_BONSAI_DIALOGS[curIdx];
+                            return (
+                              <div className="bg-stone-950 border border-stone-850 p-3 rounded-xl min-h-[85px] flex flex-col justify-between">
+                                <div className="text-[10px] text-stone-500 font-bold flex justify-between">
+                                  <span>💬 心灵修剪对话 Step {curIdx + 1}</span>
+                                  <span className={node.speaker === '小九' ? 'text-amber-400' : 'text-indigo-400'}>{node.speaker}</span>
+                                </div>
+                                <p className="text-[11px] text-stone-300 mt-1 pb-1.5 leading-relaxed text-justify">
+                                  {node.text}
+                                </p>
+                              </div>
+                            );
+                          })()}
+
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                setBonsaiPrunedCount(prev => (prev + 1) % 5);
+                              }}
+                              className="flex-grow bg-indigo-500/15 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 p-2 rounded-xl text-[10.5px] font-bold active:scale-95 transition-all text-center"
+                            >
+                              ✂️ 挥剪修修枝 (Prune Branch)
+                            </button>
+                            <button
+                              onClick={() => setBonsaiPrunedCount(0)}
+                              className="bg-stone-950 hover:bg-stone-900 border border-stone-850 px-3.5 py-2 rounded-xl text-[10.5px] text-stone-400 active:scale-95"
+                            >
+                              重置
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Sand ultraman breaking sandbox */}
+                        <div className="bg-stone-900 border border-stone-850 rounded-2xl p-4 space-y-3 relative overflow-hidden flex flex-col justify-between">
+                          <div className="absolute top-1.5 right-3 text-[8px] text-stone-500 font-mono uppercase">SandBox</div>
+                          <h4 className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                            <span>🏜️</span> 堆满沙滩的奥特曼
+                          </h4>
+                          <p className="text-[10.5px] text-stone-400 leading-normal text-justify">
+                            三年级雕刻沙子的故事：假装闭眼堆沙，然后用手锤咔嚓一下猛烈击碎，看看虚妄背后的空虚心魂：
+                          </p>
+
+                          {/* Sandcastle Display */}
+                          <div className="h-32 bg-amber-500/5 rounded-xl border border-amber-500/10 flex items-center justify-center relative overflow-hidden">
+                            {!sandboxUltramanCrushed ? (
+                              <div className="text-center space-y-1 animate-pulse">
+                                <span className="text-4xl block filter drop-shadow-[0_0_8px_rgba(245,158,11,0.2)]">🏰</span>
+                                <span className="text-[10px] text-amber-500 font-bold block">闭眼堆好的奥特曼沙雕</span>
+                                <p className="text-[8px] text-stone-500 font-mono">Durable Sandcastle Structure</p>
+                              </div>
+                            ) : (
+                              <div className="text-center space-y-1.5 p-3">
+                                <span className="text-3xl block filter grayscale">💥</span>
+                                <p className="text-[10px] text-rose-400 font-bold">沙子瞬息爆裂崩散！</p>
+                                <p className="text-[9px] text-stone-400 leading-normal text-justify">
+                                  世界上其实根本没有奥特曼！做错的细节在成人的世界里没法擦去，鲁棒二维码带着偏执和抗体。
+                                </p>
+                                <span className="text-[8px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono block w-fit mx-auto">
+                                  🔓 破妄成果: 精神抗性/意志极限 +2
+                                </span>
+                              </div>
+                            )}
+                          </div>
+
+                          <button
+                            onClick={() => {
+                              setSandboxUltramanCrushed(!sandboxUltramanCrushed);
+                              if (!sandboxUltramanCrushed) {
+                                setStoryViews(prev => {
+                                  const next = new Set(prev);
+                                  next.add('sandbox-crushed');
+                                  return next;
+                                });
+                              }
+                            }}
+                            className={`w-full p-2 rounded-xl text-[10.5px] font-bold active:scale-95 transition-all text-center border ${
+                              !sandboxUltramanCrushed 
+                                ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' 
+                                : 'bg-stone-950 text-stone-400 border-stone-850'
+                            }`}
+                          >
+                            {!sandboxUltramanCrushed ? '🔨 一锤猛碎 (Break Sandbox)' : '🧱 重新闭眼堆沙 (Rebuild)'}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Cocoons labels breaking */}
+                      <div className="bg-stone-900 border border-stone-850 rounded-2xl p-4.5 space-y-3">
+                        <div className="flex justify-between items-center">
+                          <h4 className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                            <span>🕸️</span> 思想钢印：剥离我们的假人属性茧层
+                          </h4>
+                          <span className="text-[9.5px] text-stone-500 font-mono">Labels spec</span>
+                        </div>
+                        <p className="text-[10.5px] text-stone-400 leading-relaxed text-justify">
+                          我们的成分中混杂了重度社会规约：做题家、乐子人、纯观察外宾客。轻按这些硬标签，听听小九刺破它们的白皮书：
+                        </p>
+                        
+                        <div className="grid grid-cols-3 gap-2">
+                          <button
+                            onClick={() => setActiveCocoonId('maker')}
+                            className={`p-2 rounded-lg border text-[10.5px] font-bold text-center transition-all ${
+                              activeCocoonId === 'maker' 
+                                ? 'bg-amber-500/15 border-amber-500/60 text-amber-300 font-semibold' 
+                                : 'bg-stone-950 border-stone-850 text-stone-400 hover:border-stone-800'
+                            }`}
+                          >
+                            📐 做题家
+                          </button>
+                          <button
+                            onClick={() => setActiveCocoonId('joker')}
+                            className={`p-2 rounded-lg border text-[10.5px] font-bold text-center transition-all ${
+                              activeCocoonId === 'joker' 
+                                ? 'bg-amber-500/15 border-amber-500/60 text-amber-300 font-semibold' 
+                                : 'bg-stone-950 border-stone-850 text-stone-400 hover:border-stone-800'
+                            }`}
+                          >
+                            🃏 乐子人
+                          </button>
+                          <button
+                            onClick={() => setActiveCocoonId('watcher')}
+                            className={`p-2 rounded-lg border text-[10.5px] font-bold text-center transition-all ${
+                              activeCocoonId === 'watcher' 
+                                ? 'bg-amber-500/15 border-amber-500/60 text-amber-300 font-semibold' 
+                                : 'bg-stone-950 border-stone-850 text-stone-400 hover:border-stone-800'
+                            }`}
+                          >
+                            👀 旁观客
+                          </button>
+                        </div>
+
+                        {activeCocoonId && (
+                          <div className="bg-stone-950 border border-stone-850 p-3.5 rounded-xl text-stone-300 text-justify space-y-2 animate-fade-in text-[11px] leading-relaxed">
+                            {activeCocoonId === 'maker' && (
+                              <>
+                                <div className="font-bold text-amber-400">📐 做题家茧层：一生用2B笔答满卷子</div>
+                                <p className="text-stone-400 text-justify">
+                                  我们一生都在纸上，被风吹乱。小时候习惯用软糯的橡皮擦抹错除字，长大之后，每一笔歪掉的数据就终成定音。那些2B铅笔留下的铅痕，构筑了高鲁棒性抗错二维码的思想壁垒。
+                                </p>
+                              </>
+                            )}
+                            {activeCocoonId === 'joker' && (
+                              <>
+                                <div className="font-bold text-amber-400">🃏 乐子人茧层：“2B/沙雕/菊花残”伪装铠甲</div>
+                                <p className="text-stone-400 text-justify">
+                                  用尽一切宿命冷漠和白痴搞笑，拼着劲在人前吼叫“润/V我50”。可越是想在人面前嘻嘻哈哈、插科打诨掩耳盗铃，就越生动代表那颗太怕在关系中被孤立、所以亲手先把烛光吹熄的笨拙脆弱。
+                                </p>
+                              </>
+                            )}
+                            {activeCocoonId === 'watcher' && (
+                              <>
+                                <div className="font-bold text-amber-400">👀 旁观客茧层：逃避入场的看热闹外宾</div>
+                                <p className="text-stone-400 text-justify">
+                                  习惯了客体化周遭。坐在离垃圾桶扫帚不远的防卫角落，以完美的分析和理智解构一切感情风暴，却永远抗拒真正跳下海第一人称入海游泳。
+                                </p>
+                              </>
+                            )}
+                            <button
+                              onClick={() => {
+                                setActiveCocoonId(null);
+                                triggerNpcSpeech('“戳破这些茧。当你甘心收起审判者的视角，踏实回应生活时，血肉才开始呼吸。”', '小九 · 渡人狐');
+                              }}
+                              className="w-full bg-stone-900 border border-stone-800 hover:border-amber-500 hover:text-amber-300 text-stone-400 text-[10.5px] font-bold py-1.5 rounded-lg mt-2 transition-all"
+                            >
+                              ⚡ 祭起破妄锤：敲碎这壳
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SUBTAB 4: DAILY (人间烟火) */}
+                  {narrativeSubTab === 'daily' && (
+                    <div className="space-y-4 animate-[fadeIn_0.3s_ease]">
+                      {/* intro */}
+                      <div className="bg-stone-900 border border-stone-850 p-4 rounded-xl">
+                        <h3 className="text-xs font-bold text-amber-400">“白天智驾交付，夜晚市井煮茶”</h3>
+                        <p className="text-[11px] text-stone-400 leading-relaxed text-justify mt-1">
+                          高维系统解构久了，灵魂会渴。回到合租房有温度、略带市井小折腾的场景里。每一个歪扭的面包、每两只猫的打架，才是生活和对焦温度最真的原木底色。
+                        </p>
+                      </div>
+
+                      {/* Interactive cats reconcilation card */}
+                      <div className="bg-stone-900 border border-stone-850 rounded-xl p-3.5 flex justify-between items-center gap-3">
+                        <div className="space-y-1">
+                          <div className="text-[8px] text-stone-500 uppercase tracking-widest font-mono">Daily State</div>
+                          <h4 className="text-xs font-bold text-stone-200">七千八的租金与二猫打架</h4>
+                          <p className="text-[10px] text-stone-400">哥们姐们都在Gap挣扎，走廊两只猫见日死咬。</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            triggerNpcSpeech('😸 【小九・拉偏架】：「房租每月7800元已经够重了，生活不易，猫猫叹气！去看看葱烤排骨和德扑桌旁的心理学吧！」', '小九 · 旁白');
+                            setStoryViews(prev => {
+                              const next = new Set(prev);
+                              next.add('daily-cats-quarrel');
+                              return next;
+                            });
+                          }}
+                          className="bg-stone-950 border border-stone-800 hover:border-amber-500/50 px-3.5 py-2.5 rounded-xl text-[10.5px] text-stone-300 font-bold active:scale-95 transition-all text-center whitespace-nowrap"
+                        >
+                          🐈 劝劝猫架
+                        </button>
+                      </div>
+
+                      {/* Stories grid list */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                        {QIAN_CE_DAILY_SCENES.map((snip) => {
+                          const isExpanded = snip.id === activeDailySceneId;
+                          return (
+                            <div 
+                              key={snip.id}
+                              onClick={() => {
+                                setActiveDailySceneId(isExpanded ? null : snip.id);
+                                setStoryViews(prev => {
+                                  const next = new Set(prev);
+                                  next.add('daily-' + snip.id);
+                                  return next;
+                                });
+                              }}
+                              className={`p-3.5 rounded-xl border text-left cursor-pointer transition-all duration-300 select-none ${
+                                isExpanded 
+                                  ? 'bg-amber-950/15 border-amber-500/60 shadow-[0_0_15px_rgba(251,191,36,0.03)]' 
+                                  : 'bg-stone-900 border-stone-850 hover:border-stone-800/80 hover:bg-stone-900/60'
+                              }`}
+                            >
+                              <div className="flex justify-between items-center shrink-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-base">{snip.icon}</span>
+                                  <h4 className="text-[11px] font-bold text-stone-200">{snip.title}</h4>
+                                </div>
+                                <span className="text-[8px] bg-stone-950 text-amber-500 px-1.5 py-0.5 rounded font-mono">
+                                  {isExpanded ? '关闭 ▲' : '拆阅 ▼'}
+                                </span>
+                              </div>
+                              
+                              <AnimatePresence>
+                                {isExpanded && (
+                                  <motion.div 
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 'auto', opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className="overflow-hidden"
+                                  >
+                                    <p className="text-[10.5px] text-stone-300 leading-relaxed text-justify mt-2.5 border-t border-stone-850/60 pt-2.5">
+                                      {snip.story}
+                                    </p>
+                                    <div className="mt-2.5 bg-stone-950 px-2 py-1 rounded border border-stone-850/60 text-[9px] text-emerald-400 font-mono flex items-center gap-1.5">
+                                      <span>🧬 生活共鸣影响:</span>
+                                      <span>{snip.statEffect}</span>
+                                    </div>
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
                   {/* CTA Leave feedback */}
                   <button
                     onClick={() => setGuestOpen(true)}
-                    className="w-full border border-stone-800 hover:border-amber-500/30 bg-stone-900 p-3.5 rounded-xl text-stone-300 hover:text-amber-300 transition-all text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-95"
+                    className="w-full border border-stone-800 hover:border-amber-500/30 bg-stone-900 p-3.5 rounded-xl text-stone-300 hover:text-amber-300 transition-all text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-95 mt-2"
                   >
                     💌 在他的冒险书里，留下一张彩虹卡片
                   </button>
