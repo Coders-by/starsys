@@ -1,0 +1,234 @@
+{
+  "main": {
+    "id": "6aba74261c1be84f",
+    "type": "split",
+    "children": [
+      {
+        "id": "da5ba4456bcd98f3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "05a1fbe1d7168c55",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "4-随机事件/装机/配置清单.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "7a5b937351fe617c",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.6.5"
+              }
+            }
+          },
+          {
+            "id": "1844a34a0de10633",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "3-经验房/自我分析/困境.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "153d0c6b9c72821c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2-副本/youtube搞钱/自媒体逻辑.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c450a838c10e4297",
+    "type": "split",
+    "children": [
+      {
+        "id": "1f1d20a399ebcdd2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f9b941d297db2bf0",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "ec11ceb2e0440919",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#销售线索：是指与品牌进行互动并愿意留下个人信息（如电子邮件）的潜在客户",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "08ef5ccc7380d375",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "b39fb42573ea31f0",
+    "type": "split",
+    "children": [
+      {
+        "id": "1f38ff60261c1ec1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "70535eb4b1ac5bff",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "4-随机事件/装机/配置清单.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "6d55adf66d7326c9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "4-随机事件/装机/配置清单.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "922439db18eb5220",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "c0f2d1a2fa84cb97",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "4-随机事件/装机/配置清单.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "7a5b937351fe617c",
+  "lastOpenFiles": [
+    "2-副本/淘宝店/流程/智汇树产品购买流程.md",
+    "2-副本/淘宝店/店铺优化建议.md",
+    "4-随机事件/装机/配置清单.md",
+    "2-副本/youtube搞钱/自媒体逻辑.md",
+    "Pasted image 20240331170125.png",
+    "微信图片_20240303175342.jpg",
+    "Pasted image 20240622231627.png",
+    "1-主线任务/deeproute/事件脉络梳理.md",
+    "3-经验房/自我分析/困境.md",
+    "2-副本/upwork/流程.md",
+    "2-副本/淘宝店/流程/商品上架.md",
+    "2-副本/淘宝店/未命名.md",
+    "2-副本/淘宝店/财务/智汇树财务统计.md",
+    "2-副本/淘宝店/插图/1711860402011.jpg",
+    "2-副本/命理/未命名.md",
+    "3-经验房/管理/华为管理.md",
+    "4-随机事件/装机",
+    "4-随机事件/文案摘抄/《荒天帝哪有我苦》.md",
+    "3-经验房/自我分析",
+    "4-随机事件/自我剖析",
+    "4-随机事件/未来中国四大赛道.md",
+    "1-主线任务/困境.md",
+    "3-经验房/AI/大模型学习计划.md",
+    "3-经验房/AI/Transformer.md",
+    "3-经验房/AI/SORA 研究.md",
+    "3-经验房/自媒体/影响未来消费的八大经济模式——自我创作与某UP的创作对比.md",
+    "3-经验房/投资",
+    "3-经验房/自媒体/论持久战解读.md",
+    "4-随机事件/随想/20240526.md",
+    "1-主线任务/deeproute/未命名.md",
+    "1-主线任务/deeproute/第一章：对象的舞动.md",
+    "1-主线任务/deeproute/搞钱.md",
+    "1-主线任务/技能点/设计模式.md",
+    "3-经验房/自媒体",
+    "3-经验房/管理",
+    "1-主线任务/技能点",
+    "3-经验房/中国通史",
+    "2-副本/淘宝店/插图/Pasted image 20240331160729.png",
+    "2-副本/淘宝店/插图/Pasted image 20240331132313.png",
+    "1711860402011 1.jpg",
+    "2-副本/淘宝店/插图/1711859784720.jpg",
+    "2-副本/淘宝店/插图/1711858972774.jpg",
+    "2-副本/淘宝店/财务",
+    "2-副本/淘宝店/流程",
+    "2-副本/淘宝店/插图/Pasted image 20240303120845.png",
+    "未命名.canvas",
+    "未命名 1.canvas"
+  ]
+}
