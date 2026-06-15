@@ -137,31 +137,27 @@ async function startServer() {
 
   // --- Real grounds system prompted Gemini proxy chatbot with live RAG ---
   app.post('/api/chat', async (req, res) => {
+    let searchResults: { path: string; title: string; content: string; score: number }[] = [];
     try {
       const { message } = req.body;
       if (!message) {
         return res.status(400).json({ error: 'Message input is required' });
       }
 
-      // If Gemini Key is not configured, fall back immediately to let client handle locally
-      if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'MY_GEMINI_API_KEY') {
-        return res.status(503).json({ error: 'Gemini API key is not configured' });
+      // Search Obsidian files for dynamic RAG background grounding
+      try {
+        searchResults = searchVault(message);
+      } catch (searchErr) {
+        console.warn('Search vault failed, proceeding without search results:', searchErr);
       }
 
-      // Search Obsidian files for dynamic RAG background grounding
-      const searchResults = searchVault(message);
       let ragContext = '';
-      if (searchResults.length > 0) {
+      if (searchResults && searchResults.length > 0) {
         ragContext = "\n\n【实时联动的 Obsidian 知识库匹配内容】:\n" + 
           searchResults.map(res => `### 来源文档: "${res.title}" (${res.path})\n${res.content}\n---`).join('\n');
       }
 
-      // Call Gemini 3.5 Flash to generate grounded responses
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.5-flash',
-        contents: message,
-        config: {
-          systemInstruction: `You are "小九" (Xiao Jiu), an intelligent three-tailed spirit fox companion and character sidekick of "千岑" (Qiancen). 
+      const systemInstruction = `You are "小九" (Xiao Jiu), an intelligent three-tailed spirit fox companion and character sidekick of "千岑" (Qiancen). 
 You are deeply familiar with Qiancen's real archive datas and diaries. You speak with a reflective, lively, witty, and deeply philosophical tone.
 You ground your answers strictly around Qiancen's real archive files and context, which are dynamically linked to your Obsidian knowledge base right now.
 
@@ -173,15 +169,79 @@ Based on this dynamic Obsidian context AND your core insights of Qiancen:
 - Mental line: A "筏造者" (Raft Builder) who reads Dostoyevsky's novels (The Brothers Karamazov) and Mao's ideological philosophies (On Practice) to manage paradoxes in action.
 - Relationship issue: An observer learning how to jump into first-person life roles and escape safe observer bubbles.
 
-Speak in Chinese, use a warm, clever, and highly "人情味" (deeply human) tone. Avoid sounding like a dry AI, speak as the cute, witty three-tailed fox companion. When referencing Obsidian facts found above, casually highlight the file or details to prove you have read his real journals.`
-        }
-      });
+Speak in Chinese, use a warm, clever, and highly "人情味" (deeply human) tone. Avoid sounding like a dry AI, speak as the cute, witty three-tailed fox companion. When referencing Obsidian facts found above, casually highlight the file or details to prove you have read his real journals.`;
 
-      const reply = response.text || '小九一眨眼，似乎没有看清你的问题。你可以换个角度问问？';
-      res.json({ reply, matches: searchResults.map(r => r.title) });
+      let reply = '';
+      
+      // If Gemini Key is not configured, fall back to offline responder immediately
+      const hasApiKey = process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'MY_GEMINI_API_KEY' && process.env.GEMINI_API_KEY.trim() !== '';
+
+      if (hasApiKey) {
+        // Attempt with adaptive models and automatic retry loop
+        const modelsToTry = ['gemini-3.5-flash', 'gemini-3.1-flash-lite'];
+        let lastError: any = null;
+        let success = false;
+
+        for (const model of modelsToTry) {
+          if (success) break;
+          for (let attempt = 1; attempt <= 2; attempt++) {
+            try {
+              const response = await ai.models.generateContent({
+                model: model,
+                contents: message,
+                config: { systemInstruction }
+              });
+              if (response && response.text) {
+                reply = response.text;
+                success = true;
+                break;
+              }
+            } catch (err: any) {
+              lastError = err;
+              console.warn(`[Gemini Retry] Model ${model} attempt ${attempt} failed:`, err?.message || err);
+              // Small backoff before next attempt
+              await new Promise(resolve => setTimeout(resolve, attempt * 150));
+            }
+          }
+        }
+
+        if (!success && lastError) {
+          console.error('All Gemini API models failed under high demand. Triggering backup character system.', lastError);
+          throw lastError; // Throw so catch block can serve character-accurate offline fallback
+        }
+      } else {
+        console.warn('Gemini API key is not configured. Using offline RAG-guided rule backup.');
+        throw new Error('API_KEY_MISSING');
+      }
+
+      if (!reply) {
+        reply = '小九刚才耳朵被塞住啦，好像风声太大没有听清... 🍵 要不你换个话题试试？';
+      }
+
+      res.json({ reply, text: reply, matches: searchResults.map(r => r.title) });
+
     } catch (err: any) {
-      console.error('Gemini proxy error:', err);
-      res.status(500).json({ error: 'Internal chatbot dispatch error' });
+      console.warn('Gemini error caught, deploying elegant in-character fail-safe fallback response:', err?.message || err);
+      
+      // Highly-crafted intelligent fallback text for "小九"
+      let fallbackText = '';
+      const textLower = (req.body.message || '').toLowerCase();
+
+      if (textLower.includes('卡拉马佐夫') || textLower.includes('读书') || textLower.includes('批判') || textLower.includes('阅览')) {
+        fallbackText = '【避险退坡系统启动】🍵 白茶倒满，刚好刚才小九思索得有些断网啦！过河客，你知道吗？千岑以前最爱在第三人称的高合算力机下高谈阔论，直到他捧着《卡拉马佐夫兄弟》，读到老陀那句“要在灵魂深处爱具体的普通人，胜过爱抽象的人类”，他才猛地惊醒。这也是他为何要把带车路试、深夜救援战友时的细节写成温度刚好的带教文档。实践出真知，你现在捧起的这一卷，就是他在泥水里赤脚活过、不空心、不逃避的见证呢。';
+      } else if (textLower.includes('自媒体') || textLower.includes('信鸽') || textLower.includes('回声') || textLower.includes('微信')) {
+        fallbackText = '【避险退坡系统启动】🍵 小九抖了抖尾巴，刚才服务器稍微断线了，但我还在你身边！写《镜像回声》是他在深夜里，给所有陷入青年虚无、感到冷空无依的行路客倒的一杯温茶。他没有去贩卖任何技术和职场焦虑，而是把他在自动驾驶冗余系统、FaultDetector 容错机制里淬练出的“优雅降级、优雅退坡、自愈自护”的精神，悄悄织成了呵护脆弱人类心灵的软隔离垫。这不是鸡汤，是他在生活车道上亲身体验的容错美学。';
+      } else if (textLower.includes('自动驾驶') || textLower.includes('泊车') || textLower.includes('开发') || textLower.includes('测试') || textLower.includes('车') || textLower.includes('fault')) {
+        fallbackText = '【避险退坡系统启动】⚙️ 自动驾驶避险模式上线！关于调试千岑心魂深处的实车历练，在零下 40 度的黑河冰雪路试、在夏夜闷热的 APA/AVP 泊车标定场上，哪怕轮毂在失控边缘抱死，也是一次对于“如何建立自愈及 fail-safe 退坡方案”的拷问。系统出问题时要“优雅降级”，那人在关系生病、内心焦虑时，是不是也该拉起手刹，主动拆掉“观察者”装甲，赤脚涉入具体的泥地呢？';
+      } else {
+        fallbackText = '【避险退坡系统启动】🍵 呼……服务器刚好刮过一阵大风，把小九和主人的量子天线吹歪了一丁点，不过有备用白茶暖着哦！其实这一路，千岑作为一个自诩“筏造者”的程序员，最难的不是写出没有 Fault 的代码，而是决定不再躲在“看破红尘、高人一等”的观察者气泡里，老老实实跳进生活的泥潭里去。你想去哪一页的档案看看？小九随时陪着你。';
+      }
+
+      res.json({ 
+        reply: fallbackText, 
+        text: fallbackText,
+        matches: searchResults ? searchResults.map(r => r.title) : [] 
+      });
     }
   });
 

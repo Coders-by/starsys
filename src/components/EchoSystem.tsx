@@ -28,11 +28,11 @@ const FRAGMENT_DATABASE: Fragment[] = [
   {
     id: 'soul_girl',
     icon: '🌸',
-    name: 'Soul女孩的歌单',
+    name: '远方书友的寄信歌单',
     phrase: '“再等等。”',
     category: '情感之茧',
     originPlanet: 'red',
-    story: '2024盛夏，下歌单、隔屏同频的心灵女孩。对亲密摩擦恐惧使大坝闭锁。你轻叹：『再等等。』',
+    story: '2020盛夏，手抄格桑花、隔屏特藏检索的心灵女孩。对亲密摩擦恐惧使大坝闭锁。你轻叹：『再等等。』',
     details: '‘等’是一个最得体的伪装。我们在虚假的等待里，看着花儿慢慢凋谢，然后耸耸肩膀，说这就是无常。'
   },
   {
@@ -138,7 +138,7 @@ const RESONANCE_FORMULAS: Resonance[] = [
     icon: '🚪',
     description: '审视被你的理性防护遮蔽起来的真实自我规律。',
     story: '原来这些年，你说的是同一句话。',
-    comment: '2010年流星在夜里静悬降落，你推托傲慢，留下一句『算了，下次吧』；\n2024年盛夏懂你的Soul之女孩，你害怕纠缠自损防御，推开并微叹『再等等』；\n旷野空白、大半年简历留空的大浪前，你躲进反思的书阁，喃喃『还没准备好』……\n\n其实那些完美而严苛的“脑力一骑绝尘”与“优雅功能安全”，不过是你在漫漫人生路里，一次次练习【逃跑】的体面注脚。\n因为怕无法控制局势，我们宁可永远在起点打转。',
+    comment: '2010年流星在夜里静悬降落，你推托傲慢，留下一句『算了，下次吧』；\n2020年盛夏懂你的远方书友，你害怕纠缠自损防御，推开并微叹『再等等』；\n旷野空白、大半年简历留空的大浪前，你躲进反思的书阁，喃喃『还没准备好』……\n\n其实那些完美而严苛的“脑力一骑绝尘”与“优雅功能安全”，不过是你在漫漫人生路里，一次次练习【逃跑】的体面注脚。\n因为怕无法控制局势，我们宁可永远在起点打转。',
     nodes: ['meteor_shower', 'soul_girl', 'gap_year']
   },
   {
@@ -334,7 +334,7 @@ export default function EchoSystem({ starProgress, discoveredResonances, onReson
         {/* Interactive layout zones grouped by dimension */}
         <div className="space-y-4">
           
-          {/* Group 1: Emotion Red (流星雨、Soul、2024关系) */}
+          {/* Group 1: Emotion Red (流星雨、远方女孩、2024关系) */}
           <div className="space-y-1.5">
             <div className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-red-500" />

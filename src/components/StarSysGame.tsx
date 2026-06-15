@@ -17,6 +17,7 @@ import {
   HelpCircle,
   AlertCircle
 } from 'lucide-react';
+import CognitiveDlc from './CognitiveDlc';
 
 // Chinese 12 Shichens Mapping configuration for metaphysical traits
 interface ShichenInfo {
@@ -182,8 +183,13 @@ interface StarSysGameProps {
 
 export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthesized }: StarSysGameProps) {
   // --- Orbit View & Currently Selected Cosmic Star ---
-  const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null); // 'red', 'blue', 'gold', 'central', null
+  const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null); // 'red', 'blue', 'gold', 'central', 'gold_satellite', null
   const [centralLockAlert, setCentralLockAlert] = useState(false);
+  const [dlcSolved, setDlcSolved] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('dlc_woolen_wear_badge') === 'true';
+    } catch { return false; }
+  });
 
   // --- Resonance completion states ---
   const [redSolved, setRedSolved] = useState<boolean>(() => {
@@ -249,10 +255,12 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
     setBlueSolved(false);
     setGoldSolved(false);
     setCentralSolved(false);
+    setDlcSolved(false);
     localStorage.removeItem('resonance_red_solved');
     localStorage.removeItem('resonance_blue_solved');
     localStorage.removeItem('resonance_gold_solved');
     localStorage.removeItem('resonance_central_solved');
+    localStorage.removeItem('dlc_woolen_wear_badge');
     // Also reset individual sub-puzzle variables
     setRedChapter(1);
     setRedCurrentSequence(['b3', 'b1', 'b5', 'b2', 'b4']);
@@ -580,7 +588,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
           </button>
         </div>
         <p className="text-[11px] text-stone-400 leading-relaxed text-left text-justify mt-1">
-          星系由三颗主星组成，分别封印着不同的人格与成长维度。顺序不限，通过每一颗主星解开一个执念。当三相能量齐备，中心的恒星才会被点亮，揭开生命的底层融汇奥秘。
+          《星系档案》由三颗代表成长叙事线的主星组成（红星、蓝星、金星）。解开每一条叙事链的深层宿命执念，便能点亮中心融汇的恒星，释放出流向“人间烟火”的具体生活温存。
         </p>
       </div>
 
@@ -665,6 +673,29 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                 <span className="text-[10px] font-bold text-stone-200 mt-2 font-mono group-hover:text-amber-400">金星 ㆍ 认知</span>
                 <span className="text-[7.5px] text-stone-500 uppercase tracking-wider leading-none">Wisdom</span>
               </button>
+
+              {/* 3.1 GOLD SATELLITE: Cognition DLC (Only visible post-central star clearing) */}
+              {centralSolved && (
+                <>
+                  {/* Delicate orbital connection line */}
+                  <div className="absolute top-[22px] left-[52%] w-[6%] h-[20px] border-t border-r border-dashed border-amber-500/20 rounded-tr-xl pointer-events-none" />
+                  
+                  {/* Satellite button */}
+                  <button 
+                    onClick={() => setSelectedPlanet('gold_satellite')}
+                    className="absolute top-[6px] left-[58%] flex flex-col items-center group focus:outline-none animate-[bounce_4s_infinite_ease-in-out]"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-stone-900 border border-amber-500/40 hover:border-amber-400 hover:shadow-[0_0_12px_rgba(245,158,11,0.5)] flex items-center justify-center relative transition-all duration-300 group-hover:scale-110">
+                      <span className="text-xs">🪐</span>
+                      {dlcSolved && (
+                        <span className="absolute -top-1 -right-1 bg-emerald-500 text-stone-950 rounded-full p-0.5 text-[7px] font-black leading-none">✓</span>
+                      )}
+                    </div>
+                    <span className="text-[8.5px] font-bold text-stone-300 mt-1 font-mono group-hover:text-amber-400 leading-none">金星卫星</span>
+                    <span className="text-[6.5px] text-amber-500/80 uppercase tracking-widest leading-none mt-0.5">DLC 茧</span>
+                  </button>
+                </>
+              )}
 
               {/* 4. CENTRAL RESONANCE STAR (Center of everything) */}
               <button 
@@ -759,6 +790,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                   {selectedPlanet === 'red' && '🔴'}
                   {selectedPlanet === 'blue' && '🔵'}
                   {selectedPlanet === 'gold' && '🟡'}
+                  {selectedPlanet === 'gold_satellite' && '🪐'}
                   {selectedPlanet === 'central' && '🔥'}
                 </span>
                 <div>
@@ -767,6 +799,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                     {selectedPlanet === 'red' && `红星连接仓：情感重熔与关系对流 (第${redSolved ? '三' : redChapter}/3章)`}
                     {selectedPlanet === 'blue' && `蓝星实践所：理论下场第${blueChapter === 5 ? '四' : blueChapter}章 (${blueChapter}/4)`}
                     {selectedPlanet === 'gold' && '金星书房：多维观念碎片组装'}
+                    {selectedPlanet === 'gold_satellite' && '金星卫星 ㆍ 认知之茧 (核心补充 DLC)'}
                     {selectedPlanet === 'central' && '中央恒星：灵魂三相共振对流'}
                   </h3>
                 </div>
@@ -1893,7 +1926,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
             {/* --- GOLD STAR: WISDOM GAMEPLAY --- */}
             {selectedPlanet === 'gold' && (
-              <div className="space-y-4">
+              <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
                 <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed">
                   <span className="text-[8px] font-bold text-amber-400 block mb-1">【核心终置拷问】</span>
                   <p className="text-stone-300 font-semibold italic text-justify">“在经历了被时代系统疯狂压扁、祛魅、喧哗的起伏之后，你该如何理解世界？”</p>
@@ -1932,7 +1965,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
                         {/* Interactive drop selections */}
                         <select 
-                          className="bg-stone-900 border border-stone-800 text-[10px] p-1.5 rounded text-stone-300 font-mono outline-none max-w-[120px] focus:border-amber-500"
+                          className="bg-stone-900 border border-stone-800 text-[10px] p-1.5 rounded text-stone-300 font-mono outline-none max-w-[120px] focus:border-amber-500 cursor-pointer"
                           value={currentTileId || ''} 
                           onChange={(e) => setGoldSolution(stage.id, e.target.value)}
                         >
@@ -1951,7 +1984,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                 {!goldSolved ? (
                   <button
                     onClick={verifyGoldStar}
-                    className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 hover:from-amber-400 hover:to-amber-500 font-extrabold py-2.5 rounded-xl text-xs active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow"
+                    className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 hover:from-amber-400 hover:to-amber-500 font-extrabold py-2.5 rounded-xl text-xs active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow cursor-pointer"
                   >
                     <span>✓ 编译并校验观念演化树</span>
                   </button>
@@ -1972,6 +2005,19 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                     {goldMessage}
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* --- GOLD SATELLITE: COGNITION DLC GAMEPLAY --- */}
+            {selectedPlanet === 'gold_satellite' && (
+              <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
+                <CognitiveDlc 
+                  onComplete={() => {
+                    setDlcSolved(true);
+                    localStorage.setItem('dlc_woolen_wear_badge', 'true');
+                  }}
+                  isSolved={dlcSolved}
+                />
               </div>
             )}
 
