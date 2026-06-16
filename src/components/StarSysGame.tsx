@@ -44,7 +44,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-blue-400",
     elementBg: "bg-blue-500/10 border-blue-500/20",
     glowColor: "rgba(59,130,246,0.15)",
-    desc: "水德润下，智虑深沉。真实用户体验温顺提升，产品节奏缓和调护。",
+    desc: "水气重，深夜适合静静整理用户反馈。PM节奏慢下来，测试也能歇口气。",
     modifiers: { pm: -5, algo: 5, test: -5, customer: 15 }
   },
   "丑时": {
@@ -54,7 +54,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-amber-600",
     elementBg: "bg-amber-600/10 border-amber-600/20",
     glowColor: "rgba(217,119,6,0.15)",
-    desc: "湿土生金，厚德载物。底盘算法与硬件容灾底子稳固，测试狂跑亦安全。",
+    desc: "湿土气稳，算法和硬件容灾这时候最扎实。测试随便跑，出不了大事。",
     modifiers: { pm: 5, algo: -5, test: 15, customer: -5 }
   },
   "寅时": {
@@ -64,7 +64,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-emerald-400",
     elementBg: "bg-emerald-500/10 border-emerald-500/20",
     glowColor: "rgba(16,185,129,0.15)",
-    desc: "阳气始萌，草木逢春。算法带教文档滋生如竹，设计充满生发希望。",
+    desc: "凌晨阳气初生，草木精神。适合写算法和带教文档，但别在这时候排PM会议。",
     modifiers: { pm: -10, algo: 15, test: -5, customer: 10 }
   },
   "卯时": {
@@ -74,7 +74,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-emerald-400",
     elementBg: "bg-emerald-500/10 border-emerald-500/20",
     glowColor: "rgba(16,185,129,0.15)",
-    desc: "日出东方，生机盎然。协作渡人春光明媚，真实用户反馈更显开朗。",
+    desc: "日出时分，协作和带人最顺。用户反馈也会比较正面，适合安排客户沟通。",
     modifiers: { pm: -5, algo: 10, test: -5, customer: 15 }
   },
   "辰时": {
@@ -84,7 +84,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-amber-500",
     elementBg: "bg-amber-500/10 border-amber-500/20",
     glowColor: "rgba(245,158,11,0.15)",
-    desc: "群贤聚首，中正平和。项目计划调配严整，各维度利益基本持平。",
+    desc: "辰时土气中正，各方利益基本持平。适合开项目计划会，不偏不倚。",
     modifiers: { pm: 10, algo: -5, test: 10, customer: -5 }
   },
   "巳时": {
@@ -94,7 +94,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-rose-500",
     elementBg: "bg-rose-500/10 border-rose-500/20",
     glowColor: "rgba(244,63,94,0.15)",
-    desc: "骄阳似火，突击攻坚。产品经理极具动力推行加班，开发测试焦伤疲累。",
+    desc: "火气旺，PM冲劲最猛。适合突击推进度，但开发和测试压力山大，容易 burnout。",
     modifiers: { pm: 15, algo: -10, test: -10, customer: 15 }
   },
   "午时": {
@@ -104,7 +104,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-orange-500",
     elementBg: "bg-orange-500/10 border-orange-500/20",
     glowColor: "rgba(249,115,22,0.15)",
-    desc: "烈日当头，效率鼎盛。客户反馈快速回音，发布车机节奏推行至极巅。",
+    desc: "午时火最旺，客户响应速度和发布效率拉到最高。开发和测试咬着牙顶住。",
     modifiers: { pm: 20, algo: -15, test: -10, customer: 15 }
   },
   "未时": {
@@ -114,7 +114,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-amber-600",
     elementBg: "bg-amber-600/10 border-amber-600/20",
     glowColor: "rgba(217,119,6,0.15)",
-    desc: "日昳修整，重归大地。系统安全路测覆盖稳打稳扎，架构设计平心沉气。",
+    desc: "午后土气回归，适合稳打稳扎做路测覆盖和架构设计。不急不躁。",
     modifiers: { pm: 5, algo: -5, test: 15, customer: -5 }
   },
   "申时": {
@@ -124,7 +124,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-zinc-400",
     elementBg: "bg-zinc-500/10 border-zinc-500/20",
     glowColor: "rgba(113,113,122,0.15)",
-    desc: "白帝司权，兵戈清冷。精密代码如金错刀。架构及测试极致考究，用户人情稍淡。",
+    desc: "金气清冷，写代码和做架构最锋利的时候。但用户沟通会偏冷，不适合安排客户会议。",
     modifiers: { pm: -5, algo: 15, test: 10, customer: -5 }
   },
   "酉时": {
@@ -134,7 +134,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-zinc-300",
     elementBg: "bg-zinc-500/10 border-zinc-500/20",
     glowColor: "rgba(161,161,170,0.15)",
-    desc: "夕阳熔金，洗尽铅华。算法防灾策略极简高效，分析用例精确合意。",
+    desc: "金气收敛，适合做算法复盘和防灾策略精简。分析效率高，但别在这时候推新需求。",
     modifiers: { pm: -5, algo: 15, test: 15, customer: -5 }
   },
   "戌时": {
@@ -144,7 +144,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-yellow-650",
     elementBg: "bg-yellow-600/10 border-yellow-600/20",
     glowColor: "rgba(202,138,4,0.15)",
-    desc: "黄昏收敛，大地沉静。硬件容灾与极限泊车测试稳重结合，重整秩序。",
+    desc: "黄昏土气沉静。适合做硬件容灾测试和极限泊车验证，稳扎稳打。",
     modifiers: { pm: 10, algo: -10, test: 15, customer: -5 }
   },
   "亥时": {
@@ -154,7 +154,7 @@ const SHICHEN_DATA: Record<string, ShichenInfo> = {
     elementColor: "text-sky-400",
     elementBg: "bg-sky-500/10 border-sky-500/20",
     glowColor: "rgba(56,189,248,0.15)",
-    desc: "夜深人静，水天一色。具体的人文爱恨抚平冷铁车机，真实用户好评满载。",
+    desc: "夜深水气重，具体的人情温度能抚平冷铁车机。适合反思用户需求，好评率会偏高。",
     modifiers: { pm: -10, algo: 5, test: -5, customer: 20 }
   }
 };
@@ -185,6 +185,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
   // --- Orbit View & Currently Selected Cosmic Star ---
   const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null); // 'red', 'blue', 'gold', 'central', 'gold_satellite', null
   const [centralLockAlert, setCentralLockAlert] = useState(false);
+  const [foxCommentary, setFoxCommentary] = useState<string | null>(null); // 灵狐小九冷幽默弹幕
   const [dlcSolved, setDlcSolved] = useState<boolean>(() => {
     try {
       return localStorage.getItem('dlc_woolen_wear_badge') === 'true';
@@ -290,8 +291,19 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
     setGoldStageSolutions({});
     setGoldMessage(null);
     setClimaxOutcome(null);
+    setFoxCommentary(null);
     setSelectedPlanet(null);
   };
+
+  // 灵狐小九出场触发器
+  useEffect(() => {
+    if (!selectedPlanet && !foxCommentary) {
+      const timer = setTimeout(() => {
+        setFoxCommentary('三颗星。一颗关于一段QQ消息，一颗关于一辆车，一颗关于一本书。——你猜哪颗最难？');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedPlanet]);
 
   // --- SUB-GAME 1: 红星 (Emotion) State ---
   const [redChapter, setRedChapter] = useState<number>(1);
@@ -349,9 +361,9 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
       setSoulMessage('success');
     } else {
       let advice: string[] = [];
-      if (!isBassOk) advice.push('古董金石年份脉络不符，请调至 70-90年 溯回上世纪遗留的岁月余温');
-      if (!isMidOk) advice.push('图书分类文献检索码错位，请调至 500-650 寻回那部尘封的浪漫特藏《可遇不可求的事》');
-      if (!isTrebleOk) advice.push('心灵感应宿命阻抗偏离，请调至 1000-1500 MΩ 以穿透高山风砂取得同频共振');
+      if (!isBassOk) advice.push('年份不对。你调的是哪一年的风物？——70到90年代之间，才有她信里那朵格桑花的印记');
+      if (!isMidOk) advice.push('书架号不对。那本手抄本在图书馆的哪个架上？——500到650号架之间，找找那部《可遇不可求的事》');
+      if (!isTrebleOk) advice.push('阻抗没对上。你们之间的那根线——1000到1500 MΩ才能接通同频共振');
       setSoulMessage(`信号失调：${advice.join('；')}`);
     }
   };
@@ -378,15 +390,15 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
     } else {
       let advice: string[] = [];
       if (!isTempOk) {
-        advice.push(teaTemp > 85 ? `水温过沸 (${teaTemp}°C) 烫毁了娇弱的茉莉花茶魂` : `水温过寒 (${teaTemp}°C) 沉寂了封存的茉莉花叶`);
+        advice.push(teaTemp > 85 ? `水温太烫了 (${teaTemp}°C) —— 茉莉花茶不是普洱，80-85°C就好` : `水温太凉 (${teaTemp}°C) —— 花茶需要80-85°C才能泡开`);
       }
       if (!isTimeOk) {
-        advice.push(teaTime > 40 ? `焖泡时间过长 (${teaTime}秒) 憋出了回避型苦涩执念` : `熏陶时间过短 (${teaTime}秒) 回响茶味未能渗透真心`);
+        advice.push(teaTime > 40 ? `泡太久了 (${teaTime}秒) —— 好的茶不需要泡到出苦味，30-40秒就够了` : `时间太短 (${teaTime}秒) —— 30-40秒才能让花香渗出来`);
       }
       if (!teaVulnerable) {
-        advice.push('「理智自卫防线」尚未卸下 —— 如果不解盔涉险、选择放下防线，你泡出来的永远只是隔阂的理智无机水');
+        advice.push('你还穿着盔甲呢。——不把「理智自卫」放下来，泡出来的永远只是隔阂的水');
       }
-      setTeaMessage(`冲泡失败：${advice.join('；')}`);
+      setTeaMessage(`${advice.join('；')}`);
     }
   };
 
@@ -413,10 +425,10 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
         setGestureMessage(null);
       }, 2000);
     } else {
-      let desc = '【控制流异常降级】：';
-      if (!isWindowOk) desc += '5Hz数据采样时间探测窗口过短或长偏（推荐800-1200ms以内）；';
-      if (!isThresholdOk) desc += '触发阈值未调节至完美5Hz特征信号频点；';
-      if (!isVotingOk) desc += '投票容灾机制防御度不够（请设为3/5安全多数票状态控制安全锁）。';
+      let desc = '信号没对上。';
+      if (!isWindowOk) desc += '窗口太长或太短都抓不到手势特征——人在自然挥动手臂时，一个完整动作大约需要800-1200ms才能被稳定捕捉。';
+      if (!isThresholdOk) desc += '触发频点不对——5Hz才是标准车载手势信号的频率。';
+      if (!isVotingOk) desc += '投票容灾不够稳——设成3/5多数票锁定，才能防误触。';
       setGestureMessage(desc);
     }
   };
@@ -774,6 +786,17 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
               </span>
             </div>
 
+            {/* 灵狐小九冷幽默弹幕 — 无解时随机飘过 */}
+            {foxCommentary && !selectedPlanet && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-[10px] text-zinc-500 italic border-t border-stone-850/50 pt-2 mt-2 text-center w-full font-mono"
+              >
+                🦊 {foxCommentary}
+              </motion.div>
+            )}
+
           </motion.div>
         ) : (
           <motion.div 
@@ -859,7 +882,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">🛠️ 记忆对齐：重构当年那段被冰冷理智判决的QQ对话</span>
+                        <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">🛠️ 把这些气泡排回它们本来的顺序——当年你是怎么一步步把她推开的</span>
                         <button 
                           onClick={() => setRedCurrentSequence(['b3', 'b1', 'b5', 'b2', 'b4'])}
                           className="text-[9px] text-stone-500 hover:text-stone-300 flex items-center gap-1 cursor-pointer"
@@ -944,8 +967,17 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
                     {redCheckMessage === 'failure' && !redSolved && (
                       <div className="p-3 bg-red-950/20 border border-red-500/20 text-rose-300 rounded-xl text-[10.5px] italic text-justify font-mono">
-                        ❌ 顺序对齐失败：时间流转窒碍。请按“女孩发出流星雨信号、你冷傲拒绝、女孩执意下载魔兽、你用盗版审编隔绝、她凄婉自留”的真实逻辑排序。
+                        ❌ 顺序不对。你当时是先拒绝、再拒绝、最后还是拒绝。想想那颗流星——是她先开口的，你是先回绝的那个。
                       </div>
+                    )}
+                    {redCheckMessage === 'failure' && !foxCommentary && (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-[9px] text-zinc-500 italic font-mono text-right"
+                      >
+                        🦊 你当年拒绝她的速度，比你现在排序的速度快多了。
+                      </motion.p>
                     )}
                   </div>
                 )}
@@ -997,9 +1029,9 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                         {/* Slider 1: Antiques Year / Chronology */}
                         <div className="space-y-1">
                           <div className="flex justify-between text-[10px] font-mono leading-none">
-                            <span className="text-stone-400 font-medium">古董金石断代 ㆍ 岁月痕迹 (Antique Year Scale)</span>
+                            <span className="text-stone-400 font-medium">她寄来的金石——是哪一年的风物？</span>
                             <span className={`font-bold ${soulBass >= 70 && soulBass <= 90 ? 'text-rose-400' : 'text-stone-500'}`}>
-                              {soulBass} 年代 <span className="text-[8px] font-normal opacity-70">(目标: 70-90年)</span>
+                              {soulBass} <span className="text-[8px] font-normal opacity-70">(目标: 70-90年代)</span>
                             </span>
                           </div>
                           <input 
@@ -1016,9 +1048,9 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                         {/* Slider 2: Library Index Catalog */}
                         <div className="space-y-1">
                           <div className="flex justify-between text-[10px] font-mono leading-none">
-                            <span className="text-stone-400 font-medium">藏书馆特藏 ㆍ 图书检索类目分类码 (Library Catalog Index)</span>
+                            <span className="text-stone-400 font-medium">那本手抄本放在图书馆的哪个架上？</span>
                             <span className={`font-bold ${soulMid >= 500 && soulMid <= 650 ? 'text-rose-400' : 'text-stone-500'}`}>
-                              {soulMid} 号架 <span className="text-[8px] font-normal opacity-70">(目标: 500-650)</span>
+                              {soulMid} <span className="text-[8px] font-normal opacity-70">(目标: 500-650号架)</span>
                             </span>
                           </div>
                           <input 
@@ -1035,7 +1067,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                         {/* Slider 3: Serendipity Res Impedance */}
                         <div className="space-y-1">
                           <div className="flex justify-between text-[10px] font-mono leading-none">
-                            <span className="text-stone-400 font-medium">《可遇不可求的事》心灵感应阻抗 (Destiny Res Impedance)</span>
+                            <span className="text-stone-400 font-medium">你们之间的那根线——阻抗调对了才能接通</span>
                             <span className={`font-bold ${soulTreble >= 1000 && soulTreble <= 1500 ? 'text-rose-400' : 'text-stone-500'}`}>
                               {soulTreble} MΩ <span className="text-[8px] font-normal opacity-70">(目标: 1000-1500)</span>
                             </span>
@@ -1335,12 +1367,12 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                               <span>🦊 🌸【灵狐小九 ㆍ 特别清芳彩蛋】</span>
                             </div>
                             <p className="text-[10px] text-amber-200/90 leading-relaxed italic">
-                              “瞧！灵巧的小狐狸小九捧着一束带露的清新茉莉花，轻巧地跃过星光月台。她眨着亮晶晶的大眼睛，将一壶温沏、香气四溢的 85°C 极品茉莉花茶稳稳呈现。小九嘻嘻一笑：『千岑呀！恭喜你在 85°C 水温、30秒 极准刹那，彻彻底底卸下了理智自卫。这是全宇宙最可遇不可求的深层香气，愿你们携手前行，干杯！』”
+                              “小九不知什么时候蹲在了桌角。她看了看你的茶杯，又看了看你：『嗯。水温对了，时间对了，人也终于没躲了。——这杯茶你等了十几年。喝吧。』说完，她就不见了。”
                             </p>
                           </div>
                         )}
                         <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
-                          🔑 获得终极情感印记碎片：【共情/EMPATHY】 ── 与他人血肉对流、不惧受伤痛快去爱去活的能力。
+                          🔑 获得人格碎片：【共情/EMPATHY】 ── 不惧受伤、痛快去爱去活的能力。
                         </p>
                       </div>
                     )}
@@ -1388,7 +1420,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                     <div className="text-[10px] text-justify space-y-1">
                       <span className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[8px] font-bold font-mono">第一章 ㆍ 手势召唤</span>
                       <p className="text-stone-400 mt-1">
-                        你获得了实车一端 5Hz 高频无过滤手势数据流。需要自己调整时间采样探测窗口 (ms) 和判定判定频点 (Hz) 及容灾多数票机制召唤汽车（激活线控防抱死底盘）。
+                        实车日志吐了一段 5Hz 的手势数据流，没滤波、没处理、裸的。你得自己把采样窗口、触发频点和容灾投票机制调对，才能唤醒线控底盘。
                       </p>
                     </div>
 
@@ -1473,7 +1505,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
                     {gestureMessage === 'success' && (
                       <div className="p-3.5 bg-emerald-950/20 border border-emerald-500/20 text-emerald-300 rounded-xl text-[11px] text-center animate-pulse font-bold font-mono">
-                        ✓ 5Hz 采样比准成功对齐！线控底盘油门防抱死机制通过防灾锁！车辆手势召唤成功响应！已飞入第二章... 🚓
+                        ✓ 手势信号锁定了！800-1200ms窗口、5Hz频点、3/5多数票——线控底盘响应，车辆唤醒。飞入第二章... 🚓
                       </div>
                     )}
                   </div>
@@ -1827,7 +1859,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                         重算利益
                       </button>
                       <p className="text-[9.5px] text-stone-500 leading-snug">
-                        提示：普通天盘可先后执行【教案带教】(3) 与【冗余容灾】(2) 稳固架构及测试底盘，然后结合【强制加班】(1) 协调过关。在木、水之运时，通过更容易！
+                        提示：常规打法是先把【带教】(3)和【容灾】(2)点上，稳固底盘之后再上【加班】(1)。🌲木运和💧水运的时候，各方气运加成最舒服，更容易过。
                       </p>
                     </div>
 
@@ -1872,7 +1904,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                             : 'bg-stone-950 border-stone-850 hover:border-blue-500/60'
                         }`}
                       >
-                        <span className="font-extrabold text-[10px] text-stone-200 block">偏方 Alpha: 精巧契约隔离</span>
+                        <span className="font-extrabold text-[10px] text-stone-200 block">A: 契约边界——『管好自己那摊事』</span>
                         <p className="text-stone-500 mt-1">“别干多余的事。管好你分内的那点代码协议，对齐时间表格准时交卷，别人的困难与心酸我们不管也是常态，安全为主吧。”</p>
                       </button>
 
@@ -1886,7 +1918,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                             : 'bg-stone-950 border-stone-850 hover:border-blue-500/60'
                         }`}
                       >
-                        <span className="font-extrabold text-[10px] text-stone-200 block">良方 Beta: 点燃篝火同舟共生</span>
+                        <span className="font-extrabold text-[10px] text-stone-200 block">B: 熬夜带教——『今晚我陪你调过去』</span>
                         <p className="text-stone-500 mt-1">“没有谁生来就是假人机器。我们在泥藻里冷冰冰的，那我们师徒今天就熬夜把雷达毫米级的调试教案一笔一析全部文档化传给你！我陪你把这坐底代码给它跑过去！”</p>
                       </button>
 
@@ -1914,10 +1946,10 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                   <div className="bg-emerald-950/20 border-2 border-emerald-500/30 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
                     <span className="text-[10px] font-bold block uppercase font-mono">🌟 实践的英雄旅程终点：</span>
                     <p className="italic">
-                      从哲学修辞的高台，深坠进底盘故障防灾隔离、淘宝市井算账和手把手真挚渡人、带教新人的塞博长征。你没有学到如何圆滑，但彻底砸掉了纸片教条，在尘土实打实的泥水里，见识到了实践矛盾奇妙的转易温能！
+                      从哲学的高台，摔进底盘故障、淘宝市井算账和手把手带教新人的泥水里。你没有学到怎么圆滑，但彻底砸掉了纸片教条。在实打实的尘土里，你见识到了实践本身的力量。
                     </p>
                     <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
-                      🔑 获得人格碎片：【创造/CREATION】 ㆍ 不纸上谈兵，用泥涂调试的力量深深改变现实。
+                      🔑 获得人格碎片：【创造/CREATION】 ㆍ 不纸上谈兵，用泥水里的调试改变现实。
                     </p>
                   </div>
                 )}
@@ -1937,10 +1969,10 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
                 <div className="grid grid-cols-1 gap-3.5">
                   {[
-                    { id: 'age18', label: '18岁 ㆍ 走出高中的象牙塔', correct: 'meritocracy', hint: '对绝对高分标准答案的极度追崇' },
-                    { id: 'age22', label: '22岁 ㆍ 大学的迷茫与灵魂孤冷', correct: 'nihilism', hint: '挣脱不掉的体制钢印，认为一切在冷空虚无中' },
-                    { id: 'age24', label: '24岁 ㆍ 实车泊车降温与挫折搏杀', correct: 'practice', hint: '实践论突击：踩着烂泥矛盾才会磨砺优雅容灾' },
-                    { id: 'age26', label: '26岁 ㆍ 书生漫步关系涉危险破防', correct: 'concretelove', hint: '卡拉马佐夫的具体爱，即便风雪漫天也拥抱血肉情根' }
+                    { id: 'age18', label: '18岁 ㆍ 走出高中的象牙塔', correct: 'meritocracy', hint: '18岁时相信的——高分=一切' },
+                    { id: 'age22', label: '22岁 ㆍ 大学的迷茫与灵魂孤冷', correct: 'nihilism', hint: '22岁时觉得的——这一切都没意义' },
+                    { id: 'age24', label: '24岁 ㆍ 实车泊车降温与挫折搏杀', correct: 'practice', hint: '24岁时明白的——不下场就没资格说话' },
+                    { id: 'age26', label: '26岁 ㆍ 书生漫步关系涉危险破防', correct: 'concretelove', hint: '26岁时敢说的——我爱那些具体的、微小的人了' }
                   ].map((stage) => {
                     const currentTileId = goldStageSolutions[stage.id];
                     return (
@@ -1954,10 +1986,10 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           {currentTileId && (
                             <span className="text-[11px] text-amber-300 mt-1 font-bold inline-block border-l-2 border-amber-500 pl-2 leading-none">
                               对齐为 ➔ {
-                                currentTileId === 'meritocracy' && '🔑 『绩优主义与成功学高塔』' ||
-                                currentTileId === 'nihilism' && '🔑 『清高抽离与学术冷虚无』' ||
-                                currentTileId === 'practice' && '🔑 『实践突围与优雅降级容灾论』' ||
-                                currentTileId === 'concretelove' && '🔑 『真实血肉与大陀具体之爱』'
+                                currentTileId === 'meritocracy' && '🔑 18岁相信『高分=一切』' ||
+                                currentTileId === 'nihilism' && '🔑 22岁觉得『这一切都没意义』' ||
+                                currentTileId === 'practice' && '🔑 24岁明白『不下场就没资格说话』' ||
+                                currentTileId === 'concretelove' && '🔑 26岁敢说『我爱具体的、微小的人了』'
                               }
                             </span>
                           )}
@@ -1970,10 +2002,10 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           onChange={(e) => setGoldSolution(stage.id, e.target.value)}
                         >
                           <option value="">-- 选择拼贴 --</option>
-                          <option value="meritocracy">绩优主义高塔</option>
-                          <option value="nihilism">学术清冷虚无</option>
-                          <option value="practice">实践与防灾突围</option>
-                          <option value="concretelove">具体爱与赤红情根</option>
+                          <option value="meritocracy">高分=一切</option>
+                          <option value="nihilism">这一切都没意义</option>
+                          <option value="practice">不下场就没资格说话</option>
+                          <option value="concretelove">我爱具体的、微小的人</option>
                         </select>
                       </div>
                     );
@@ -1992,10 +2024,10 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                   <div className="bg-emerald-950/20 border-2 border-emerald-500/30 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
                     <span className="text-[10px] font-bold block uppercase font-mono">🌟 观念思索树对准成功：</span>
                     <p className="italic">
-                      “十八岁，我执着对答标准卷子的自傲；廿二岁，我冷眼审判诸般功利却一无所获的虚寂；廿四岁，我在泥潭里明白，不落泥涂终难跨江，我用实践磨砺我的心灵容灾；廿六岁，我终于敢走上前去，去爱具体的、微小的生命，爱到满腔愧悔但也满盘无悔。”
+                      “十八岁，我执着对答标准卷子的自傲；廿二岁，我冷眼审判诸般功利却一无所获的虚寂；廿四岁，我在泥潭里明白，不踩泥就过不了江，我用实践磨砺我的心灵容灾；廿六岁，我终于敢走上前去，去爱具体的、微小的生命，爱到满腔愧悔但也满盘无悔。”
                     </p>
                     <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
-                      🔑 获得人格碎片：【洞察/INSIGHT】 ㆍ 穿透纷冗迷雾，洞悉人性幽廊与规律原型的锐眼。
+                      🔑 获得人格碎片：【洞察/INSIGHT】 ㆍ 穿透迷雾，看清人性与规律的那双眼睛。
                     </p>
                   </div>
                 )}
@@ -2125,7 +2157,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                               你帮他擦干悔恨的眼泪（共情连接），带着他从冗余和故障的因果网里看透所谓的“大厂神话吹水”（洞察虚妄），接着，你坐在他旁边，指头摩挲在静电容键盘上面，手把手教他把车辆超声波优雅软防线退坡降级写进MCU的闪存大区（创造改造）。
                             </p>
                             <p className="font-normal text-stone-300">
-                              此时此刻，他觉得那冰冷的代码和繁大的城市，原来并不是冷酷吃人的机械巨墙。
+                              他坐在你旁边，看着屏幕上那行编译通过的日志，突然说了一句：『原来代码也可以是有温度的。』
                             </p>
                             <p className="font-semibold text-amber-300 border-l-2 border-yellow-400 pl-3 italic text-[11.5px] py-1">
                               他的孤独、你的回避，在这个深夜的茶室里，与流星雨、自动驾驶、千百张淘宝报价、老陀的悔恨悔意，全部在同一个生命坐标激荡咬合，融化成一叶能载众生渡深水的大河木筏！
