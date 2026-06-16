@@ -71,8 +71,8 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
   const examPapers = [
     { id: 'p1', title: '一年级小测验：一加一等于几？', grade: 1, wiped: false, cantWipe: false, log: '✨ 成功擦去：一年级算数过失（1 + 1 算成 3）！' },
     { id: 'p2', title: '二年级画图课：我心目中的老师', grade: 2, wiped: false, cantWipe: false, log: '🖍️ 成功擦去：二年级图画涂鸦（把老师画成小花猫）！' },
-    { id: 'p3', title: '三年级期末考：奥数逻辑除法练习', grade: 3, wiped: false, cantWipe: true, log: '❌ 无法擦除！这是三年级的试卷……奥！原来不是长大以后就不再犯错，而是长大后犯的错误，再也没有橡皮能够擦去……' },
-    { id: 'p4', title: '高级车规控制：APA路径姿态容灾设计', grade: 5, wiped: false, cantWipe: true, log: '❌ 无法擦除！高等级标定缺陷无法撤销……（幸好，后来的二维码比条形码具备更强的鲁棒性）。' }
+    { id: 'p3', title: '三年级期末考：奥数逻辑除法练习', grade: 3, wiped: false, cantWipe: true, log: '❌ 擦不掉。三年级的试卷上，错题已经干透了。不是长大以后就不犯错了，是长大以后，橡皮擦不管用了。' },
+    { id: 'p4', title: '高级车规控制：APA路径姿态容灾设计', grade: 5, wiped: false, cantWipe: true, log: '❌ 擦不掉。高等级标定缺陷没法撤销。不过后来的二维码比条形码抗造多了——有些错，改了就行。' }
   ];
   // Sub-game 2: Hammer Sand
   const [isSandPushed, setSandPushed] = useState(false);
@@ -121,7 +121,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
           }]);
         } else {
           // Play a buzzer vibration
-          alert("⚡ 【连接断裂】：语义螺旋发生了排异。它们的词汇源流并不能如此对流！");
+          alert("⚡ 没连对。这个词在童年不是这个意思，你想想。");
         }
         setSelectedLeft(null);
         setSelectedMid(null);
@@ -137,7 +137,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
   const startDebate = () => {
     setDebateStep(1);
     setDebateLogs([
-      { sender: 'boss', text: '“不妨想想，为什么要剪这份盆栽？”' }
+      { sender: 'boss', text: '"不妨想想，为什么要剪这份盆栽？"' }
     ]);
   };
 
@@ -146,15 +146,15 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
       if (optionType === 'wrong') {
         setDebateLogs(prev => [
           ...prev,
-          { sender: 'player', text: '“为了平下气来体会心灵的模样，去除杂质，留下纯真？”' },
-          { sender: 'boss', text: '❌ （冷冽嘲笑，身形涨大）“拙劣！这套陈词滥调不过是照抄三年级石头与雕像的鸡汤课文！防御暴涨！再问：你所谓的‘心灵模样’，它是真的长这样，还是因为你活了这几十年别人告诉你的，你把它当成了‘出厂默认设置’？”' }
+          { sender: 'player', text: '为了去除杂质，留下纯粹的、本真的自我。' },
+          { sender: 'boss', text: '...你确定这话是你自己想的，还是小学课本上《石头与雕像》教你的？你所谓的"本真"，有没有可能只是一个被灌输了三十年的默认设置？' }
         ]);
         setDebateStep(2);
       } else {
         setDebateLogs(prev => [
           ...prev,
-          { sender: 'player', text: '“为了顺应自然的参差，在无序的偏执枝桠中，雕琢出一处不欺骗真实心灵的心理冗余防护网。”' },
-          { sender: 'boss', text: '💥 （受震荡退后半步）“有点悟性。但无用的坚守只是暂时的挣扎！我问你：你所谓的‘心灵模样’，它真的长这样，还是你活了这几十年别人把标签贴上去的默认设置？”' }
+          { sender: 'player', text: '不是为了去除杂质。是为了在乱七八糟的枝桠里，留一处不骗自己的地方。' },
+          { sender: 'boss', text: '有点意思。但你有没有想过——你的审美、你的道德、你的理想，哪一样不是这个时代喂给你的？你怎么知道你"不骗自己"的那部分，不是另一层钢印？' }
         ]);
         setDebateStep(2);
       }
@@ -162,33 +162,30 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
       if (optionType === 'wrong') {
         setDebateLogs(prev => [
           ...prev,
-          { sender: 'player', text: '“大家都受到外界的影响，不就等于大家都没受到影响吗？”' },
-          { sender: 'boss', text: '💀 （迎头重击）“荒谬的伪辩论！每个人受到的环境裹挟完全不同：有的人被碾成小镇做题家的铅笔粉末，有的人在互联网剪切出魅魔，他们聚在广场高喊着‘V我50’的口号！认清你的成分，读懂你的思想钢印是被什么印上去的。这层被消费主义和亚文化层层包装的数字反射，就叫做‘认知之茧’！”' }
+          { sender: 'player', text: '大家都受外界影响，等于大家都没受影响。扯平了。' },
+          { sender: 'boss', text: '扯不平。有的人被碾成小镇做题家的铅笔屑，有的人在互联网上长成了魅魔。每个人被印上的钢印完全不同。你连自己的钢印是什么成分都不知道，就敢说扯平？' }
         ]);
         setDebateStep(3);
       } else {
         setDebateLogs(prev => [
           ...prev,
-          { sender: 'player', text: '“我的本色确实烙印着时代的钢印与代际的折痕。但每一道伤痕、每一次在零下40度实车下的爬滚都是我作为第一人称亲自流血犯错闯下来的，这是血肉凡躯的主观实践，绝非预设的数据模型！”' },
-          { sender: 'boss', text: '⚡ （雷霆失色）“你……竟然用具体的泥水对抗虚妄的解构？！即便如此！读懂你的心智成分！你依然逃不出这互联网亚文化圈层层铸造的‘认知之茧’！”' }
+          { sender: 'player', text: '我确实被烙上了时代的钢印。但零下四十度在车底下爬、被车轮甩了一脸泥、熬夜给新人写带教案——这些是我自己流的血。钢印是别人打的，伤疤是我自己的。' },
+          { sender: 'boss', text: '...（顿了顿）有意思。你这个"第一人称"本身，有没有可能也是被训练出来的？你的不服输、你的硬扛、你所谓的"实践出真知"，是不是也是某种钢印？' }
         ]);
         setDebateStep(3);
       }
     } else if (debateStep === 3) {
-      // Climax Action
       setDebateLogs(prev => [
         ...prev,
-        { sender: 'player', text: '“停！我说停停！脑子要长茧了……看招：退出正传，铠甲合体！”' },
-        { sender: 'boss', text: '😱 （支离破碎）“什么？！你在思辨的终极答辩里……选择‘物理耍赖，合体铠甲’？！你，你撕碎了后现代符号的外衣！不……解构居然被你的粗糙与具体给反向解构了！！”' }
+        { sender: 'player', text: '你说得都对。但我要停在这里了。——我来不是要赢这场辩论的，我是来告诉你：我已经选了。选了具体的人，选了泥水里的实践，选了哪怕是被钢印打过的、但属于我自己的伤疤。你拆得再漂亮，我还是要往前走。' },
+        { sender: 'boss', text: '...（沉默了很久）\n\n原来如此。解构到最后，你选择的是不再需要解构了。不是因为解构不对，而是因为你决定去活。...这确实是解构无法战胜的东西。' }
       ]);
-      
-      // Let Xiao Jiu interrupt
+
       setTimeout(() => {
         setShowXiaoJiu(true);
       }, 1500);
     }
   };
-
   const handleFinishDlc = () => {
     // Reward calculation
     const newPenetration = 50;
@@ -276,9 +273,9 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
             </div>
 
             <div className="space-y-2 max-w-[325px] mx-auto">
-              <h3 className="text-xs font-black text-stone-200 uppercase tracking-widest">思想钢印与后现代虚无的戏谑消释</h3>
+              <h3 className="text-xs font-black text-stone-200 uppercase tracking-widest">思想钢印与认知之茧</h3>
               <p className="text-[10px] text-stone-400 leading-relaxed text-justify">
-                这是一次针对千岑“人生规划日寄”深处哲学焦虑的安全解包。通过本副本，玩家将拆除阻碍触碰生命的‘隔岸自恋型高阶装甲’，找回踩在世道泥巴下的凡属温柔。
+                每个人脑子里都有一层茧。它由你成长的环境、接受的观念、消费的文化一层层包裹而成。这个副本的任务不是把它撕掉——而是先看清它长什么样，再决定要不要把它织成一件能御寒的毛衣。
               </p>
             </div>
 
@@ -310,7 +307,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
             className="space-y-4"
           >
             <div className="bg-stone-950 p-3 rounded-xl border border-stone-850 relative">
-              <span className="text-[8px] font-bold text-amber-500 block font-mono">第一幕：战争迷雾与“笛卡尔”心向线</span>
+              <span className="text-[8px] font-bold text-amber-500 block font-mono">第一幕：战争迷雾与"笛卡尔"心向线</span>
               <p className="text-[10px] text-stone-300 italic text-justify leading-relaxed mt-1">
                 你进入关卡后，四周是一片白茫茫的、缺乏坐标与热度的虚空。没有地貌，只有蓝色的系统规划轨迹。
               </p>
@@ -348,7 +345,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
               </div>
               
               <div className="text-[9px] text-stone-400 font-serif leading-normal italic text-center mt-2.5">
-                【系统旁白】：“正在为您拼贴最优解人生。瞧，这根笛卡尔心形线条正在精准地压迫你的气管。它提醒你，一颗标准符合出厂设置的公司制心脏，应该被修剪成何等得体的形状。”
+                【系统旁白】："正在为您拼贴最优解人生。瞧，这根笛卡尔心形线条正在精准地压迫你的气管。它提醒你，一颗标准符合出厂设置的公司制心脏，应该被修剪成何等得体的形状。"
               </div>
             </div>
 
@@ -378,7 +375,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                   key={gate.id}
                   onClick={() => {
                     setSelectedGate(gate.id);
-                    setGateWarning(`⚠️ 警告！你已成为一个被后台强行关掉了战争迷雾的人机！你打个野在地图上都一览无余！你的最优方案甚至跑不过一份GPT，只是在撒娇！`);
+                    setGateWarning(`你选了一条路。系统就帮你把其他路全叉掉了。\n\n三条路，三个终点，其实指向同一个东西——被规划好的人生。你不是在选择，你是在被选择。\n\n现在你能动吗？不能。因为你已经是一个关掉了战争迷雾的玩家了，地图一览无余，但你哪儿也去不了。`);
                   }}
                   className={`p-3 text-left rounded-xl transition-all border outline-none select-none cursor-pointer flex flex-col justify-between ${
                     selectedGate === gate.id 
@@ -403,14 +400,14 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                   系统安全拦截触发：被降格的人机警告
                 </span>
                 <p className="text-[9.5px] text-stone-300 leading-relaxed text-justify italic">
-                  “{gateWarning}”
+                  "{gateWarning}"
                 </p>
                 
                 {/* BACKPACK REBELLION KEY ACTION */}
                 <div className="bg-stone-950 p-2 border border-stone-850 rounded-lg flex items-center justify-between">
                   <div>
-                    <span className="text-[8px] font-mono text-amber-500 font-bold block">💡 开启底层叛逆对抗：</span>
-                    <p className="text-[9px] text-stone-400">无法移动？请使用背包法宝【打火机】干扰程序。</p>
+                    <span className="text-[8px] font-mono text-amber-500 font-bold block">💡 动不了？</span>
+                    <p className="text-[9px] text-stone-400">试试背包里的东西。</p>
                   </div>
                   <button
                     onClick={() => {
@@ -525,7 +522,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                   课外消消乐二：碎裂的童年奥特曼结构
                 </span>
                 <p className="text-[9px] text-stone-400 leading-normal">
-                  用你的【小锤锤】对着桌上的沙堆重击。双目紧闭，许愿并渴望它能凝聚成你儿时保护伞——红蓝相间的“泰罗奥特曼”。
+                  用你的【小锤锤】对着桌上的沙堆重击。双目紧闭，许愿并渴望它能凝聚成你儿时保护伞——红蓝相间的"泰罗奥特曼"。
                 </p>
 
                 <div className="flex gap-3.5 items-center justify-between bg-stone-950 p-3 rounded-xl border border-stone-850/60">
@@ -559,7 +556,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
 
                 {isSandRevealed && (
                   <div className="p-2.5 bg-rose-500/5 border border-rose-500/15 rounded-lg text-[9.5px] leading-relaxed text-rose-300 font-mono text-justify">
-                    🍂 <span className="font-bold underline">获得认知打击：</span>世界上根本就没有什么奥特曼！沙堆在手下直接倒塌！那一束照进阴仄教室的光也随之袪魅，但没关系，你的手掌心现在真实地碰触到了泥沙被太阳暴晒过后的沉重温热。
+                    🍂 <span className="font-bold underline">获得认知打击：</span>世界上根本就没有奥特曼。沙堆塌了。但你的手心碰到了泥沙——是被太阳暴晒过的，热的，真的。
                   </div>
                 )}
               </div>
@@ -571,7 +568,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                   课外消消乐三：符号语义的网络异化
                 </span>
                 <p className="text-[9px] text-stone-400 leading-normal">
-                  连线：将三个‘初始纯洁词汇’通过‘童年意境’，重新连结到它们在‘后现代互联网’被恶作剧异化的结局中（全连对可破局）。
+                  连线：将三个'初始纯洁词汇'通过'童年意境'，重新连结到它们在'后现代互联网'被恶作剧异化的结局中（全连对可破局）。
                 </p>
 
                 <div className="grid grid-cols-3 gap-2 text-center pt-1.5">
@@ -691,9 +688,9 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
             <div className="bg-stone-950 p-3 rounded-xl border border-stone-850 flex gap-4 items-center">
               <span className="text-4xl animate-pulse shrink-0 select-none">🪴</span>
               <div>
-                <span className="text-[8px] font-bold text-amber-500 block font-mono">第三幕（终局）：宫城先生的盆栽答辩</span>
+                <span className="text-[8px] font-bold text-amber-500 block font-mono">第三幕（终局）：盆栽与剪刀</span>
                 <p className="text-[10px] text-stone-300 leading-relaxed text-justify italic mt-0.5">
-                  主场景正中浮现出一盆静默的盆栽，你面对的是脑海深处分裂出去的对手 —— 【后现代走狗（解构主义人格）】。他手持剪刀，质疑一切意义，试图给你牢铸虚空的“认知之茧”。
+                  正中浮现一盆静默的盆栽。对面坐着一个人——不是别人，是你自己脑子里的那个声音：<strong>【解构主义人格】</strong>。他手持剪刀，语气平静。他说的每句话，你都觉得有道理。这才是他最危险的地方。
                 </p>
               </div>
             </div>
@@ -703,7 +700,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
               {debateStep === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-4 py-8">
                   <p className="text-[10.5px] italic text-stone-400 text-center text-justify max-w-[280px]">
-                    本辩论共分三轮，是解构主义的虚空说教与第一人称真实实践之间的终极对峙。
+                    本辩论共分三轮。对方不是敌人——是你自己的另一面。他说的每句话，你都会觉得有道理。
                   </p>
                   <button
                     onClick={startDebate}
@@ -740,7 +737,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                   {/* ACTIVE CHOICES FOR CURRENT TURN */}
                   {!showXiaoJiu && (
                     <div className="border-t border-stone-850 pt-3 space-y-2.5">
-                      <span className="text-[8.5px] font-mono text-stone-500 uppercase tracking-widest block font-extrabold">选择你的下一步思想反击手段：</span>
+                      <span className="text-[8.5px] font-mono text-stone-500 uppercase tracking-widest block font-extrabold">你的回应：</span>
                       
                       {debateStep === 1 && (
                         <div className="flex flex-col gap-2">
@@ -748,13 +745,13 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                             onClick={() => handleDebateChoice('wrong')}
                             className="text-left w-full p-2 rounded-xl bg-stone-950 hover:bg-stone-850 border border-stone-850 hover:border-stone-700 text-[10px] text-stone-300 transition-all cursor-pointer active:scale-99"
                           >
-                            🅰️ “为了平下气来体会心灵的模样，去除杂质，留下纯真？”
+                            🅰️ 为了去除杂质，留下纯粹的、本真的自我。
                           </button>
                           <button
                             onClick={() => handleDebateChoice('correct')}
                             className="text-left w-full p-2 rounded-xl bg-stone-950 hover:bg-stone-850 border border-stone-850 hover:border-amber-500/30 text-[10px] text-stone-300 transition-all cursor-pointer active:scale-99"
                           >
-                            🅱️ “为了顺应自然的参差，在无序的偏执中，修剪并留下一处宽容真实的‘心灵安全冗余’。” (💡 支持实践)
+                            🅱️ 不是为了去除杂质。是为了在乱七八糟的枝桠里，留一处不骗自己的地方。 (💡 实践立场)
                           </button>
                         </div>
                       )}
@@ -765,13 +762,13 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                             onClick={() => handleDebateChoice('wrong')}
                             className="text-left w-full p-2 rounded-xl bg-stone-950 hover:bg-stone-850 border border-stone-850 hover:border-stone-700 text-[10px] text-stone-300 transition-all cursor-pointer active:scale-99"
                           >
-                            🅰️ “大家都受到外界的影响，不就等于大家都等同于零，都没受到影响吗？”
+                            🅰️ 大家都受外界影响，等于大家都没受影响。扯平了。
                           </button>
                           <button
                             onClick={() => handleDebateChoice('correct')}
                             className="text-left w-full p-2 rounded-xl bg-stone-950 hover:bg-stone-850 border border-stone-850 hover:border-amber-500/30 text-[10px] text-stone-300 transition-all cursor-pointer active:scale-99"
                           >
-                            🅱️ “我的钢印固然深刻。但每一条划痕、大雨里写带教案在极寒被车轮甩泥的酸软都是我亲自淌出来的主观真实。我有第一人称主权！” (💡 第一人称大无畏)
+                            🅱️ 我确实被烙上了钢印。但零下四十度在车底下爬、被车轮甩泥、熬夜写带教案——这些是我自己流的血。钢印是别人打的，伤疤是我自己的。 (💡 第一人称)
                           </button>
                         </div>
                       )}
@@ -782,7 +779,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                             onClick={() => handleDebateChoice('climax')}
                             className="text-left w-full p-2 rounded-xl border border-amber-500/40 bg-amber-500/5 hover:bg-amber-500/10 text-[10px] text-amber-200 transition-all cursor-pointer font-black animate-pulse"
                           >
-                            ⚔️ 铠甲合体！我说停停，脑子长茧太重了，合体铠甲，解构解构本身！
+                            ⚔️ 你说得都对。但我不辩了。——我已经选了。
                           </button>
                         </div>
                       )}
@@ -801,13 +798,15 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
               >
                 <div className="absolute top-2 right-3 flex items-center gap-1.5 bg-stone-900 border border-stone-800 rounded px-1.5 py-0.5">
                   <span className="text-xl">🦊</span>
-                  <span className="text-[7.5px] text-amber-400 font-mono font-bold uppercase tracking-wider">灵狐小九 狂暴乱入</span>
+                  <span className="text-[7.5px] text-amber-400 font-mono font-bold uppercase tracking-wider">灵狐小九</span>
                 </div>
                 
-                <span className="text-[8.5px] font-mono text-stone-500 uppercase tracking-widest block font-bold mt-1">【传统艺能打破厚重重力】</span>
+                <span className="text-[8.5px] font-mono text-stone-500 uppercase tracking-widest block font-bold mt-1"></span>
                 
                 <div className="text-[11px] leading-relaxed text-stone-300 text-justify italic">
-                  “打住打住！你们人类这帮自以为是的小书包，真够矫情古怪的！一会儿给脆弱的心脏纹身，一会儿又给空桑的大脑织什么厚厚毛衣！小九尾巴都要打成大死结啦！管他什么是‘认知钢印、认知之茧’呢，要大脑里面真长出茧来，干脆用力抠下来纺成线，正好给千岑织一条【不会被任何高智商刀子穿透的特厚保暖毛裤】去防御南山的寒冷夜风呀！”
+                  "你们俩争了这么久，结论就是——脑子确实会长茧。行。
+
+那我拿这些茧纺线去，给千岑织条毛裤。冬天深圳虽然不冷，但他心里冷。"
                 </div>
 
                 <div className="border-t border-stone-850 pt-2.5 flex justify-end">
@@ -838,7 +837,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
               </div>
               <h3 className="text-xs font-black text-emerald-400 uppercase tracking-widest">金星 ㆍ 认知补全核心补充 DLC 完美合拢！</h3>
               <p className="text-[9.5px] text-stone-400 max-w-[300px]">
-                千岑完成了对亚文化幻象与看客心理自负的第三次超拔。恭喜你获得了真实的厚茧防护！
+                千岑完成了这趟认知副本。看清了茧，但没有被困在里面——反而把它纺成了能御寒的毛线。
               </p>
             </div>
 
@@ -861,7 +860,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                   🛡️ 获得隐藏成就徽章：【未被穿透的毛线衣】
                 </span>
                 <p className="text-[8.5px] text-stone-300 mt-1.5 leading-relaxed text-justify italic">
-                  “虽然心智混乱交织得像拉扯不断的一团乱七八糟的毛线，但已经无所属、无畏惧。退出逻辑正传，合体铠甲！你要永远记得 —— 虽然风大天也冷，但是穿上这毛衣，心里就会无比温热安全。”
+                  "虽然心智混乱交织得像拉扯不断的一团乱七八糟的毛线，但已经无所属、无畏惧。你要永远记得 —— 虽然风大天也冷，但是穿上这毛衣，心里就会无比温热安全。"
                 </p>
               </div>
             </div>
