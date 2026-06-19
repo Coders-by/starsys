@@ -1,37 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Globe, 
-  Zap, 
-  MessageSquare, 
-  Compass, 
-  History, 
-  Sparkles, 
-  Heart, 
-  Send, 
-  X, 
-  Award,
-  BookOpen,
-  ChevronRight,
-  Flame
-} from 'lucide-react';
 import {
-  USER_BASE,
-  DOSSIER,
-  GEAR,
-  ACHIEVEMENTS,
-} from './data';
-import { 
-  Gear as GearType, 
-  Achievement, 
-  ChatMessage, 
-  GuestComment 
-} from './types';
+  MessageSquare,
+  Compass,
+  History,
+  Flame,
+  X
+} from 'lucide-react';
 import StarSysGame from './components/StarSysGame';
 import EchoSystem from './components/EchoSystem';
 import AmbientMusic from './components/AmbientMusic';
 import LifeWalk from './components/LifeWalk';
 import TeaRoom from './components/TeaRoom';
+import { Achievement, ACHIEVEMENTS } from './achievements';
 
 export default function App() {
   // --- Core Tabs ---
@@ -54,24 +35,46 @@ export default function App() {
     }
   });
 
+  // --- Achievement modal queue (奖励回路) ---
+  // 队列而不是单值：例如作弊路径会一次性翻多个 starProgress，按队列顺序逐个弹。
+  const [modalQueue, setModalQueue] = useState<Achievement[]>([]);
+  const openedAchievement = modalQueue[0] || null;
+  const closeAchievement = () => setModalQueue(q => q.slice(1));
+  const enqueueAchievement = useCallback((id: string) => {
+    const ach = ACHIEVEMENTS[id];
+    if (!ach) return;
+    setModalQueue(q => (q.some(a => a.id === id) ? q : [...q, ach]));
+  }, []);
+
+  // StarSysGame 在 mount 时会从自己的 localStorage 把已解锁状态再 emit 一次回来——
+  // 那一次属于"恢复"不是"刚刚解锁"，不能弹 modal。用 ref 吃掉首次同步。
+  const isStarsInitialized = useRef(false);
+  const prevStarProgress = useRef(starProgress);
+  const handleSyncProgress = useCallback((next: typeof starProgress) => {
+    setStarProgress(next);
+    if (!isStarsInitialized.current) {
+      isStarsInitialized.current = true;
+      prevStarProgress.current = next;
+      return;
+    }
+    (Object.keys(next) as Array<'red' | 'blue' | 'gold' | 'central'>).forEach(k => {
+      if (next[k] && !prevStarProgress.current[k]) {
+        enqueueAchievement(`${k}_star`);
+      }
+    });
+    prevStarProgress.current = next;
+  }, [enqueueAchievement]);
+
   const handleResonanceComplete = (id: string) => {
     if (!discoveredResonances.includes(id)) {
       setDiscoveredResonances(prev => [...prev, id]);
+      enqueueAchievement(`resonance_${id}`);
     }
   };
 
   useEffect(() => {
     localStorage.setItem('qiancen_discovered_resonances_v3', JSON.stringify(discoveredResonances));
   }, [discoveredResonances]);
-
-  // Legacy fallback completed state (to support retroactive badges if any)
-  const [completedActions, setCompletedActions] = useState<Record<string, boolean>>(() => {
-    try {
-      return JSON.parse(localStorage.getItem('qiancen_completed_actions_v3') || '{}');
-    } catch {
-      return {};
-    }
-  });
 
   // Computed resonance percentage from Star system and Echo board combinations (Ultimate 5-Layers)
   const resonanceRate = (() => {
@@ -87,10 +90,6 @@ export default function App() {
     if (starProgress.central) rate += 20;
     return Math.min(rate, 100);
   })();
-
-  // --- Popups ---
-  const [equippedGearPopup, setEquippedGearPopup] = useState<GearType | null>(null);
-  const [openedAchievement, setOpenedAchievement] = useState<Achievement | null>(null);
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-200 flex items-center justify-center p-0 md:p-4 font-sans antialiased">
@@ -144,9 +143,9 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4"
             >
-              <StarSysGame 
-                onSyncProgress={setStarProgress} 
-                isMaxedCheat={starProgress.central} 
+              <StarSysGame
+                onSyncProgress={handleSyncProgress}
+                isMaxedCheat={starProgress.central}
                 isStaySynthesized={discoveredResonances.includes('stay')}
               />
             </motion.div>
@@ -236,21 +235,21 @@ export default function App() {
 
       </div>
 
-      {/* --- POPUPS MODALS --- */}
-
-      {/* Achievement modal info */}
+      {/* --- 成就 modal（解锁瞬间的"纸背后的墨迹私信"） --- */}
       <AnimatePresence>
         {openedAchievement && (
           <div className="fixed inset-0 bg-stone-950/85 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
+              key={openedAchievement.id}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-stone-900 border border-stone-800 rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl relative"
             >
-              <button 
-                onClick={() => setOpenedAchievement(null)}
+              <button
+                onClick={closeAchievement}
                 className="absolute top-4 right-4 text-stone-500 hover:text-stone-300 outline-none"
+                aria-label="关闭"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -258,7 +257,7 @@ export default function App() {
               <div className="flex items-center gap-3 border-b border-stone-850 pb-3">
                 <span className="text-3xl bg-amber-500/10 p-2 rounded-xl text-amber-400">{openedAchievement.icon}</span>
                 <div>
-                  <span className="text-[8.5px] uppercase font-bold tracking-widest text-amber-500 font-mono">精神勋章已收割 • {openedAchievement.time}</span>
+                  <span className="text-[8.5px] uppercase font-bold tracking-widest text-amber-500 font-mono">精神勋章已收割 · {openedAchievement.time}</span>
                   <h3 className="text-sm font-bold text-stone-100 mt-1">{openedAchievement.name}</h3>
                   <p className="text-[10px] text-stone-500 leading-tight mt-0.5">{openedAchievement.desc}</p>
                 </div>
@@ -275,17 +274,23 @@ export default function App() {
                 <div className="bg-emerald-950/20 border border-emerald-500/10 p-2.5 rounded-xl">
                   <span className="text-emerald-400 font-bold block mb-1">🌱 获得：</span>
                   <ul className="space-y-0.5 text-[9.5px] text-stone-400 list-disc list-inside leading-relaxed">
-                    {openedAchievement.gain?.map((g, gi) => <li key={gi}>{g}</li>)}
+                    {openedAchievement.gain.map((g, gi) => <li key={gi}>{g}</li>)}
                   </ul>
                 </div>
 
                 <div className="bg-rose-950/10 border border-rose-500/10 p-2.5 rounded-xl">
                   <span className="text-rose-400 font-bold block mb-1">🍂 损耗代价：</span>
                   <ul className="space-y-0.5 text-[9.5px] text-stone-400 list-disc list-inside leading-relaxed">
-                    {openedAchievement.cost?.map((c, ci) => <li key={ci}>{ci === 0 ? '一无所有' : c}</li>)}
+                    {openedAchievement.cost.map((c, ci) => <li key={ci}>{c}</li>)}
                   </ul>
                 </div>
               </div>
+
+              {modalQueue.length > 1 && (
+                <div className="text-[9px] text-stone-500 font-mono text-right">
+                  + 还有 {modalQueue.length - 1} 个解锁瞬间在排队
+                </div>
+              )}
             </motion.div>
           </div>
         )}

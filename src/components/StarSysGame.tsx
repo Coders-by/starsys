@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Compass, 
-  RotateCcw, 
-  Check, 
-  X, 
-  ChevronRight, 
-  Sliders, 
-  Cpu, 
-  Activity, 
-  Scissors, 
-  BookOpen, 
-  Heart, 
-  Sparkles, 
-  Database,
-  HelpCircle,
-  AlertCircle
+import {
+  Compass,
+  RotateCcw
 } from 'lucide-react';
 import CognitiveDlc from './CognitiveDlc';
+import GoldStarReflection from './starsys/GoldStarReflection';
+import BlueStarReflection from './starsys/BlueStarReflection';
 
 // Chinese 12 Shichens Mapping configuration for metaphysical traits
 interface ShichenInfo {
@@ -461,7 +450,8 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
   const [devDecisionApplied, setDevDecisionApplied] = useState<Record<string, boolean>>({});
   const [coordinatedMessage, setCoordinatedMessage] = useState<string | null>(null);
 
-  // Dynamically calculate stakeholder satisfaction scores from: Base 30 + Applied Decisions + Shichen Element Modifiers
+  // 决策影响 = 基础 30 + 4 个决策按钮 delta + 今日时辰五行加成。
+  // 五行加成单独显示在"今日时辰"小条里——让玩家看见"为什么今天某方加分"，不黑盒。
   const stakeholders = React.useMemo(() => {
     const shichen = SHICHEN_DATA[selectedShichenKey] || SHICHEN_DATA["寅时"];
     const mods = shichen.modifiers;
@@ -820,7 +810,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                   <span className="text-[8px] uppercase tracking-widest font-mono text-stone-500 block leading-none font-bold">Landed Mind Exploration</span>
                   <h3 className="text-sm font-bold text-stone-100">
                     {selectedPlanet === 'red' && `红星连接仓：情感重熔与关系对流 (第${redSolved ? '三' : redChapter}/3章)`}
-                    {selectedPlanet === 'blue' && `蓝星实践所：理论下场第${blueChapter === 5 ? '四' : blueChapter}章 (${blueChapter}/4)`}
+                    {selectedPlanet === 'blue' && `🪐 蓝星 ㆍ 实践 (第${blueChapter === 5 ? '四' : blueChapter}/4 章)`}
                     {selectedPlanet === 'gold' && '金星书房：多维观念碎片组装'}
                     {selectedPlanet === 'gold_satellite' && '金星卫星 ㆍ 认知之茧 (核心补充 DLC)'}
                     {selectedPlanet === 'central' && '中央恒星：灵魂三相共振对流'}
@@ -1393,9 +1383,14 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
               <div className="space-y-4">
                 
                 {/* BLUE INTRO STATEMENT */}
-                <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed">
-                  <span className="text-[8px] font-bold text-blue-400 block mb-1">【核心终置拷问】</span>
-                  <p className="text-stone-300 font-semibold italic text-justify">“当我们在书房里彻底解构跟理解了这个世界，你将如何落手改造它？”</p>
+                <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed space-y-2">
+                  <span className="text-[8px] font-bold text-blue-400 block">🪐 这一关在演示什么</span>
+                  <p className="text-stone-300 text-justify leading-relaxed">
+                    千岑做自动驾驶。这条线分 4 章——把一段没人理顺的实车数据调对、查出一个鬼魂级别的 bug、协调 4 方在拉扯里达成共识、最后把自己的经验交给一个快崩溃的新人。
+                  </p>
+                  <p className="text-stone-500 text-justify leading-snug">
+                    4 章一气呵成。每一章都是真实工作里发生过的事。
+                  </p>
                 </div>
 
                 {/* PROGRESS FLOW STEPPER METER */}
@@ -1417,10 +1412,16 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                 {/* CHAPTER 1 SCREEN: 5Hz Gesture Summon */}
                 {blueChapter === 1 && (
                   <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
-                    <div className="text-[10px] text-justify space-y-1">
+                    <div className="text-[10px] text-justify space-y-1.5">
                       <span className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[8px] font-bold font-mono">第一章 ㆍ 手势召唤</span>
-                      <p className="text-stone-400 mt-1">
-                        实车日志吐了一段 5Hz 的手势数据流，没滤波、没处理、裸的。你得自己把采样窗口、触发频点和容灾投票机制调对，才能唤醒线控底盘。
+                      <p className="text-stone-300 mt-1.5 leading-relaxed">
+                        <strong className="text-blue-300">背景</strong>：千岑负责的功能叫"手势召唤"——你站在车外对车挥手，车自己开过来。
+                      </p>
+                      <p className="text-stone-400 leading-relaxed">
+                        <strong className="text-blue-300">现场</strong>：实车日志跑回来一段裸数据，没滤波、没处理。你要自己调 3 个参数让车真的"看懂"你在挥手——采样窗口（多久算一次挥手）、触发频点（数据多密才算手势）、容灾投票（几次有效才下指令）。
+                      </p>
+                      <p className="text-stone-500 leading-snug text-[9.5px] italic">
+                        提示就在每个参数旁边。这一关的目的不是考工程师——是让你看一次"工程现场长什么样"。
                       </p>
                     </div>
 
@@ -1514,10 +1515,13 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                 {/* CHAPTER 2 SCREEN: Knowledge Radar */}
                 {blueChapter === 2 && (
                   <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
-                    <div className="text-[10px] text-justify space-y-1">
+                    <div className="text-[10px] text-justify space-y-1.5">
                       <span className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[8px] font-bold font-mono">第二章 ㆍ 知识雷达</span>
-                      <p className="text-stone-400 mt-1">
-                        实车调试遇到极其棘手的避障报错问题。请像硬核侦探一样，从下面的技术卡片中选取「物理根本根源」→「系统探测波畸变」→「Fail-safe降级后果」三个节点对立连接，查清大车报错漏洞。
+                      <p className="text-stone-300 mt-1.5 leading-relaxed">
+                        <strong className="text-blue-300">背景</strong>：实车在零下 30 度的黑河冰雪路试时疯狂报错。问题看起来在车身，根因可能在雷达，后果显示在系统降级。
+                      </p>
+                      <p className="text-stone-400 leading-relaxed">
+                        <strong className="text-blue-300">任务</strong>：把"物理根因 → 探测波形畸变 → 系统降级后果"三段连起来。这是工程师调 bug 的 fundamental 动作——往上溯到根、往下推到果。
                       </p>
                     </div>
 
@@ -1618,107 +1622,45 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                 {/* CHAPTER 3 SCREEN: Coordinated Dev Alignment */}
                 {blueChapter === 3 && (
                   <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
-                    <div className="text-[10px] text-justify space-y-1">
+                    <div className="text-[10px] text-justify space-y-1.5">
                       <span className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[8px] font-bold font-mono">第三章 ㆍ 联合开发对齐</span>
-                      <p className="text-stone-400 mt-1 pb-1">
-                        项目各方利益高度拉扯矛盾。产品要快，架构要绝对稳，测试要极致完整，用户要快和省。你必须运用工程智慧协调他们，并借助时辰五行气运偏加，使四方满意度同时达到合格红线 **(≥50%)** 才能通过！
+                      <p className="text-stone-300 mt-1.5 leading-relaxed">
+                        <strong className="text-blue-300">背景</strong>：上班就是一个翻译现场。PM 写文档，开发写代码，QA 写测试用例，用户负责吐槽——同一种工况被翻译成 4 种语言，每个角色都觉得自己说得最对。
+                      </p>
+                      <p className="text-stone-400 leading-relaxed">
+                        <strong className="text-blue-300">任务</strong>：在 4 个决策里找一个"组合"，让 4 个角色都过 50%。<strong className="text-amber-400">没有标准答案</strong>——你要选的是"哪种妥协你能接受"。
                       </p>
                     </div>
 
-                    {/* Chinese Shichen Alignment Compass */}
-                    <div className="bg-stone-950/70 border border-stone-850 rounded-xl p-3.5 space-y-2.5 relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-16 h-16 bg-amber-500/[0.03] rounded-full blur-xl pointer-events-none" />
-                      <div className="flex justify-between items-center border-b border-stone-850/40 pb-2">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-sm select-none">☯️</span>
-                          <span className="text-[10px] font-bold text-amber-400 tracking-wider font-sans">
-                            玄学时辰五行罗盘 ㆍ 时流乘气
-                          </span>
-                        </div>
-                        <button 
-                          onClick={() => {
-                            const realKey = getRealShichen(new Date());
-                            setSelectedShichenKey(realKey);
-                          }}
-                          className="bg-stone-900 border border-stone-850 hover:border-amber-500/20 px-2 py-0.5 rounded text-[8px] text-stone-400 font-mono flex items-center gap-1 transition-all"
-                        >
-                          <span>⏳ 同步当前系统时辰</span>
-                        </button>
-                      </div>
-
-                      {/* Info description Card depending on active element */}
-                      {(() => {
-                        const shichen = SHICHEN_DATA[selectedShichenKey] || SHICHEN_DATA["寅时"];
-                        return (
-                          <div className="space-y-1.5 text-[9.5px]">
-                            <div className="flex justify-between items-center">
-                              <span className="text-stone-300 font-bold font-mono">
-                                当前时局：<span className="text-stone-100 font-extrabold">{shichen.name}</span> ({shichen.range})
+                    {/* 今日时辰 ㆍ 五行加成（独特随机性 —— 不同时辰打开局面不同） */}
+                    {(() => {
+                      const shichen = SHICHEN_DATA[selectedShichenKey] || SHICHEN_DATA["寅时"];
+                      const elementEmoji: Record<string, string> = { '木': '🌲', '火': '🔥', '土': '⛰️', '金': '⚙️', '水': '💧' };
+                      const fmt = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
+                      const cls = (n: number) => (n >= 0 ? 'text-emerald-400' : 'text-rose-400');
+                      return (
+                        <div className="bg-stone-950/60 border border-amber-500/20 rounded-lg p-2.5 flex items-center justify-between gap-3 flex-wrap">
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className="text-lg select-none">{elementEmoji[shichen.element] || '⏳'}</span>
+                            <div className="leading-tight">
+                              <span className="text-[10px] font-bold text-amber-300 block">
+                                现在是 {shichen.name} <span className="text-stone-500 font-normal">({shichen.element})</span>
                               </span>
-                              <span className={`px-2 py-0.5 rounded text-[8.5px] font-black font-mono uppercase ${shichen.elementBg} ${shichen.elementColor}`}>
-                                {shichen.element}之气运
-                              </span>
-                            </div>
-                            <p className="text-stone-400 leading-relaxed text-justify">
-                              {shichen.desc}
-                            </p>
-                            
-                            {/* Elemental modifier numbers */}
-                            <div className="grid grid-cols-4 gap-1.5 pt-1 text-center font-mono text-[8px]">
-                              <div className="bg-stone-900/60 p-1.5 rounded border border-stone-850/30">
-                                <span className="text-stone-500 block">PM(产品)</span>
-                                <span className={shichen.modifiers.pm >= 0 ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
-                                  {shichen.modifiers.pm >= 0 ? `+${shichen.modifiers.pm}` : shichen.modifiers.pm}%
-                                </span>
-                              </div>
-                              <div className="bg-stone-900/60 p-1.5 rounded border border-stone-850/30">
-                                <span className="text-stone-500 block">Arch(架构)</span>
-                                <span className={shichen.modifiers.algo >= 0 ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
-                                  {shichen.modifiers.algo >= 0 ? `+${shichen.modifiers.algo}` : shichen.modifiers.algo}%
-                                </span>
-                              </div>
-                              <div className="bg-stone-900/60 p-1.5 rounded border border-stone-850/30">
-                                <span className="text-stone-500 block">QA(测试)</span>
-                                <span className={shichen.modifiers.test >= 0 ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
-                                  {shichen.modifiers.test >= 0 ? `+${shichen.modifiers.test}` : shichen.modifiers.test}%
-                                </span>
-                              </div>
-                              <div className="bg-stone-900/60 p-1.5 rounded border border-stone-850/30">
-                                <span className="text-stone-500 block">User(用户)</span>
-                                <span className={shichen.modifiers.customer >= 0 ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
-                                  {shichen.modifiers.customer >= 0 ? `+${shichen.modifiers.customer}` : shichen.modifiers.customer}%
-                                </span>
-                              </div>
+                              <span className="text-[8.5px] text-stone-500 font-mono">{shichen.range}</span>
                             </div>
                           </div>
-                        );
-                      })()}
-
-                      {/* Shichen selector grid */}
-                      <div className="space-y-1">
-                        <span className="text-[7.5px] font-mono text-stone-500 tracking-wider uppercase font-bold block">金口命理 ㆍ 拨转时针罗盘：</span>
-                        <div className="grid grid-cols-6 gap-1">
-                          {Object.keys(SHICHEN_DATA).map((key) => {
-                            const data = SHICHEN_DATA[key];
-                            const isSelected = selectedShichenKey === key;
-                            return (
-                              <button
-                                key={key}
-                                onClick={() => setSelectedShichenKey(key)}
-                                className={`py-1 text-[8px] font-bold rounded-lg border text-center transition-all cursor-pointer focus:outline-none ${
-                                  isSelected 
-                                    ? `${data.elementBg} border-stone-400 ${data.elementColor} shadow-[0_0_8px_rgba(245,158,11,0.15)] scale-[1.03]` 
-                                    : 'bg-stone-900/40 border-stone-850/50 text-stone-500 hover:border-stone-800'
-                                }`}
-                              >
-                                {data.name}
-                                <span className="text-[6.5px] block font-normal opacity-75">({data.element})</span>
-                              </button>
-                            );
-                          })}
+                          <div className="flex gap-2 text-[8.5px] font-mono shrink-0">
+                            <span className={cls(shichen.modifiers.pm)}>PM {fmt(shichen.modifiers.pm)}</span>
+                            <span className={cls(shichen.modifiers.algo)}>Arch {fmt(shichen.modifiers.algo)}</span>
+                            <span className={cls(shichen.modifiers.test)}>QA {fmt(shichen.modifiers.test)}</span>
+                            <span className={cls(shichen.modifiers.customer)}>User {fmt(shichen.modifiers.customer)}</span>
+                          </div>
+                          <p className="text-[9px] text-stone-500 italic w-full leading-snug">
+                            ※ 不同时辰开局加成不同——这个关卡的难度其实跟你打开它的时间点有关。
+                          </p>
                         </div>
-                      </div>
-                    </div>
+                      );
+                    })()}
 
                     {/* Satisfactions radar columns */}
                     <div className="grid grid-cols-4 gap-2 bg-stone-950 p-3.5 rounded-xl border border-stone-850 font-mono text-[9px]">
@@ -1792,8 +1734,8 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           }`}
                         >
                           <div>
-                            <span className="font-bold block">1. 缩短超声波判定范围并强制加班</span>
-                            <span className="text-[8.5px] text-stone-400">PM+35 / 算法-10 / 测试-5 / 用户+10</span>
+                            <span className="font-bold block">1. 交付排期前置（先快后稳）</span>
+                            <span className="text-[8.5px] text-stone-400">PM+35 / 算法-10 / 测试-5 / 用户+10 ㆍ 产品赢，架构师不爽</span>
                           </div>
                           <span className="text-[9px] text-blue-400 font-bold">{devDecisionApplied['d1'] ? "已执行" : "执行"}</span>
                         </button>
@@ -1808,8 +1750,8 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           }`}
                         >
                           <div>
-                            <span className="font-bold block">2. 预部署三套Soc重算与软件故障容灾</span>
-                            <span className="text-[8.5px] text-stone-400">PM-10 / 算法+35 / 测试+15 / 用户-10</span>
+                            <span className="font-bold block">2. 架构层冗余先过（先稳后快）</span>
+                            <span className="text-[8.5px] text-stone-400">PM-10 / 算法+35 / 测试+15 / 用户-10 ㆍ 架构稳了，产品和用户都嫌慢</span>
                           </div>
                           <span className="text-[9px] text-blue-400 font-bold">{devDecisionApplied['d2'] ? "已执行" : "执行"}</span>
                         </button>
@@ -1824,8 +1766,8 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           }`}
                         >
                           <div>
-                            <span className="font-bold block">3. 跨越合同边界，对合作团队无私带教教案</span>
-                            <span className="text-[8.5px] text-stone-400">PM+10 / 算法+20 / 测试+20 / 用户+25</span>
+                            <span className="font-bold block">3. 跨方协作 + 带教合作团队（一起把事做扎实）</span>
+                            <span className="text-[8.5px] text-stone-400">PM+10 / 算法+20 / 测试+20 / 用户+25 ㆍ 所有人受益但需要熬夜</span>
                           </div>
                           <span className="text-[9px] text-blue-400 font-bold">{devDecisionApplied['d3'] ? "已执行" : "执行"}</span>
                         </button>
@@ -1840,8 +1782,8 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           }`}
                         >
                           <div>
-                            <span className="font-bold block">4. 极寒冰面上疯狂测试暴跑1000公里</span>
-                            <span className="text-[8.5px] text-stone-400">PM-10 / 算法+10 / 测试+35 / 用户-10</span>
+                            <span className="font-bold block">4. 测试覆盖率优先（黑河冰雪极限路测）</span>
+                            <span className="text-[8.5px] text-stone-400">PM-10 / 算法+10 / 测试+35 / 用户-10 ㆍ QA 救场，产品和用户都不爽</span>
                           </div>
                           <span className="text-[9px] text-blue-400 font-bold">{devDecisionApplied['d4'] ? "已执行" : "执行"}</span>
                         </button>
@@ -1859,14 +1801,14 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                         重算利益
                       </button>
                       <p className="text-[9.5px] text-stone-500 leading-snug">
-                        提示：常规打法是先把【带教】(3)和【容灾】(2)点上，稳固底盘之后再上【加班】(1)。🌲木运和💧水运的时候，各方气运加成最舒服，更容易过。
+                        提示：单选某一个决策很难让 4 方全过 50%。常见组合：把【跨方协作】(3) 和【架构层冗余】(2) 都点上，再视情况补一个。
                       </p>
                     </div>
 
                     {coordinatedMessage === 'success' && (
                       <div className="flex flex-col gap-2 relative z-30">
-                        <div className="p-3 bg-emerald-950/25 border border-emerald-500/25 text-emerald-300 rounded-xl text-[11px] text-center animate-pulse font-bold font-mono">
-                          ✓ 完美时天共振！所有人的心都被摆渡过去，满意率安全越过50%中水位！
+                        <div className="p-3 bg-emerald-950/25 border border-emerald-500/25 text-emerald-300 rounded-xl text-[11px] text-center font-bold font-mono">
+                          ✅ 4 方满意度都过线了。这不是因为你聪明——是因为你愿意接受不完美。
                         </div>
                         <button
                           onClick={() => {
@@ -1875,7 +1817,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           }}
                           className="w-full py-2 bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-350 text-stone-950 font-extrabold rounded-xl text-[10.5px] shadow-[0_0_12px_rgba(52,211,153,0.35)] hover:scale-[1.01] active:scale-98 transition-all"
                         >
-                          ⚡ 立即点击：进入第四章 ㆍ 传火带教师门
+                          ⚡ 进入第四章 ㆍ 带教
                         </button>
                       </div>
                     )}
@@ -1925,16 +1867,23 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                     </div>
 
                     {mentorshipAnswer && (
-                      <div className="bg-stone-950 p-3.5 border border-stone-850 rounded-xl italic text-[10.5px] leading-relaxed text-justify">
-                        <b>小九演算评价：</b>
+                      <div className="bg-stone-950 p-3.5 border border-stone-850 rounded-xl text-[10.5px] leading-relaxed text-justify space-y-1.5">
                         {mentorshipAnswer === 'A' ? (
-                          <span className="text-rose-400 block mt-1">
-                            “防线极度坚硬，虽然符合死人眼里的完好契约规范，可你怀里空荡荡。新人在无声的孤绝里失落关机离班，你又退缩回了那个骄傲的第三人称城堡，冷眼漠视他的流离，傲骨开始锈蚀……”
-                          </span>
+                          <div className="text-rose-300 space-y-1.5">
+                            <p>⚠️ 这个选择是合规的。契约边界你守住了，工时也省了。</p>
+                            <p className="italic text-[10px] text-stone-400">
+                              但 vault 里千岑写过一句话：「上班就是大型 cosplay。我清醒地看着自己入戏，演技太好——感到的是更深层的空虚。」（<code className="text-stone-500">2025-12-12.md</code>）
+                            </p>
+                            <p className="text-rose-400 font-semibold pt-1 border-t border-stone-900">你赢了 60 分。但这一关停在第四章，不会推进。</p>
+                          </div>
                         ) : (
-                          <span className="text-amber-300 block mt-1">
-                            “太烫了！你彻底用血肉融穿了零和博弈的那架冷金属天平。通过把个人宝贵的隐性经验显性传化、毫无偏倚地渡人过河，那个对你挑挑拣拣的新人瞬间落成了你首批最保驾护航的盟友战友！恭喜你打通蓝星明线！”
-                          </span>
+                          <div className="text-amber-200 space-y-1.5">
+                            <p>✅ 你选了 B。</p>
+                            <p className="italic text-[10px] text-stone-400">
+                              这是 vault 里 <code className="text-stone-500">2026-06-13.md</code> 那句话的实操：「真正的领导力，是成为复杂系统中的一团篝火，让周围的人因为你的存在而获得成长。」
+                            </p>
+                            <p className="text-amber-300 font-semibold pt-1 border-t border-stone-900">你没赢这场博弈——你换了一个游戏在玩。</p>
+                          </div>
                         )}
                       </div>
                     )}
@@ -1943,14 +1892,22 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
                 {/* BLUE PLANET GAME SUCESS PAYOFF */}
                 {blueChapter === 5 && (
-                  <div className="bg-emerald-950/20 border-2 border-emerald-500/30 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
-                    <span className="text-[10px] font-bold block uppercase font-mono">🌟 实践的英雄旅程终点：</span>
-                    <p className="italic">
-                      从哲学的高台，摔进底盘故障、淘宝市井算账和手把手带教新人的泥水里。你没有学到怎么圆滑，但彻底砸掉了纸片教条。在实打实的尘土里，你见识到了实践本身的力量。
-                    </p>
-                    <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
-                      🔑 获得人格碎片：【创造/CREATION】 ㆍ 不纸上谈兵，用泥水里的调试改变现实。
-                    </p>
+                  <div className="space-y-3">
+                    <div className="bg-emerald-950/20 border-2 border-emerald-500/30 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
+                      <span className="text-[10px] font-bold block uppercase font-mono">🌟 蓝星亮了：</span>
+                      <p className="italic">
+                        从哲学的高台，摔进底盘故障、淘宝市井算账和手把手带教新人的泥水里。你没有学到怎么圆滑，但彻底砸掉了纸片教条。在实打实的尘土里，你见识到了实践本身的力量。
+                      </p>
+                      <p className="text-stone-300 not-italic text-[10px] leading-relaxed border-t border-emerald-500/10 pt-1.5">
+                        —— 蓝星亮了。但金星之后还有新坑，蓝星之后也一样。继续往下看。
+                      </p>
+                      <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
+                        🔑 获得人格碎片：【创造/CREATION】 ㆍ 不纸上谈兵，用泥水里的调试改变现实。
+                      </p>
+                    </div>
+
+                    {/* 蓝星亮了之后的夹层 —— 三条河 */}
+                    <BlueStarReflection />
                   </div>
                 )}
               </div>
@@ -1959,20 +1916,22 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
             {/* --- GOLD STAR: WISDOM GAMEPLAY --- */}
             {selectedPlanet === 'gold' && (
               <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
-                <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed">
-                  <span className="text-[8px] font-bold text-amber-400 block mb-1">【核心终置拷问】</span>
-                  <p className="text-stone-300 font-semibold italic text-justify">“在经历了被时代系统疯狂压扁、祛魅、喧哗的起伏之后，你该如何理解世界？”</p>
-                  <p className="text-stone-500 mt-1 leading-snug">
-                    不要单纯说教。让千岑的思想演化重现。请在下方对应年龄的心智孔位中，对齐匹配他曾经留下的那几片厚重的哲学理念拼图：
+                <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed space-y-2">
+                  <span className="text-[8px] font-bold text-amber-400 block">🪐 这一关在演示什么</span>
+                  <p className="text-stone-300 text-justify leading-relaxed">
+                    <strong className="text-amber-300">18 → 26 岁。8 年里我换了 4 次"世界长什么样"的答案。每次都以为这次是最后一次。</strong>
+                  </p>
+                  <p className="text-stone-500 text-justify leading-snug">
+                    把每个年龄对到当时坚信的那句话——这个题没有难度，目的不是考你，是让你跟着这条曲线走一遍。
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3.5">
                   {[
-                    { id: 'age18', label: '18岁 ㆍ 走出高中的象牙塔', correct: 'meritocracy', hint: '18岁时相信的——高分=一切' },
-                    { id: 'age22', label: '22岁 ㆍ 大学的迷茫与灵魂孤冷', correct: 'nihilism', hint: '22岁时觉得的——这一切都没意义' },
-                    { id: 'age24', label: '24岁 ㆍ 实车泊车降温与挫折搏杀', correct: 'practice', hint: '24岁时明白的——不下场就没资格说话' },
-                    { id: 'age26', label: '26岁 ㆍ 书生漫步关系涉危险破防', correct: 'concretelove', hint: '26岁时敢说的——我爱那些具体的、微小的人了' }
+                    { id: 'age18', label: '18 岁 ㆍ 刚走出高考', correct: 'meritocracy', hint: '那时我相信——只要考第一就赢了' },
+                    { id: 'age22', label: '22 岁 ㆍ 大学末年', correct: 'nihilism', hint: '那时我觉得——这一切都没意义' },
+                    { id: 'age24', label: '24 岁 ㆍ 工作摔打两年之后', correct: 'practice', hint: '那时我明白——不亲自下场就没资格说话' },
+                    { id: 'age26', label: '26 岁 ㆍ 谈了一段差点把自己玩死的感情之后', correct: 'concretelove', hint: '那时我敢说——我更爱身边那一个具体的人' }
                   ].map((stage) => {
                     const currentTileId = goldStageSolutions[stage.id];
                     return (
@@ -1986,26 +1945,26 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           {currentTileId && (
                             <span className="text-[11px] text-amber-300 mt-1 font-bold inline-block border-l-2 border-amber-500 pl-2 leading-none">
                               对齐为 ➔ {
-                                currentTileId === 'meritocracy' && '🔑 18岁相信『高分=一切』' ||
-                                currentTileId === 'nihilism' && '🔑 22岁觉得『这一切都没意义』' ||
-                                currentTileId === 'practice' && '🔑 24岁明白『不下场就没资格说话』' ||
-                                currentTileId === 'concretelove' && '🔑 26岁敢说『我爱具体的、微小的人了』'
+                                currentTileId === 'meritocracy' && '🔑 考第一就赢了' ||
+                                currentTileId === 'nihilism' && '🔑 这一切都没意义' ||
+                                currentTileId === 'practice' && '🔑 不亲自下场就没资格说话' ||
+                                currentTileId === 'concretelove' && '🔑 我更爱身边那一个具体的人'
                               }
                             </span>
                           )}
                         </div>
 
                         {/* Interactive drop selections */}
-                        <select 
+                        <select
                           className="bg-stone-900 border border-stone-800 text-[10px] p-1.5 rounded text-stone-300 font-mono outline-none max-w-[120px] focus:border-amber-500 cursor-pointer"
-                          value={currentTileId || ''} 
+                          value={currentTileId || ''}
                           onChange={(e) => setGoldSolution(stage.id, e.target.value)}
                         >
                           <option value="">-- 选择拼贴 --</option>
-                          <option value="meritocracy">高分=一切</option>
+                          <option value="meritocracy">考第一就赢了</option>
                           <option value="nihilism">这一切都没意义</option>
-                          <option value="practice">不下场就没资格说话</option>
-                          <option value="concretelove">我爱具体的、微小的人</option>
+                          <option value="practice">不亲自下场就没资格说话</option>
+                          <option value="concretelove">我更爱身边那一个</option>
                         </select>
                       </div>
                     );
@@ -2022,9 +1981,12 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                   </button>
                 ) : (
                   <div className="bg-emerald-950/20 border-2 border-emerald-500/30 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
-                    <span className="text-[10px] font-bold block uppercase font-mono">🌟 观念思索树对准成功：</span>
+                    <span className="text-[10px] font-bold block uppercase font-mono">🌟 4 阶段对位完成：</span>
                     <p className="italic">
-                      “十八岁，我执着对答标准卷子的自傲；廿二岁，我冷眼审判诸般功利却一无所获的虚寂；廿四岁，我在泥潭里明白，不踩泥就过不了江，我用实践磨砺我的心灵容灾；廿六岁，我终于敢走上前去，去爱具体的、微小的生命，爱到满腔愧悔但也满盘无悔。”
+                      "十八岁，我执着对答标准卷子的自傲；廿二岁，我冷眼审判诸般功利却一无所获的虚寂；廿四岁，我在泥潭里明白，不踩泥就过不了江，我用实践磨砺我的心灵容灾；廿六岁，我终于敢走上前去，去爱具体的、微小的生命，爱到满腔愧悔但也满盘无悔。"
+                    </p>
+                    <p className="text-stone-300 not-italic text-[10px] leading-relaxed border-t border-emerald-500/10 pt-1.5">
+                      —— 这是 4 阶段心智演化的全景。但金星亮了，不代表"我找到了答案"。下面是亮了之后才看见的几个新坑。
                     </p>
                     <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
                       🔑 获得人格碎片：【洞察/INSIGHT】 ㆍ 穿透迷雾，看清人性与规律的那双眼睛。
@@ -2037,6 +1999,9 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                     {goldMessage}
                   </div>
                 )}
+
+                {/* 心智夹层 —— 金星亮了之后的 5 个悖论 */}
+                {goldSolved && <GoldStarReflection />}
               </div>
             )}
 

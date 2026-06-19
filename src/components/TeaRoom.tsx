@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Send, 
-  Flame, 
-  Coffee, 
-  Sparkles, 
-  MessageSquare, 
-  PenTool, 
-  Compass, 
-  RefreshCw 
+import {
+  Send,
+  Coffee,
+  Sparkles,
+  PenTool,
+  RefreshCw
 } from 'lucide-react';
 
 interface ChatMessage {

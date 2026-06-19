@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Flame, 
-  Eraser, 
-  Hammer, 
-  Sparkles, 
-  RefreshCw, 
-  AlertTriangle, 
-  ChevronRight, 
-  Lock, 
-  Unlock, 
+import {
+  Flame,
+  Eraser,
+  Hammer,
+  RefreshCw,
+  AlertTriangle,
+  ChevronRight,
   Award,
-  Info,
-  Layers,
-  Compass
+  Layers
 } from 'lucide-react';
 
 interface CognitiveDlcProps {
@@ -133,6 +128,18 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
   const [debateStep, setDebateStep] = useState<number>(0);
   const [debateLogs, setDebateLogs] = useState<{sender: 'boss' | 'player', text: string}[]>([]);
   const [showXiaoJiu, setShowXiaoJiu] = useState(false);
+  // 成分镜（climax 后、小九出场前的三步：照对手 → 照另一个 NPC → 照自己）
+  const [showMirror, setShowMirror] = useState(false);
+  const [mirrorStep, setMirrorStep] = useState<number>(0);
+
+  const advanceMirror = () => {
+    if (mirrorStep < 2) {
+      setMirrorStep(mirrorStep + 1);
+    } else {
+      setShowMirror(false);
+      setShowXiaoJiu(true);
+    }
+  };
 
   const startDebate = () => {
     setDebateStep(1);
@@ -182,7 +189,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
       ]);
 
       setTimeout(() => {
-        setShowXiaoJiu(true);
+        setShowMirror(true);
       }, 1500);
     }
   };
@@ -663,6 +670,67 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
 
             </div>
 
+            {/* 成分对照墙 —— 同一把剪刀，每个人剪出的形状不同（vault 原文里被 DLC 软化的那段对照） */}
+            {connectedPairs.length === 3 && isSandRevealed && (
+              <div className="bg-stone-950 border-2 border-amber-500/30 rounded-2xl p-4 space-y-3 shadow-md">
+                <div className="border-b border-amber-500/15 pb-2">
+                  <span className="text-[9px] font-extrabold text-amber-400 font-mono uppercase tracking-widest block">
+                    🪞 同一把剪刀，每个人剪出的形状不同
+                  </span>
+                  <p className="text-[10px] text-stone-400 leading-relaxed text-justify mt-0.5">
+                    词义会漂——但更扎心的是，同一把剪刀，落在不同人手里，剪出来的形状暴露了你是谁：
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="bg-stone-900/60 border border-stone-850 rounded-lg p-2.5 space-y-1.5 text-center">
+                    <span className="text-2xl block select-none">📚</span>
+                    <span className="text-[9.5px] font-bold text-stone-300 block">小镇做题家</span>
+                    <span className="text-[9px] text-stone-500 italic block leading-tight">
+                      把 2B 铅笔
+                      <br />
+                      剪成了
+                      <br />
+                      <strong className="text-amber-400 not-italic">考试机器</strong>
+                    </span>
+                  </div>
+
+                  <div className="bg-stone-900/60 border border-stone-850 rounded-lg p-2.5 space-y-1.5 text-center">
+                    <span className="text-2xl block select-none">🦗</span>
+                    <span className="text-[9.5px] font-bold text-stone-300 block">恶臭蝈蝻</span>
+                    <span className="text-[9px] text-stone-500 italic block leading-tight">
+                      把菊花
+                      <br />
+                      雕成了
+                      <br />
+                      <strong className="text-rose-400 not-italic">恶意</strong>
+                    </span>
+                  </div>
+
+                  <div className="bg-stone-900/60 border border-stone-850 rounded-lg p-2.5 space-y-1.5 text-center">
+                    <span className="text-2xl block select-none">🃏</span>
+                    <span className="text-[9.5px] font-bold text-stone-300 block">乐子人</span>
+                    <span className="text-[9px] text-stone-500 italic block leading-tight">
+                      把魅魔
+                      <br />
+                      剪成了
+                      <br />
+                      <strong className="text-emerald-400 not-italic">符号货币</strong>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-stone-900/40 border border-stone-900 rounded-lg p-2.5 space-y-1">
+                  <p className="text-[10.5px] text-stone-200 italic leading-relaxed text-justify font-mono">
+                    🗒️ 千岑：每个人都剪过盆栽。但盆栽剪出来的形状，暴露了你是谁。
+                  </p>
+                  <p className="text-[10px] text-amber-300 italic leading-relaxed text-justify font-mono pt-1 border-t border-stone-900">
+                    ——盆栽不是你的内心。盆栽是你的成分单。
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* ACT FINISHING TRIGGER */}
             {connectedPairs.length === 3 && isSandRevealed && (
               <button
@@ -788,6 +856,132 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                 </div>
               )}
             </div>
+
+            {/* 成分镜 —— climax 选完后、小九出场前的中间桥段 */}
+            {showMirror && !showXiaoJiu && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-stone-950 border-2 border-amber-500/30 p-4 rounded-2xl space-y-3 shadow-md"
+              >
+                <div className="border-b border-amber-500/15 pb-2 flex items-start gap-2.5">
+                  <span className="text-2xl select-none shrink-0">🪞</span>
+                  <div className="flex-1">
+                    <span className="text-[9px] font-extrabold text-amber-400 font-mono uppercase tracking-widest block">
+                      成分镜 ㆍ {mirrorStep === 0 ? '照对手' : mirrorStep === 1 ? '照另一个 NPC' : '照自己'}
+                    </span>
+                    <p className="text-[10px] text-stone-400 leading-relaxed mt-0.5 italic">
+                      {mirrorStep === 0 &&
+                        '辩论结束后，他从盆栽底下递过来一面镜子。"先照照我——看看我是什么做的。"'}
+                      {mirrorStep === 1 &&
+                        '挺好玩。再照一个——刚才 Act 1 三门里那个走"经世致用"的 NPC。'}
+                      {mirrorStep === 2 && '......接下来呢？镜子转向你自己。'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 镜中成分 */}
+                <div className="bg-stone-900/40 border border-stone-900 rounded-lg p-3 space-y-1.5 font-mono text-[10px]">
+                  {mirrorStep === 0 && (
+                    <>
+                      <div className="flex justify-between text-stone-300">
+                        <span>📚 学院派话术</span>
+                        <span className="text-amber-400 font-bold">70%</span>
+                      </div>
+                      <div className="flex justify-between text-stone-300">
+                        <span>🎲 抖机灵</span>
+                        <span className="text-amber-400 font-bold">15%</span>
+                      </div>
+                      <div className="flex justify-between text-stone-300">
+                        <span>📜 二手存在主义</span>
+                        <span className="text-amber-400 font-bold">10%</span>
+                      </div>
+                      <div className="flex justify-between text-stone-300">
+                        <span>🎸 摇滚乐 (Sonic Youth)</span>
+                        <span className="text-amber-400 font-bold">5%</span>
+                      </div>
+                    </>
+                  )}
+
+                  {mirrorStep === 1 && (
+                    <>
+                      <div className="flex justify-between text-stone-300">
+                        <span>🪪 父辈期待</span>
+                        <span className="text-amber-400 font-bold">60%</span>
+                      </div>
+                      <div className="flex justify-between text-stone-300">
+                        <span>📝 高考志愿表</span>
+                        <span className="text-amber-400 font-bold">20%</span>
+                      </div>
+                      <div className="flex justify-between text-stone-300">
+                        <span>💼 LinkedIn 头像</span>
+                        <span className="text-amber-400 font-bold">15%</span>
+                      </div>
+                      <div className="flex justify-between text-stone-300">
+                        <span>📅 朋友圈年终总结</span>
+                        <span className="text-amber-400 font-bold">5%</span>
+                      </div>
+                    </>
+                  )}
+
+                  {mirrorStep === 2 && (
+                    <div className="max-h-[200px] overflow-y-auto space-y-1.5 pr-1">
+                      {[
+                        ['⚙️ 自动驾驶冗余系统', '15%'],
+                        ['📖 老陀的"爱具体的人"', '12%'],
+                        ['📕 《实践论》读到第三遍那次', '10%'],
+                        ['❄️ 黑河冰雪路试零下 40 度', '9%'],
+                        ['🌠 小学夏天那个流星雨 QQ', '8%'],
+                        ['🔨 四年级听到的"心如钢铁"', '7%'],
+                        ['🚿 惠州大平层热水澡那一刻', '6%'],
+                        ['🪪 父亲第一次说"咱家小弟可了不得"', '5%'],
+                        ['🐻 多洛特送信士兵的一人一熊', '4%'],
+                        ['🍵 ±0.5°C 的茉莉花茶', '4%'],
+                        ['👕 穿补丁校服的那个我', '3%'],
+                        ['📺 孙楠和韩红在唱', '3%'],
+                        ['📓 备忘录里没敢发出去的"我们"', '3%'],
+                        ['🌙 ……（继续滚动，永远不会停）', '——'],
+                      ].map(([label, val], i) => (
+                        <div
+                          key={i}
+                          className="flex justify-between text-stone-300 animate-[fadeIn_0.3s_ease_1]"
+                          style={{ animationDelay: `${i * 60}ms` }}
+                        >
+                          <span className="truncate pr-2">{label}</span>
+                          <span className="text-amber-400 font-bold shrink-0">{val}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* 千岑独白 —— 仅最后一步 */}
+                {mirrorStep === 2 && (
+                  <div className="bg-stone-900/40 border border-stone-900 rounded-lg p-3 font-mono text-[10.5px] text-stone-200 leading-relaxed text-justify space-y-2">
+                    <p className="italic">
+                      🗒️ 千岑：我以为我能挑出"真正的我"——其实我看到的只是一份成分表。
+                    </p>
+                    <p className="text-amber-300 not-italic pt-1.5 border-t border-stone-900 font-bold">
+                      但成分表不是讨债清单——是肖像画。
+                    </p>
+                    <p className="italic">
+                      我不能也不必撕掉任何一行。我只需要知道：哪些是我选择留下的，哪些是被风吹进来的。
+                    </p>
+                  </div>
+                )}
+
+                <button
+                  onClick={advanceMirror}
+                  className="w-full py-2 bg-amber-500 hover:bg-amber-400 text-stone-955 font-black rounded-xl text-[10.5px] cursor-pointer active:scale-99 transition-all"
+                >
+                  {mirrorStep === 0
+                    ? '🪞 挺好玩，再照一个'
+                    : mirrorStep === 1
+                    ? '🪞 接下来呢？'
+                    : '✓ 我看清了 → 召唤小九'}
+                </button>
+              </motion.div>
+            )}
 
             {/* XIAO JIU COMES IN */}
             {showXiaoJiu && (

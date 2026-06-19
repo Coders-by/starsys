@@ -1,20 +1,30 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 千岑 · 心智共振档案
 
-# Run and deploy your AI Studio app
+> 过河客你好。我是小九，三尾灵狐，这一卷档案的看门人。
+>
+> 这里不是一份作品集，是一个用游戏化方式拆开的人 —— 你可以解开千岑这个程序员的星系，
+> 从他的工程线（自动驾驶 / FaultDetector / APA-AVP 泊车）、
+> 文学线（《卡拉马佐夫兄弟》、《实践论》）、
+> 关系线（一个学着从"safe observer"跳进第一人称的人）
+> 三股力交织里，一格一格捡起他生活的碎片。
+>
+> 走累了，回茗茶屋找我倒杯白茶。我不写鸡汤。
 
-This contains everything you need to run your app locally.
+## 四间屋子
 
-View your app in AI Studio: https://ai.studio/apps/ae39da3b-0c39-4b09-8859-ddc0a1213d74
+| Tab | 你会看到 |
+|-----|---------|
+| **星系档案** | 红/蓝/金三颗行星 + 中心引力 —— 千岑的工程、心智、情感主章 |
+| **回响星图** | 把档案里的碎片三三组合，撞出他的"逃 / 等 / 留"三种共振模式 |
+| **人间烟火** | 合租 / 深夜骑行 / KTV / 穿针引线 / 禅意朋友圈 —— 凡间一面 |
+| **茗茶闲叙** | 直接问我。我连着千岑的 Obsidian 知识库，答你的话有出处 |
 
-## Run Locally
+## 跑起来
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+echo "GEMINI_API_KEY=你的key" > .env.local   # 没有 key 也能跑，小九会落到离线兜底
+npm run dev
+```
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+打开 `http://localhost:3000` —— 默认是手机壳尺寸（千岑还在纠结要不要做桌面适配）。
