@@ -35,8 +35,8 @@ export default function TeaRoom() {
     },
     {
       title: "♨️ 醒茶展叶 ㆍ 拆除装甲",
-      philosophy: "──『外避退坡，惊雷初击』",
-      desc: "滚水注入，白毫初展。在零下40度酷寒的车辆APA路试中，在黑河荒原颠簸里，他发现人如果一味优雅降级，其实就是在主动断绝外界对流。开始惊醒：看破一切的‘空寂自满’本身也是极其深重的虚妄面具。",
+      philosophy: "──『惊雷初击，玻璃碎裂』",
+      desc: "滚水注入，白毫初展。在零下40度酷寒的车辆APA路试中，在黑河荒原颠簸里，他发现人如果一味用'看破'把自己隔开，其实就是在主动断绝外界对流。开始惊醒：看破一切的'空寂自满'本身也是极其深重的虚妄面具。",
       interactive: "继续浸润，温热渗透"
     },
     {
@@ -109,13 +109,13 @@ export default function TeaRoom() {
       setChatMessages(prev => [...prev, { sender: 'bot', text: reply }]);
     } catch {
       // Intentionally crafted fallback responses matching correct character constraints
-      let fallbackText = '白茶倒满，刚才量子天线稍微断了一丝。说到调试自动驾驶实车的惊险：零下40度在冰雪上毫米级的反控制，每一次抱死都是一次跟自保本能的殊死拆抢；这与面对亲密关系时，怕受伤害而启动的那道自动优雅降级，本质是一模一样的心智机制啊。';
+      let fallbackText = '白茶倒满，刚才量子天线稍微断了一丝。说到调试自动驾驶实车的惊险：零下40度在冰雪上毫米级的反控制，每一次抱死都是一次跟自保本能的殊死拆抢；这与面对亲密关系时，怕受伤害而把水温精确调到 0.5°C 的那道自动防线，本质是一模一样的心智机制啊。';
       
       const lowerText = textToSend.toLowerCase();
       if (lowerText.includes('卡拉马佐夫') || lowerText.includes('阅览') || lowerText.includes('读书') || lowerText.includes('矛盾论') || lowerText.includes('实践论')) {
         fallbackText = '老陀在《卡拉马佐夫兄弟》深处讲过：要爱具体的普通人，胜过爱抽象的人类。千岑以前悬空在第三人称高台，用清傲看透一切、写完美合同。等他自己踩在大雨路面的泥灰里、写着极寒带教文档送给战友的时候，他才真正感知到一截实地篝火的温度。';
       } else if (lowerText.includes('自媒体') || lowerText.includes('信鸽') || lowerText.includes('回声') || lowerText.includes('镜像回声')) {
-        fallbackText = '《镜像回声》是他在深夜里给自己也给这世上所有感到冷空无依的行路客沏的一席热茶。这里不贩卖任何职场和财富焦虑，只把他在自动驾驶冗余安全里磨淬出的 fail-safe 退坡自愈智慧，倾注成保护所有脆弱敏感心灵安全落地坠滑的红树林海绵。';
+        fallbackText = '《镜像回声》是他在深夜里给自己也给这世上所有感到冷空无依的行路客沏的一席热茶。这里不贩卖任何职场和财富焦虑，只把他在自动驾驶冗余安全里磨淬出的"先接住、再降级"的容错耐心，倾注成保护所有脆弱敏感心灵安全落地坠滑的红树林海绵。';
       } else if (lowerText.includes('虚妄') || lowerText.includes('凡所有相')) {
         fallbackText = '其实，过去千岑挂在嘴边的“空空寂寂，皆是虚妄”，本身只是一张得体极简的高级防弹面具。有了这张看破红尘的王牌，他就可以逃避掉在真实的、不完美的世俗接触里可能遭受的伤害。但真正的白茶是烫的，爱是要流泪的，踩进南山的滚烫大排档，才是从虚妄超拔出的生路。';
       }

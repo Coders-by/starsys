@@ -859,14 +859,17 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                   })}
                 </div>
 
-                {/* --- CHAPTER 1: 2010 少年流星雨 (Meteor Shower) --- */}
+                {/* --- CHAPTER 1: 小学夏夜流星雨 (Meteor Shower) --- */}
                 {(!redSolved ? redChapter === 1 : redChapter === 1) && (
                   <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
                     <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed relative">
-                      <span className="text-[8px] font-bold text-red-400 block mb-1">【第一阶段 ㆍ 2010 少年流星雨与魔兽圣殿】</span>
-                      <p className="text-stone-300 font-semibold italic text-justify">“总是在靠近的一瞬间，我就为了维护傲慢的人设，亲手叉掉你的讯号。”</p>
-                      <p className="text-stone-500 mt-1 leading-snug">
-                        小学那个酷烈闷热的暑假，她发来流星雨哥哥的QQ申请，连原本从不玩电脑的她都特地下了《魔兽争霸》请求联机。你明明开心到心跳几乎碎裂，极度缺爱的自卑却触发了防御：你在朋友面前摆出冷傲姿态，判定她的魔兽是“联不了机的盗版”，筑水泥高墙将心意封存。
+                      <span className="text-[8px] font-bold text-red-400 block mb-1">【第一阶段 ㆍ 小学夏夜的流星雨】</span>
+                      <p className="text-stone-300 font-semibold italic text-justify">"在那一刻为了维持人设，他亲手叉掉了她发来的讯号。"</p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        那是小学的某个夏夜。家里的电脑刚来不久，他在和朋友打《魔兽争霸》。QQ 弹出来——一个女孩说『今晚有流星，把我认作哥哥吧』。他在朋友面前装作没看到，叉掉了对话框。
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-snug">
+                        多年后他才承认：那一刻他追悔得无力——不是不喜欢她，是怕被人看穿他是个穿补丁校服的小偷。
                       </p>
                     </div>
 
@@ -974,10 +977,19 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                 {(!redSolved ? redChapter === 2 : redChapter === 2) && (
                   <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
                     <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed relative">
-                      <span className="text-[8px] font-bold text-rose-400 block mb-1">【第二阶段 ㆍ 2020 那本《可遇不可求的事》手抄本】</span>
-                      <p className="text-stone-300 font-semibold italic text-justify">“可遇不可求的事，后海有书的院子，夏代有工的玉，此时此刻的云，二十来岁的你。”</p>
-                      <p className="text-stone-500 mt-1 leading-snug">
-                        2020疫情困在乡下的炎夏，满天繁星。你遇到一个喜爱古旧图书、斑驳文物与金石古董，梦想去西藏当藏书阁管理员的温润女孩。她曾给你寄来纸质泛黄的《可遇不可求的事》首版手抄本，里面夹着青海祁连山的格桑花干燥标本。而当时怯弱空虚的你只是一味攀登着世俗阶梯，敷衍地把一切闪光和灵气判定为“无效率的抽象论题”。你需要将你的真情频率，与她书信中的金石断代年份、特藏图书分类码以及宿命感知频率彻底对齐，方可重新呼唤这卷荒原里的文明温存。
+                      <span className="text-[8px] font-bold text-rose-400 block mb-1">【第二阶段 ㆍ 2020 soul 上的图书馆员】</span>
+                      <p className="text-stone-300 font-semibold italic text-justify">"可遇不可求的事，后海有树的院子，夏代有工的玉，此时此刻的云，二十来岁的你。"</p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        2020 年疫情困乡下的夏天，他在 soul 上遇到一个想当图书馆员的女孩。她爱研究古董，想去西藏。
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        她聊她的西藏梦。他给她讲算法课的大作业——"骑士救公主"的几种解法，回溯、动态规划。他半真半假地说，他在想到底谁才是真的公主。
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        理性又来了——它像一堵透明的墙。他退后一步。期末忙起来时<strong className="text-rose-300">他一星期没上线</strong>。再回去时，她问起学车的事，他认真回了许多细节。她说，"好的好的，谢谢你。"
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-snug">
+                        现在请你替他对齐三件事的频率：那段古董的年代、那本她想守护的图书的位置、和他与她之间那根迟迟没接通的线。
                       </p>
                     </div>
 
@@ -1089,7 +1101,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           <span>📖 【可遇不可求 ㆍ 纸页生香】</span>
                         </div>
                         <p className="italic text-stone-200 text-[10.5px] leading-relaxed">
-                          “那一瞬间，尘封藏书阁的老式留声机和八音盒突然缓缓自动鸣响。在 70年代古朴玉石刻痕与 520号 人文特藏检索架的共振下，泛黄的纸页悄然舒展，显现出当年的隽永诗句：『可遇不可求的事，后海有书的院子，夏代有工的玉，此时此刻的云，二十来岁的你。』你第一次为自己的逃避感到羞愧，也深刻确知，你被那一抹古典旷远的美善所彻底照亮过。”
+                          "频率对上了——他第一次真正听懂了那个想去西藏的女孩在说什么。多年后他读到这首诗——\n\n『可遇不可求的事，后海有树的院子，夏代有工的玉，此时此刻的云，二十来岁的你。』\n\n他突然懂了：这首诗不是写给"努力的他"，是写给"愿意停下来读这首诗的他"。可那年——他一星期没上线，回去之后只认真聊了学车的事。"
                         </p>
                         <button
                           onClick={() => {
@@ -1098,7 +1110,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                           }}
                           className="w-full mt-2 py-2 bg-gradient-to-r from-red-500 to-rose-500 text-stone-950 font-extrabold rounded-xl text-[10.5px] cursor-pointer shadow-[0_0_12px_rgba(239,68,68,0.25)] hover:scale-[1.01] transition-all"
                         >
-                          ⚡ 立即点击：迈入最终章 ㆍ 2024茉莉花茶
+                          ⚡ 立即点击：迈入最终章 ㆍ 2024 茉莉花茶
                         </button>
                       </div>
                     )}
@@ -1111,12 +1123,29 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                   </div>
                 )}
 
-                {/* --- CHAPTER 3: 2024 茉莉花茶 (Jasmine Tea) --- */}
+                {/* --- CHAPTER 3: 2024 深冬茉莉花茶 (Jasmine Tea) --- */}
                 {redChapter === 3 && (
                   <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
                     <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed relative">
-                      <span className="text-[8px] font-bold text-red-400 block mb-1">【第三阶段 ㆍ 2024 茉莉花茶与带温解盔】</span>
-                      <p className="text-stone-500 mt-1 leading-snug">
+                      <span className="text-[8px] font-bold text-red-400 block mb-1">【第三阶段 ㆍ 2024 深冬茉莉花茶】</span>
+                      <p className="text-stone-300 font-semibold italic text-justify">"水温对了，时间对了，但有些茶——终究没有被一起喝下。"</p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        2024 深冬校友会那晚的巧合，像一杯水温误差正负 0.5°C 的茉莉花茶——精准到他立刻怀疑这是某种安排。
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        签到处她抬头那一眼。后来他们聊东南亚房产、聊 TIA 的歌、聊她想做的开店游戏。备忘录里堆了越来越多"还想再聊的话题"。
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        他试着泡了一杯同款——精确到 80°C，焖 30 秒——拍照发过去："要尝尝吗？"
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        三小时后她回："最近在戒糖。"  "这茶不加糖。"  "还是不了。"
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-relaxed">
+                        烟花在外面响。他捧着那杯不会被尝的茶，愣了几秒。
+                      </p>
+                      <p className="text-stone-500 mt-1.5 leading-snug">
+                        现在请你替他重沏这杯茶。水温和时间都简单——难的是最后那个按钮：<strong className="text-stone-400">他当时按下了「🛡️ 理智自卫」</strong>。这一回，请你替他选 <strong className="text-red-300">「💔 卸盔解甲」</strong>——这不是改写历史，是让他在事后看清自己当时没敢做的那个选择。
                       </p>
                     </div>
 
@@ -1347,9 +1376,17 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                       </button>
                     ) : (
                       <div className="bg-emerald-955/20 border-2 border-emerald-500/35 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
-                        <span className="text-[10px] font-bold block uppercase font-mono text-emerald-400">🌟 情感线三大遗憾 ㆍ 全线重熔合流完成！</span>
-                        <p className="italic text-stone-200">
-                          “那一杯在冬雪中捧着的茉莉花茶，哪怕余温极苦、烫得我浑身战栗，但我第一次真正落落大方地拥抱了对方，而不是像条冷血虫子一般退回服务器。我爱过了，我痛过了。我认领我的热度，在碎裂中我得到了完整的人格共情。”
+                        <span className="text-[10px] font-bold block uppercase font-mono text-emerald-400">🌟 红星亮了 ㆍ 三段情感终于走完一遍</span>
+                        <p className="italic text-stone-200 leading-relaxed whitespace-pre-line">
+                          {`"茉莉花茶的水温我调到了 80°C，焖了 30 秒——但那杯茶从来没被一起喝下。
+
+我把那句歌词的"你独行"偷偷改成了"我们"。我没敢发。
+
+这不是失去——是从未发生。
+
+我又一次成功地用 ±0.5°C 的精度，把一个具体的人安全地放进了我熟悉的刻度里。现在我才看见：精度本身就是冷库。
+
+能把这份怅然装进胸口、不再用'看破'打发它——已经是十几年里第一次的进步了。"`}
                         </p>
                         {teaEasterEgg && (
                           <div className="bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl mt-2.5 mb-2.5 space-y-1.5 animate-pulse text-left">
@@ -1357,12 +1394,12 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                               <span>🦊 🌸【灵狐小九 ㆍ 特别清芳彩蛋】</span>
                             </div>
                             <p className="text-[10px] text-amber-200/90 leading-relaxed italic">
-                              “小九不知什么时候蹲在了桌角。她看了看你的茶杯，又看了看你：『嗯。水温对了，时间对了，人也终于没躲了。——这杯茶你等了十几年。喝吧。』说完，她就不见了。”
+                              "小九不知什么时候蹲在了桌角。她看了看你的茶杯，又看了看你：『嗯，水温对了，时间对了。但你也看见了——茶始终是一个人的茶。承认这一点，已经够了。』说完，她就不见了。"
                             </p>
                           </div>
                         )}
                         <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
-                          🔑 获得人格碎片：【共情/EMPATHY】 ── 不惧受伤、痛快去爱去活的能力。
+                          🔑 获得人格碎片：【共情/EMPATHY】 ── 看清自己用精度替代亲近的能力。
                         </p>
                       </div>
                     )}
