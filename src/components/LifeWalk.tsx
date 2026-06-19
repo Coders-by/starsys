@@ -107,7 +107,7 @@ function LifeWalkInner() {
         <div className="bg-stone-950 p-3 rounded-xl border border-stone-850 text-left space-y-2 animate-pulse">
           <span className="text-[8.5px] font-extrabold text-amber-400 font-mono block uppercase tracking-widest flex items-center gap-1.5">
             <Award className="w-3.5 h-3.5 text-amber-500" />
-            已收割凡尘人间成就已印章 ({unlockedAchievements.length})：
+            已解锁的人间成就 ({unlockedAchievements.length})：
           </span>
           <div className="flex flex-wrap gap-1.5">
             {unlockedAchievements.map((ach, ai) => (

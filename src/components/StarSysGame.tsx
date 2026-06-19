@@ -7,162 +7,8 @@ import {
 import CognitiveDlc from './CognitiveDlc';
 import GoldStarReflection from './starsys/GoldStarReflection';
 import BlueStarReflection from './starsys/BlueStarReflection';
-
-// Chinese 12 Shichens Mapping configuration for metaphysical traits
-interface ShichenInfo {
-  name: string;
-  range: string;
-  element: string;
-  elementColor: string;
-  elementBg: string;
-  glowColor: string;
-  desc: string;
-  modifiers: {
-    pm: number;
-    algo: number;
-    test: number;
-    customer: number;
-  };
-}
-
-const SHICHEN_DATA: Record<string, ShichenInfo> = {
-  "子时": {
-    name: "子时",
-    range: "23:00 - 01:00",
-    element: "水",
-    elementColor: "text-blue-400",
-    elementBg: "bg-blue-500/10 border-blue-500/20",
-    glowColor: "rgba(59,130,246,0.15)",
-    desc: "水气重，深夜适合静静整理用户反馈。PM节奏慢下来，测试也能歇口气。",
-    modifiers: { pm: -5, algo: 5, test: -5, customer: 15 }
-  },
-  "丑时": {
-    name: "丑时",
-    range: "01:00 - 03:00",
-    element: "土",
-    elementColor: "text-amber-600",
-    elementBg: "bg-amber-600/10 border-amber-600/20",
-    glowColor: "rgba(217,119,6,0.15)",
-    desc: "湿土气稳，算法和硬件容灾这时候最扎实。测试随便跑，出不了大事。",
-    modifiers: { pm: 5, algo: -5, test: 15, customer: -5 }
-  },
-  "寅时": {
-    name: "寅时",
-    range: "03:00 - 05:00",
-    element: "木",
-    elementColor: "text-emerald-400",
-    elementBg: "bg-emerald-500/10 border-emerald-500/20",
-    glowColor: "rgba(16,185,129,0.15)",
-    desc: "凌晨阳气初生，草木精神。适合写算法和带教文档，但别在这时候排PM会议。",
-    modifiers: { pm: -10, algo: 15, test: -5, customer: 10 }
-  },
-  "卯时": {
-    name: "卯时",
-    range: "05:00 - 07:00",
-    element: "木",
-    elementColor: "text-emerald-400",
-    elementBg: "bg-emerald-500/10 border-emerald-500/20",
-    glowColor: "rgba(16,185,129,0.15)",
-    desc: "日出时分，协作和带人最顺。用户反馈也会比较正面，适合安排客户沟通。",
-    modifiers: { pm: -5, algo: 10, test: -5, customer: 15 }
-  },
-  "辰时": {
-    name: "辰时",
-    range: "07:00 - 09:00",
-    element: "土",
-    elementColor: "text-amber-500",
-    elementBg: "bg-amber-500/10 border-amber-500/20",
-    glowColor: "rgba(245,158,11,0.15)",
-    desc: "辰时土气中正，各方利益基本持平。适合开项目计划会，不偏不倚。",
-    modifiers: { pm: 10, algo: -5, test: 10, customer: -5 }
-  },
-  "巳时": {
-    name: "巳时",
-    range: "09:00 - 11:00",
-    element: "火",
-    elementColor: "text-rose-500",
-    elementBg: "bg-rose-500/10 border-rose-500/20",
-    glowColor: "rgba(244,63,94,0.15)",
-    desc: "火气旺，PM冲劲最猛。适合突击推进度，但开发和测试压力山大，容易 burnout。",
-    modifiers: { pm: 15, algo: -10, test: -10, customer: 15 }
-  },
-  "午时": {
-    name: "午时",
-    range: "11:00 - 13:00",
-    element: "火",
-    elementColor: "text-orange-500",
-    elementBg: "bg-orange-500/10 border-orange-500/20",
-    glowColor: "rgba(249,115,22,0.15)",
-    desc: "午时火最旺，客户响应速度和发布效率拉到最高。开发和测试咬着牙顶住。",
-    modifiers: { pm: 20, algo: -15, test: -10, customer: 15 }
-  },
-  "未时": {
-    name: "未时",
-    range: "13:00 - 15:00",
-    element: "土",
-    elementColor: "text-amber-600",
-    elementBg: "bg-amber-600/10 border-amber-600/20",
-    glowColor: "rgba(217,119,6,0.15)",
-    desc: "午后土气回归，适合稳打稳扎做路测覆盖和架构设计。不急不躁。",
-    modifiers: { pm: 5, algo: -5, test: 15, customer: -5 }
-  },
-  "申时": {
-    name: "申时",
-    range: "15:00 - 17:00",
-    element: "金",
-    elementColor: "text-zinc-400",
-    elementBg: "bg-zinc-500/10 border-zinc-500/20",
-    glowColor: "rgba(113,113,122,0.15)",
-    desc: "金气清冷，写代码和做架构最锋利的时候。但用户沟通会偏冷，不适合安排客户会议。",
-    modifiers: { pm: -5, algo: 15, test: 10, customer: -5 }
-  },
-  "酉时": {
-    name: "酉时",
-    range: "17:00 - 19:00",
-    element: "金",
-    elementColor: "text-zinc-300",
-    elementBg: "bg-zinc-500/10 border-zinc-500/20",
-    glowColor: "rgba(161,161,170,0.15)",
-    desc: "金气收敛，适合做算法复盘和防灾策略精简。分析效率高，但别在这时候推新需求。",
-    modifiers: { pm: -5, algo: 15, test: 15, customer: -5 }
-  },
-  "戌时": {
-    name: "戌时",
-    range: "19:00 - 21:00",
-    element: "土",
-    elementColor: "text-yellow-650",
-    elementBg: "bg-yellow-600/10 border-yellow-600/20",
-    glowColor: "rgba(202,138,4,0.15)",
-    desc: "黄昏土气沉静。适合做硬件容灾测试和极限泊车验证，稳扎稳打。",
-    modifiers: { pm: 10, algo: -10, test: 15, customer: -5 }
-  },
-  "亥时": {
-    name: "亥时",
-    range: "21:00 - 23:00",
-    element: "水",
-    elementColor: "text-sky-400",
-    elementBg: "bg-sky-500/10 border-sky-500/20",
-    glowColor: "rgba(56,189,248,0.15)",
-    desc: "夜深水气重，具体的人情温度能抚平冷铁车机。适合反思用户需求，好评率会偏高。",
-    modifiers: { pm: -10, algo: 5, test: -5, customer: 20 }
-  }
-};
-
-const getRealShichen = (date: Date = new Date()): string => {
-  const hour = date.getHours();
-  if (hour >= 23 || hour < 1) return "子时";
-  if (hour >= 1 && hour < 3) return "丑时";
-  if (hour >= 3 && hour < 5) return "寅时";
-  if (hour >= 5 && hour < 7) return "卯时";
-  if (hour >= 7 && hour < 9) return "辰时";
-  if (hour >= 9 && hour < 11) return "巳时";
-  if (hour >= 11 && hour < 13) return "午时";
-  if (hour >= 13 && hour < 15) return "未时";
-  if (hour >= 15 && hour < 17) return "申时";
-  if (hour >= 17 && hour < 19) return "酉时";
-  if (hour >= 19 && hour < 21) return "戌时";
-  return "亥时";
-};
+import GoldStarChapter from './starsys/GoldStarChapter';
+import { SHICHEN_DATA, getRealShichen } from './starsys/shichen';
 
 interface StarSysGameProps {
   onSyncProgress: (progress: { red: boolean; blue: boolean; gold: boolean; central: boolean }) => void;
@@ -202,6 +48,9 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
       return localStorage.getItem('resonance_central_solved') === 'true';
     } catch { return false; }
   });
+  // 重置信号：handleGlobalReset 时 +1，各章子组件 useEffect 监听自清内部 state
+  // （破除 handleGlobalReset 直接伸手进各章 setter 的耦合）
+  const [resetNonce, setResetNonce] = useState<number>(0);
 
   // Keep progress parent synced
   useEffect(() => {
@@ -277,11 +126,11 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
     setDevDecisionApplied({});
     setCoordinatedMessage(null);
     setMentorshipAnswer(null);
-    setGoldStageSolutions({});
-    setGoldMessage(null);
     setClimaxOutcome(null);
     setFoxCommentary(null);
     setSelectedPlanet(null);
+    // 金星章节已抽成子组件，靠 resetNonce 自清内部 state
+    setResetNonce((n) => n + 1);
   };
 
   // 灵狐小九出场触发器
@@ -537,28 +386,6 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
   // --- SUB-GAME 3: 金星 (Wisdom/Cognition) ---
   // Drag/Select stage concept tree
   // Stages: age18, age22, age24, age26
-  const [goldStageSolutions, setGoldStageSolutions] = useState<Record<string, string>>({}); // stage -> tileId
-  const [goldMessage, setGoldMessage] = useState<string | null>(null);
-
-  const setGoldSolution = (stageId: string, tileId: string) => {
-    setGoldStageSolutions(prev => ({ ...prev, [stageId]: tileId }));
-    setGoldMessage(null);
-  };
-
-  const verifyGoldStar = () => {
-    const isCorrect = goldStageSolutions['age18'] === 'meritocracy' &&
-                      goldStageSolutions['age22'] === 'nihilism' &&
-                      goldStageSolutions['age24'] === 'practice' &&
-                      goldStageSolutions['age26'] === 'concretelove';
-    if (isCorrect) {
-      setGoldMessage('success');
-      markPlanetSolved('gold', true);
-    } else {
-      setGoldMessage('对齐失败：思想演化树的观点年份存在断层错位。请审视千岑 24 岁的实践论拼杀、以及 26 岁卡氏与红楼具体的血肉爱恨位置。');
-    }
-  };
-
-
   // --- FINAL CLIMAX: 中央恒星 (Resonance Climax) ---
   const [climaxOutcome, setClimaxOutcome] = useState<string | null>(null);
 
@@ -590,7 +417,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
           </button>
         </div>
         <p className="text-[11px] text-stone-400 leading-relaxed text-left text-justify mt-1">
-          《星系档案》由三颗代表成长叙事线的主星组成（红星、蓝星、金星）。解开每一条叙事链的深层宿命执念，便能点亮中心融汇的恒星，释放出流向“人间烟火”的具体生活温存。
+          《星系档案》由三颗代表成长叙事线的主星组成（红星、蓝星、金星）。解开每条叙事链背后他循环的模式，便能点亮中心融汇的恒星，释放出流向"人间烟火"的具体生活温存。
         </p>
       </div>
 
@@ -832,7 +659,7 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
                 {/* Progress stepper meter */}
                 <div className="flex gap-1 bg-stone-950/40 p-1.5 rounded-xl border border-stone-850">
                   {[1, 2, 3].map((ch) => {
-                    const titles = ['2010ㆍ少年流星雨', '2020ㆍ可遇不可求', '2024ㆍ茗香解盔涉险'];
+                    const titles = ['小学ㆍ流星雨', '2020ㆍ可遇不可求', '2024ㆍ那杯没尝的茶'];
                     const isPassed = redSolved || redChapter > ch;
                     const isCurrent = !redSolved && redChapter === ch;
                     return (
@@ -1952,94 +1779,11 @@ export default function StarSysGame({ onSyncProgress, isMaxedCheat, isStaySynthe
 
             {/* --- GOLD STAR: WISDOM GAMEPLAY --- */}
             {selectedPlanet === 'gold' && (
-              <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
-                <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed space-y-2">
-                  <span className="text-[8px] font-bold text-amber-400 block">🪐 这一关在演示什么</span>
-                  <p className="text-stone-300 text-justify leading-relaxed">
-                    <strong className="text-amber-300">18 → 26 岁。8 年里我换了 4 次"世界长什么样"的答案。每次都以为这次是最后一次。</strong>
-                  </p>
-                  <p className="text-stone-500 text-justify leading-snug">
-                    把每个年龄对到当时坚信的那句话——这个题没有难度，目的不是考你，是让你跟着这条曲线走一遍。
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 gap-3.5">
-                  {[
-                    { id: 'age18', label: '18 岁 ㆍ 刚走出高考', correct: 'meritocracy', hint: '那时我相信——只要考第一就赢了' },
-                    { id: 'age22', label: '22 岁 ㆍ 大学末年', correct: 'nihilism', hint: '那时我觉得——这一切都没意义' },
-                    { id: 'age24', label: '24 岁 ㆍ 工作摔打两年之后', correct: 'practice', hint: '那时我明白——不亲自下场就没资格说话' },
-                    { id: 'age26', label: '26 岁 ㆍ 谈了一段差点把自己玩死的感情之后', correct: 'concretelove', hint: '那时我敢说——我更爱身边那一个具体的人' }
-                  ].map((stage) => {
-                    const currentTileId = goldStageSolutions[stage.id];
-                    return (
-                      <div 
-                        key={stage.id}
-                        className="bg-stone-950/90 border border-stone-850/60 p-3 rounded-xl flex gap-3.5 items-center justify-between"
-                      >
-                        <div className="flex-1">
-                          <span className="text-[8.5px] uppercase font-mono tracking-widest text-amber-500 font-bold leading-none block mb-1">{stage.label}</span>
-                          <span className="text-[10px] text-stone-500 italic block">{stage.hint}</span>
-                          {currentTileId && (
-                            <span className="text-[11px] text-amber-300 mt-1 font-bold inline-block border-l-2 border-amber-500 pl-2 leading-none">
-                              对齐为 ➔ {
-                                currentTileId === 'meritocracy' && '🔑 考第一就赢了' ||
-                                currentTileId === 'nihilism' && '🔑 这一切都没意义' ||
-                                currentTileId === 'practice' && '🔑 不亲自下场就没资格说话' ||
-                                currentTileId === 'concretelove' && '🔑 我更爱身边那一个具体的人'
-                              }
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Interactive drop selections */}
-                        <select
-                          className="bg-stone-900 border border-stone-800 text-[10px] p-1.5 rounded text-stone-300 font-mono outline-none max-w-[120px] focus:border-amber-500 cursor-pointer"
-                          value={currentTileId || ''}
-                          onChange={(e) => setGoldSolution(stage.id, e.target.value)}
-                        >
-                          <option value="">-- 选择拼贴 --</option>
-                          <option value="meritocracy">考第一就赢了</option>
-                          <option value="nihilism">这一切都没意义</option>
-                          <option value="practice">不亲自下场就没资格说话</option>
-                          <option value="concretelove">我更爱身边那一个</option>
-                        </select>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Validation button */}
-                {!goldSolved ? (
-                  <button
-                    onClick={verifyGoldStar}
-                    className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 hover:from-amber-400 hover:to-amber-500 font-extrabold py-2.5 rounded-xl text-xs active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow cursor-pointer"
-                  >
-                    <span>✓ 编译并校验观念演化树</span>
-                  </button>
-                ) : (
-                  <div className="bg-emerald-950/20 border-2 border-emerald-500/30 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
-                    <span className="text-[10px] font-bold block uppercase font-mono">🌟 4 阶段对位完成：</span>
-                    <p className="italic">
-                      "十八岁，我执着对答标准卷子的自傲；廿二岁，我冷眼审判诸般功利却一无所获的虚寂；廿四岁，我在泥潭里明白，不踩泥就过不了江，我用实践磨砺我的心灵容灾；廿六岁，我终于敢走上前去，去爱具体的、微小的生命，爱到满腔愧悔但也满盘无悔。"
-                    </p>
-                    <p className="text-stone-300 not-italic text-[10px] leading-relaxed border-t border-emerald-500/10 pt-1.5">
-                      —— 这是 4 阶段心智演化的全景。但金星亮了，不代表"我找到了答案"。下面是亮了之后才看见的几个新坑。
-                    </p>
-                    <p className="font-bold text-amber-400 border-t border-emerald-500/10 pt-1 text-[10px] uppercase font-mono">
-                      🔑 获得人格碎片：【洞察/INSIGHT】 ㆍ 穿透迷雾，看清人性与规律的那双眼睛。
-                    </p>
-                  </div>
-                )}
-
-                {goldMessage && goldMessage !== 'success' && (
-                  <div className="p-3 bg-red-950/20 border border-red-500/20 text-rose-300 rounded-xl text-[10px] leading-snug text-justify">
-                    {goldMessage}
-                  </div>
-                )}
-
-                {/* 心智夹层 —— 金星亮了之后的 5 个悖论 */}
-                {goldSolved && <GoldStarReflection />}
-              </div>
+              <GoldStarChapter
+                solved={goldSolved}
+                onSolved={() => markPlanetSolved('gold', true)}
+                resetNonce={resetNonce}
+              />
             )}
 
             {/* --- GOLD SATELLITE: COGNITION DLC GAMEPLAY --- */}

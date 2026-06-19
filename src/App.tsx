@@ -104,10 +104,10 @@ export default function App() {
               <span className="text-xl">🌌</span>
               <div>
                 <h1 className="text-sm font-bold text-stone-100 tracking-tight leading-none">千岑 ㆍ 心智共振档案</h1>
-                <span className="text-[9px] font-mono font-medium text-stone-500 uppercase tracking-widest mt-1 inline-block">Active Resonance System</span>
+                <span className="text-[9px] font-mono font-medium text-stone-500 uppercase tracking-widest mt-1 inline-block">这是谁</span>
               </div>
             </div>
-            
+
             {/* Resonance count badge */}
             <div className="bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-xl text-center flex items-center gap-1.5 shadow-sm">
               <span className="text-amber-400 text-[10px] uppercase font-mono font-bold tracking-wider">共鸣率:</span>
@@ -118,8 +118,8 @@ export default function App() {
           {/* Dynamic Sync Progress Meter */}
           <div className="space-y-1.5">
             <div className="flex justify-between text-[8px] font-mono text-stone-500 uppercase font-bold leading-none">
-              <span>零点隔离</span>
-              <span>100% 同频共振合一</span>
+              <span>刚开始</span>
+              <span>走完了</span>
             </div>
             <div className="w-full bg-stone-900 rounded-full h-1.5 overflow-hidden relative">
               <motion.div 
@@ -257,7 +257,7 @@ export default function App() {
               <div className="flex items-center gap-3 border-b border-stone-850 pb-3">
                 <span className="text-3xl bg-amber-500/10 p-2 rounded-xl text-amber-400">{openedAchievement.icon}</span>
                 <div>
-                  <span className="text-[8.5px] uppercase font-bold tracking-widest text-amber-500 font-mono">精神勋章已收割 · {openedAchievement.time}</span>
+                  <span className="text-[8.5px] uppercase font-bold tracking-widest text-amber-500 font-mono">解锁瞬间 · {openedAchievement.time}</span>
                   <h3 className="text-sm font-bold text-stone-100 mt-1">{openedAchievement.name}</h3>
                   <p className="text-[10px] text-stone-500 leading-tight mt-0.5">{openedAchievement.desc}</p>
                 </div>

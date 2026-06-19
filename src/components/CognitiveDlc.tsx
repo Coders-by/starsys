@@ -90,9 +90,9 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
   ];
 
   const rightTerms = [
-    { id: 'r1', text: '某种网络乐子人的统称', pairMid: 'm1' },
-    { id: 'r2', text: '带有恶俗隐喻的网络词汇', pairMid: 'm2' },
-    { id: 'r3', text: '同桌妹妹用来制裁你的口头禅', pairMid: 'm3' }
+    { id: 'r1', text: '今天朋友之间互相调侃的称呼', pairMid: 'm1' },
+    { id: 'r2', text: '被恶搞填了别样意思的词', pairMid: 'm2' },
+    { id: 'r3', text: '同桌妹妹骂你的一句口头禅', pairMid: 'm3' }
   ];
 
   const handlePairSelection = (type: 'left' | 'mid' | 'right', id: string) => {
@@ -373,7 +373,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
                 },
                 {
                   id: 'C',
-                  title: '门 C【三千月薪赛博病】',
+                  title: '门 C【月薪三千，下班开副本】',
                   desc: '刚需避重，开发外包。',
                   conclude: '终点：开启码农烧烤与网暴狂欢等下班混沌副业。'
                 }
@@ -572,10 +572,10 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
               <div className="space-y-2">
                 <span className="text-[10px] text-stone-300 font-black flex items-center gap-1.5">
                   <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
-                  课外消消乐三：符号语义的网络异化
+                  课外消消乐三：词义会漂
                 </span>
                 <p className="text-[9px] text-stone-400 leading-normal">
-                  连线：将三个'初始纯洁词汇'通过'童年意境'，重新连结到它们在'后现代互联网'被恶作剧异化的结局中（全连对可破局）。
+                  三个词，每个都先有一段童年记忆，后来又长出了完全不同的意思。把"词 → 童年 → 今天"三段连起来（全连对可破局）。
                 </p>
 
                 <div className="grid grid-cols-3 gap-2 text-center pt-1.5">
@@ -629,7 +629,7 @@ export default function CognitiveDlc({ onComplete, isSolved }: CognitiveDlcProps
 
                   {/* Right Column */}
                   <div className="space-y-1.5">
-                    <span className="text-[8px] text-stone-500 font-extrabold uppercase tracking-wide block">今日异化</span>
+                    <span className="text-[8px] text-stone-500 font-extrabold uppercase tracking-wide block">今天的意思</span>
                     {rightTerms.map(t => {
                       const complete = connectedPairs.some(p => p.right === t.text);
                       return (
