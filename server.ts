@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
-import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 
 import fs from 'fs';
@@ -13,6 +12,12 @@ import {
 } from './src/lib/xiaojiu';
 
 dotenv.config();
+
+// 方舟平台（Ark）OpenAI 兼容接口配置。
+// 优先读 ARK_API_KEY / ARK_MODEL，回退到 GEMINI_API_KEY 占位兼容旧 .env。
+const ARK_API_KEY = process.env.ARK_API_KEY || process.env.GEMINI_API_KEY || '';
+const ARK_BASE_URL = process.env.ARK_BASE_URL || 'https://ark.cn-beijing.volces.com/api/v3';
+const ARK_MODEL = process.env.ARK_MODEL || 'glm-4-5-air-20250728';
 
 // Helper to recursively list markdown files in the workspace's Obsidian vault
 function getMarkdownFiles(dir: string): string[] {
@@ -73,15 +78,33 @@ function searchVault(query: string): { path: string; title: string; content: str
   return matched.sort((a, b) => b.score - a.score).slice(0, 5);
 }
 
-// Standard initialization of the google/genai client with proper User-Agent headers
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
+// 调用方舟 OpenAI 兼容接口（chat/completions）。
+// 不引入 openai SDK，直接 fetch —— 零新依赖，bundle 更小。
+async function callArk(messages: { role: 'system' | 'user' | 'assistant'; content: string }[]): Promise<string> {
+  const resp = await fetch(`${ARK_BASE_URL}/chat/completions`, {
+    method: 'POST',
     headers: {
-      'User-Agent': 'aistudio-build'
-    }
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ARK_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: ARK_MODEL,
+      messages,
+      temperature: 0.85,
+      stream: false,
+    }),
+  });
+
+  if (!resp.ok) {
+    const errText = await resp.text().catch(() => '');
+    throw new Error(`Ark API ${resp.status}: ${errText.slice(0, 300)}`);
   }
-});
+
+  const data: any = await resp.json();
+  const content = data?.choices?.[0]?.message?.content;
+  if (typeof content === 'string' && content.trim()) return content.trim();
+  throw new Error('Ark API: empty content');
+}
 
 async function startServer() {
   const app = express();
@@ -160,45 +183,35 @@ async function startServer() {
       const systemInstruction = buildSystemInstruction(searchResults);
 
       let reply = '';
-      
-      // If Gemini Key is not configured, fall back to offline responder immediately
-      const hasApiKey = process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'MY_GEMINI_API_KEY' && process.env.GEMINI_API_KEY.trim() !== '';
+
+      // 方舟 key 未配置时直接走离线兜底
+      const hasApiKey = ARK_API_KEY && ARK_API_KEY !== 'MY_GEMINI_API_KEY' && ARK_API_KEY.trim() !== '';
 
       if (hasApiKey) {
-        // Attempt with adaptive models and automatic retry loop
-        const modelsToTry = ['gemini-3.5-flash', 'gemini-3.1-flash-lite'];
+        // 方舟 OpenAI 兼容接口，带 1 次重试
         let lastError: any = null;
         let success = false;
-
-        for (const model of modelsToTry) {
-          if (success) break;
-          for (let attempt = 1; attempt <= 2; attempt++) {
-            try {
-              const response = await ai.models.generateContent({
-                model: model,
-                contents: message,
-                config: { systemInstruction }
-              });
-              if (response && response.text) {
-                reply = response.text;
-                success = true;
-                break;
-              }
-            } catch (err: any) {
-              lastError = err;
-              console.warn(`[Gemini Retry] Model ${model} attempt ${attempt} failed:`, err?.message || err);
-              // Small backoff before next attempt
-              await new Promise(resolve => setTimeout(resolve, attempt * 150));
-            }
+        for (let attempt = 1; attempt <= 2; attempt++) {
+          try {
+            reply = await callArk([
+              { role: 'system', content: systemInstruction },
+              { role: 'user', content: message },
+            ]);
+            success = true;
+            break;
+          } catch (err: any) {
+            lastError = err;
+            console.warn(`[Ark Retry] attempt ${attempt} failed:`, err?.message || err);
+            await new Promise((resolve) => setTimeout(resolve, attempt * 200));
           }
         }
 
         if (!success && lastError) {
-          console.error('All Gemini API models failed under high demand. Triggering backup character system.', lastError);
-          throw lastError; // Throw so catch block can serve character-accurate offline fallback
+          console.error('Ark API failed, triggering offline fallback.', lastError);
+          throw lastError;
         }
       } else {
-        console.warn('Gemini API key is not configured. Using offline RAG-guided rule backup.');
+        console.warn('ARK_API_KEY is not configured. Using offline RAG-guided rule backup.');
         throw new Error('API_KEY_MISSING');
       }
 
@@ -209,7 +222,7 @@ async function startServer() {
       res.json({ reply, text: reply, matches: searchResults.map(r => r.title) });
 
     } catch (err: any) {
-      console.warn('Gemini error caught, deploying elegant in-character fail-safe fallback response:', err?.message || err);
+      console.warn('Chat error caught, deploying offline fallback:', err?.message || err);
 
       const fallbackText = pickFallback(req.body.message || '');
 

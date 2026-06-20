@@ -111,7 +111,7 @@ export default function GoldStarChapter({ solved: goldSolved, onSolved, resetNon
         <div className="bg-emerald-950/20 border-2 border-emerald-500/30 rounded-xl p-3.5 space-y-2 text-[11px] text-justify text-emerald-300 animate-[fadeIn_0.5s_ease_1]">
           <span className="text-[10px] font-bold block uppercase font-mono">🌟 4 阶段对位完成：</span>
           <p className="italic">
-            "十八岁，我执着对答标准卷子的自傲；廿二岁，我冷眼审判诸般功利却一无所获的虚寂；廿四岁，我在泥潭里明白，不踩泥就过不了江，我用实践磨砺我的心灵容灾；廿六岁，我终于敢走上前去，去爱具体的、微小的生命，爱到满腔愧悔但也满盘无悔。"
+            "十八岁，我以为考第一就是赢了。廿二岁，我看穿了功利，却什么也没换来——只剩一个空。廿四岁，我在泥里明白：不下场就没资格说话。廿六岁，我不再去爱'人类'，去爱身边那一个具体的人。前三句是以为自己懂了，最后一句是第一次知道自己其实不懂。"
           </p>
           <p className="text-stone-300 not-italic text-[10px] leading-relaxed border-t border-emerald-500/10 pt-1.5">
             —— 这是 4 阶段心智演化的全景。但金星亮了，不代表"我找到了答案"。下面是亮了之后才看见的几个新坑。

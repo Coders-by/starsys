@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
 /**
- * 红星章节 ㆍ 情感线三段（小学流星雨 → 2020 soul 图书馆员 → 2024 茉莉花茶）。
+ * 红星章节 ㆍ 情感线三段（2012 流星雨 → 2020 soul 图书馆员 → 2024 茉莉花茶）。
  *
  * 从 StarSysGame.tsx 抽出。内部 state 自洽（章节进度 + 三章各自的玩法 state），
  * 对外只通过 props：
@@ -28,7 +28,7 @@ export default function RedStarChapter({ solved: redSolved, onSolved, resetNonce
     { id: 'b2', text: '千岑：“没看，我在家和哥们联机魔兽呢，别打岔。”', correctIdx: 1, desc: '傲慢的自尊防御' },
     { id: 'b3', text: '她：“哦……那我特地也下载了魔兽，可以带我一起联机么？”', correctIdx: 2, desc: '诚挚的走近' },
     { id: 'b4', text: '千岑：“你下的那个绝对是盗版，肯定跑不了联机，别折腾了。”', correctIdx: 3, desc: '紧锁的圣殿' },
-    { id: 'b5', text: '她：“这样呀……可我一直没睡，会在流星下直到你想我。”', correctIdx: 4, desc: '情根封存' },
+    { id: 'b5', text: '她：“这样呀……可我一直没睡，会在流星下直到你有时间找我。”', correctIdx: 4, desc: '情根封存' },
   ];
 
   const [redCurrentSequence, setRedCurrentSequence] = useState<string[]>(['b3', 'b1', 'b5', 'b2', 'b4']);
@@ -134,7 +134,7 @@ export default function RedStarChapter({ solved: redSolved, onSolved, resetNonce
       {/* Progress stepper meter */}
       <div className="flex gap-1 bg-stone-950/40 p-1.5 rounded-xl border border-stone-850">
         {[1, 2, 3].map((ch) => {
-          const titles = ['小学ㆍ流星雨', '2020ㆍ可遇不可求', '2024ㆍ那杯没尝的茶'];
+          const titles = ['2012ㆍ流星雨', '2020ㆍ可遇不可求', '2024ㆍ那杯没尝的茶'];
           const isPassed = redSolved || redChapter > ch;
           const isCurrent = !redSolved && redChapter === ch;
           return (
@@ -161,17 +161,17 @@ export default function RedStarChapter({ solved: redSolved, onSolved, resetNonce
         })}
       </div>
 
-      {/* --- CHAPTER 1: 小学夏夜流星雨 (Meteor Shower) --- */}
+      {/* --- CHAPTER 1: 2012夏夜流星雨 (Meteor Shower) --- */}
       {(!redSolved ? redChapter === 1 : redChapter === 1) && (
         <div className="space-y-4 animate-[fadeIn_0.4s_ease_1]">
           <div className="bg-stone-950 p-3 rounded-xl border border-stone-850/60 text-[11px] leading-relaxed relative">
-            <span className="text-[8px] font-bold text-red-400 block mb-1">【第一阶段 ㆍ 小学夏夜的流星雨】</span>
+            <span className="text-[8px] font-bold text-red-400 block mb-1">【第一阶段 ㆍ 2012夏夜的流星雨】</span>
             <p className="text-stone-300 font-semibold italic text-justify">"在那一刻为了维持人设，他亲手叉掉了她发来的讯号。"</p>
             <p className="text-stone-500 mt-1.5 leading-relaxed">
-              那是小学的某个夏夜。家里的电脑刚来不久，他在和朋友打《魔兽争霸》。QQ 弹出来——一个女孩说『今晚有流星，把我认作哥哥吧』。他在朋友面前装作没看到，叉掉了对话框。
+              那是2012的某个夏夜。家里的电脑刚来不久，他在和朋友打《魔兽争霸》。QQ 弹出来——一个女孩说『今晚有流星，你当我的哥哥吧』。他在朋友面前装作没看到，叉掉了对话框。
             </p>
             <p className="text-stone-500 mt-1.5 leading-snug">
-              多年后他才承认：那一刻他追悔得无力——不是不喜欢她，是怕被人看穿他是个穿补丁校服的小偷。
+              多年后他才承认：那一刻他追悔得无力——不是不喜欢她。是当着哥们的面，他不能承认自己在乎一个女孩，那会让他在这群男孩里的位置松掉。可真要说，他也怕靠近她——靠近就得出手，出手就得被看穿、被牵着走。叉掉对话框，他重新拿回了主动权。
             </p>
           </div>
 
@@ -246,7 +246,7 @@ export default function RedStarChapter({ solved: redSolved, onSolved, resetNonce
                 <span>🌠 【少年流星雨 ㆍ 真实心跳解封】</span>
               </div>
               <p className="italic text-stone-400 text-[10px] leading-relaxed">
-                “其实那个夏夜，我捂着心脏开心到几乎窒息。但我生怕她撞破我一无所有的贫弱，所以我把QQ对话框叉掉。我判了魔兽联机‘盗版死刑’，只是害怕和她对视时，她看穿我是个穿补丁校服的小偷。”
+                “其实那个夏夜，我捂着心脏开心到几乎窒息。但我不能在哥们面前承认我在乎她——那会让我在这群男孩里的位置松掉。说穿了，我也怕靠近她：靠近就得出手，出手就被看穿、被牵着走。我判了魔兽联机‘盗版死刑’，叉掉对话框——这下主动权又回到我手里了。”
               </p>
               <button
                 onClick={() => {
@@ -438,7 +438,7 @@ export default function RedStarChapter({ solved: redSolved, onSolved, resetNonce
               签到处她抬头那一眼。后来他们聊东南亚房产、聊 TIA 的歌、聊她想做的开店游戏。备忘录里堆了越来越多"还想再聊的话题"。
             </p>
             <p className="text-stone-500 mt-1.5 leading-relaxed">
-              他试着泡了一杯同款——精确到 80°C，焖 30 秒——拍照发过去："要尝尝吗？"
+              他试着泡了一杯同款——精确到 85°C，焖 30 秒——拍照发过去："要尝尝吗？"
             </p>
             <p className="text-stone-500 mt-1.5 leading-relaxed">
               三小时后她回："最近在戒糖。"  "这茶不加糖。"  "还是不了。"
